@@ -5,11 +5,14 @@ import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { loginUser } from "../services/Authservice";
+import { GoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 
 const Login = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const { setuser } = useAuth();
+
     useEffect(() => {
         if (location.state?.message) {
             toast.error(location.state.message, {
@@ -17,6 +20,7 @@ const Login = () => {
             });
         }
     }, [location.state])
+
     const formik = useFormik({
         initialValues: {
             Email: "",
@@ -35,17 +39,16 @@ const Login = () => {
         onSubmit: async (values, { setSubmitting }) => {
             try {
                 const data = await loginUser(values);
-                // localStorage.setItem("token", data.token);
-                setuser(data.user);
-                setTimeout(() => {
-                    if (data.user.Role === 'Admin') {
-                        toast.success(`Welcome ${data.user.Name}`);
-                        navigate("/admin", { replace: true });
-                    } else {
-                        toast.success("Login Successfull");
-                        navigate('/');
-                    }
-                }, 100);
+                setuser(data.user); // This will trigger the tracking ref
+
+                // Navigate immediately without setTimeout
+                if (data.user.Role === 'Admin') {
+                    toast.success(`Welcome ${data.user.Name}`);
+                    navigate("/admin", { replace: true });
+                } else {
+                    toast.success("Login Successful");
+                    navigate('/', { replace: true });
+                }
             } catch (error) {
                 const message = error.response?.data?.message || "Login Failed";
                 toast.error(message);
@@ -55,8 +58,42 @@ const Login = () => {
         },
     });
 
+    const handleGoogleLoginSuccess = async (credentialResponse) => {
+        try {
+            const response = await axios.post("http://localhost:3000/api/auth/google-login",
+                {
+                    token: credentialResponse.credential
+                },
+                {
+                    withCredentials: true
+                }
+            );
+
+            const userData = response.data;
+            setuser(userData.user); // This will trigger the tracking ref
+
+            // Navigate immediately without setTimeout
+            if (userData.user.Role === 'Admin') {
+                toast.success(`Welcome ${userData.user.Name}`);
+                navigate("/admin", { replace: true });
+            } else {
+                toast.success("Google Login Successful");
+                navigate('/', { replace: true });
+            }
+        } catch (error) {
+            const message = error.response?.data?.message || "Google Login Failed";
+            toast.error(message);
+        }
+    };
+
+    const handleGoogleLoginError = () => {
+        toast.error("Google Login Failed. Please try again.");
+    };
+
     return (
+        // ... rest of your JSX remains exactly the same
         <div className="min-h-screen bg-[#0a0a0f] text-white pt-20 relative overflow-hidden">
+
             {/* Animated Background Gradient */}
             <div className="absolute inset-0 bg-linear-to-r from-red-600/10 via-purple-600/10 to-blue-600/10 animate-gradient-x"></div>
 
@@ -171,6 +208,10 @@ const Login = () => {
                             <div className="text-right">
                                 <button
                                     type="button"
+                                    onClick={() => {
+                                        // Add forgot password logic here
+                                        toast.info("Password reset feature coming soon!");
+                                    }}
                                     className="text-sm text-gray-400 hover:text-red-400 transition-colors duration-300"
                                 >
                                     Forgot Password?
@@ -209,8 +250,34 @@ const Login = () => {
                                 </span>
                             </button>
 
+                            {/* Divider */}
+                            <div className="relative my-6">
+                                <div className="absolute inset-0 flex items-center">
+                                    <div className="w-full border-t border-white/20"></div>
+                                </div>
+                                <div className="relative flex justify-center text-sm">
+                                    <span className="px-2 bg-white/5 text-gray-400 rounded-full">
+                                        Or continue with
+                                    </span>
+                                </div>
+                            </div>
+
+                            {/* Google Login Button */}
+                            <div className="flex justify-center">
+                                <GoogleLogin
+                                    onSuccess={handleGoogleLoginSuccess}
+                                    onError={handleGoogleLoginError}
+                                    theme="outline"
+                                    size="large"
+                                    width="100%"
+                                    text="signin_with"
+                                    shape="rectangular"
+                                    logo_alignment="center"
+                                />
+                            </div>
+
                             {/* Register Link */}
-                            <p className="text-center text-gray-400">
+                            <p className="text-center text-gray-400 pt-4">
                                 New to CINEBOOK?{" "}
                                 <Link
                                     to="/register"

@@ -22,6 +22,11 @@ const UserSchema = new mongoose.Schema(
             enum: ["User", "Admin"],
             default: "User"
         },
+        loginType: {
+            type: String,
+            enum: ["normal", "google"],
+            default: "normal"
+        },
         bookings: [
             {
                 type: mongoose.Schema.Types.ObjectId,

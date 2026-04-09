@@ -1,12 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { toast } from "react-toastify";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { registerUser } from "../services/Authservice";
+import { GoogleLogin } from "@react-oauth/google";
+import axios from "axios";
+import { useAuth } from "../context/Authcontext";
 
 const Registration = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const { setuser } = useAuth();
+
+    useEffect(() => {
+        if (location.state?.message) {
+            toast.error(location.state.message, {
+                toastId: "register-first"
+            });
+        }
+    }, [location.state]);
 
     const formik = useFormik({
         initialValues: {
@@ -27,22 +40,62 @@ const Registration = () => {
                 .required("Password is required"),
         }),
 
-        onSubmit: async (_values, { setSubmitting, resetForm }) => {
+        onSubmit: async (values, { setSubmitting, resetForm }) => {
             try {
-                const res = await registerUser(_values);
-                
-                toast.success("User Registered Successfully ✅");
+                const data = await registerUser(values);
+                setuser(data.user);
+                setTimeout(() => {
+                    if (data.user.Role === 'Admin') {
+                        toast.success(`Welcome ${data.user.Name}`);
+                        navigate("/admin", { replace: true });
+                    } else {
+                        toast.success("Registration Successful ✅");
+                        navigate('/');
+                    }
+                }, 100);
                 resetForm();
-                navigate("/login");
             } catch (error) {
-                toast.error(
-                    error.response?.data?.message || "Registration Failed ❌"
-                );
+                const message = error.response?.data?.message || "Registration Failed ❌";
+                toast.error(message);
             } finally {
                 setSubmitting(false);
             }
         }
     });
+
+    const handleGoogleLoginSuccess = async (credentialResponse) => {
+        try {
+            const response = await axios.post("http://localhost:3000/api/auth/google-login",
+                {
+                    token: credentialResponse.credential
+                },
+                {
+                    withCredentials: true
+                }
+            );
+
+            // Assuming the response contains user data similar to your register endpoint
+            const userData = response.data;
+            setuser(userData.user);
+
+            setTimeout(() => {
+                if (userData.user.Role === 'Admin') {
+                    toast.success(`Welcome ${userData.user.Name}`);
+                    navigate("/admin", { replace: true });
+                } else {
+                    toast.success("Google Registration Successful ✅");
+                    navigate('/');
+                }
+            }, 100);
+        } catch (error) {
+            const message = error.response?.data?.message || "Google Registration Failed ❌";
+            toast.error(message);
+        }
+    };
+
+    const handleGoogleLoginError = () => {
+        toast.error("Google Registration Failed. Please try again.");
+    };
 
     return (
         <div className="min-h-screen bg-[#0a0a0f] text-white pt-20 relative overflow-hidden">
@@ -209,6 +262,32 @@ const Registration = () => {
                                 )}
                             </div>
 
+                            {/* Divider */}
+                            <div className="relative my-6">
+                                <div className="absolute inset-0 flex items-center">
+                                    <div className="w-full border-t border-white/20"></div>
+                                </div>
+                                <div className="relative flex justify-center text-sm">
+                                    <span className="px-2 bg-white/5 text-gray-400 rounded-full">
+                                        Or continue with
+                                    </span>
+                                </div>
+                            </div>
+
+                            {/* Google Login Button */}
+                            <div className="flex justify-center">
+                                <GoogleLogin
+                                    onSuccess={handleGoogleLoginSuccess}
+                                    onError={handleGoogleLoginError}
+                                    theme="outline"
+                                    size="large"
+                                    width="100%"
+                                    text="signup_with"
+                                    shape="rectangular"
+                                    logo_alignment="center"
+                                />
+                            </div>
+
                             {/* Terms and Conditions */}
                             <div className="flex items-start gap-2 mt-4">
                                 <input
@@ -262,7 +341,7 @@ const Registration = () => {
                             </button>
 
                             {/* Login Link */}
-                            <p className="text-center text-gray-400 mt-4">
+                            <p className="text-center text-gray-400 pt-4">
                                 Already have an account?{" "}
                                 <Link
                                     to="/login"
@@ -307,3 +386,8 @@ const Registration = () => {
 };
 
 export default Registration;
+
+
+
+
+

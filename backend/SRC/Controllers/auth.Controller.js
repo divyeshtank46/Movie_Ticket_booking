@@ -2,7 +2,8 @@ const bcrypt = require("bcryptjs");
 const UserModel = require("../Models/UserModel");
 const jwt = require("jsonwebtoken");
 const { default: mongoose } = require("mongoose");
-
+const { OAuth2Client } = require("google-auth-library")
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 
 const Register = async (req, res) => {
@@ -241,12 +242,67 @@ const SwitchRole = async (req, res) => {
         })
     } catch (error) {
         res.status(500).json({
-            success:false,
-            Error:error.message
+            success: false,
+            Error: error.message
         })
     }
 
 }
+
+const googleLogin = async (req, res) => {
+    try {
+        const { token } = req.body;
+
+        const ticket = await client.verifyIdToken({
+            idToken: token,
+            audience: process.env.GOOGLE_CLIENT_ID
+        });
+
+        const payload = ticket.getPayload();
+
+        // Google payload fields
+        const { name, email, picture } = payload;
+
+        let user = await UserModel.findOne({ Email: email });
+
+        if (!user) {
+            user = await UserModel.create({
+                Name: name,
+                Email: email,
+                Password: "googleLogin",
+                loginType: "google"
+            });
+        }
+
+        const jwtToken = jwt.sign(
+            {
+                id: user._id,
+                Role: user.Role
+            },
+            process.env.JWT_SECRET_KEY,
+            { expiresIn: "1d" }
+        );
+
+        // store token in cookie
+        res.cookie("token", jwtToken, {
+            httpOnly: true,
+            secure: false,
+            sameSite: "lax",
+            maxAge: 24 * 60 * 60 * 1000
+        });
+
+        res.json({
+            message: "Google login successful",
+            user
+        });
+
+    } catch (err) {
+        return res.status(500).json({
+            message: "Google Login Failed",
+            error: err.message
+        });
+    }
+};
 module.exports = userDetail;
 module.exports = {
     Register,
@@ -255,5 +311,6 @@ module.exports = {
     userDetail,
     getallUsers,
     UpdateUSer,
-    SwitchRole
+    SwitchRole,
+    googleLogin
 }

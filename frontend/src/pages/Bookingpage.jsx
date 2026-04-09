@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -9,8 +7,8 @@ import Loader from "../components/Loader";
 import { MdEventSeat } from "react-icons/md";
 import '../styles/index.css'
 import { getShowById } from "../services/Showservice";
-import { bookTicket } from "../services/Bookingservice";
 import { handlePayment } from "../services/Razorpay";
+import { useAuth } from "../context/Authcontext";
 
 const SeatButton = React.memo(({ seat, selected, onSeatClick, seatType, price, isBooked }) => {
     const getSeatColor = () => {
@@ -32,7 +30,7 @@ const SeatButton = React.memo(({ seat, selected, onSeatClick, seatType, price, i
     return (
         <MdEventSeat
             onClick={() => {
-                if (isBooked) return; // ✅ disable booked seat click
+                if (isBooked) return;
                 onSeatClick(seat);
             }}
             className={`w-8 h-8 text-xs rounded-lg border transition-all duration-300
@@ -42,28 +40,27 @@ const SeatButton = React.memo(({ seat, selected, onSeatClick, seatType, price, i
         />
     );
 });
+
 const Bookingpage = () => {
-    const { showId } = useParams(); // Now using showId instead of movie id
+    const { showId } = useParams();
     const location = useLocation();
     const navigate = useNavigate();
+    const { user } = useAuth(); // Get user from auth context
 
     const [show, setShow] = useState(null);
     const [loading, setLoading] = useState(false);
     const [initialLoading, setInitialLoading] = useState(true);
     const [selectedSeatType, setSelectedSeatType] = useState('silver');
-    // const message = toast.success("Booking Successfull ✅")
-    // Get selected show data from navigation state
+
     const { selectedShow } = location.state || {};
 
     const rows = ["A", "B", "C", "D", "E", "F", "G", "H"];
 
-    // Generate seat layout with types
     const seatLayout = useMemo(() => {
         const layout = {};
         rows.forEach(row => {
             layout[row] = [];
             for (let i = 1; i <= 12; i++) {
-                // Determine seat type based on row
                 let seatType = 'silver';
                 if (row === 'A' || row === 'B') seatType = 'platinum';
                 else if (row === 'C' || row === 'D' || row === 'E') seatType = 'gold';
@@ -85,11 +82,9 @@ const Bookingpage = () => {
         const fetchShowData = async () => {
             try {
                 setInitialLoading(true);
-                // If we have selectedShow from state, use it
                 if (selectedShow) {
                     setShow(selectedShow);
                 } else {
-                    // Otherwise fetch by showId
                     const response = await getShowById(showId);
                     setShow(response);
                 }
@@ -118,21 +113,59 @@ const Bookingpage = () => {
         onSubmit: async (values) => {
             setLoading(true);
             try {
-                const totalPrice =
-                    show.price[selectedSeatType] * values.seats.length;
+                const totalPrice = show.price[selectedSeatType] * values.seats.length;
 
-                await handlePayment({
+                // Passing user data to handlePayment
+                const paymentResult = await handlePayment({
                     showId: show._id,
                     seatType: selectedSeatType,
                     seats: values.seats,
                     totalPrice,
                     navigate,
+                    user 
                 });
-                formik.resetForm();
-                // message
 
+               
+                toast.success(
+                    <div>
+                        <div className="flex items-center gap-2">
+                            <span className="text-2xl">🎉</span>
+                            <span className="font-bold">Booking Successful!</span>
+                        </div>
+                        <div className="text-sm mt-1">
+                            Seats: {values.seats.sort().join(", ")} • Amount: ₹{totalPrice}
+                        </div>
+                        <div className="text-xs mt-1 text-green-200">
+                            Enjoy your movie! 🍿
+                        </div>
+                    </div>,
+                    {
+                        position: "top-center",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        icon: "✅"
+                    }
+                );
+                
+                // Reset form
+                formik.resetForm();
+                
+                // Refresh seat data after 2 seconds
+                setTimeout(async () => {
+                    try {
+                        const updatedShow = await getShowById(showId);
+                        setShow(updatedShow);
+                    } catch (error) {
+                        console.error("Failed to refresh seats", error);
+                    }
+                }, 2000);
+                
             } catch (error) {
-                toast.error(error.message);
+                // Payment failed or was cancelled
+                toast.error(error.message || "Payment failed. Please try again.");
             } finally {
                 setLoading(false);
             }
@@ -144,14 +177,12 @@ const Bookingpage = () => {
     }, [formik.values.seats]);
 
     const handleSeat = useCallback((seat) => {
-        // Check if seat is already booked
         const seatData = seatLayout[seat[0]]?.find(s => s.id === seat);
         if (seatData?.isBooked) {
             toast.error("This seat is already booked!");
             return;
         }
 
-        // Check if seat matches selected type
         if (seatData?.type !== selectedSeatType) {
             toast.warning(`Please select ${selectedSeatType} seats only`);
             return;
@@ -175,11 +206,9 @@ const Bookingpage = () => {
 
     const handleSeatTypeChange = (type) => {
         setSelectedSeatType(type);
-        // Clear selected seats when changing type
         formik.setFieldValue("seats", []);
     };
 
-    // Calculate total price
     const totalPrice = useMemo(() => {
         if (!show) return 0;
         return show.price[selectedSeatType] * formik.values.seats.length;

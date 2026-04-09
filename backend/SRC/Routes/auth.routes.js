@@ -8,6 +8,7 @@ router.post("/register", authController.Register);
 
 router.post("/login", authController.Login);
 router.post("/logout", authController.Logout);
+router.post("/google-login",authController.googleLogin)
 router.get("/userdetail", authMiddleware, authController.userDetail);
 router.get("/allusers", adminMiddleware, authController.getallUsers)
 router.patch("/update-user", authMiddleware, authController.UpdateUSer); 
