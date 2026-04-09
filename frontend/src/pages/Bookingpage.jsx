@@ -45,8 +45,7 @@ const Bookingpage = () => {
     const { showId } = useParams();
     const location = useLocation();
     const navigate = useNavigate();
-    const { user } = useAuth(); // Get user from auth context
-
+    const { user } = useAuth(); 
     const [show, setShow] = useState(null);
     const [loading, setLoading] = useState(false);
     const [initialLoading, setInitialLoading] = useState(true);
@@ -115,7 +114,6 @@ const Bookingpage = () => {
             try {
                 const totalPrice = show.price[selectedSeatType] * values.seats.length;
 
-                // Passing user data to handlePayment
                 const paymentResult = await handlePayment({
                     showId: show._id,
                     seatType: selectedSeatType,
@@ -124,8 +122,6 @@ const Bookingpage = () => {
                     navigate,
                     user 
                 });
-
-               
                 toast.success(
                     <div>
                         <div className="flex items-center gap-2">
@@ -150,10 +146,8 @@ const Bookingpage = () => {
                     }
                 );
                 
-                // Reset form
                 formik.resetForm();
                 
-                // Refresh seat data after 2 seconds
                 setTimeout(async () => {
                     try {
                         const updatedShow = await getShowById(showId);
@@ -164,7 +158,6 @@ const Bookingpage = () => {
                 }, 2000);
                 
             } catch (error) {
-                // Payment failed or was cancelled
                 toast.error(error.message || "Payment failed. Please try again.");
             } finally {
                 setLoading(false);
@@ -313,7 +306,7 @@ const Bookingpage = () => {
                                                     transition-all duration-300 transform hover:scale-[1.02]
                                                     ${selectedSeatType === type
                                                         ? `bg-${type === 'platinum' ? 'blue' : type === 'gold' ? 'yellow' : 'gray'}-600 
-                                                           text-white shadow-lg`
+                                                    text-white shadow-lg`
                                                         : 'bg-white/5 backdrop-blur-sm border border-white/20 text-gray-300'
                                                     }`}
                                             >

@@ -74,7 +74,6 @@ const Registration = () => {
                 }
             );
 
-            // Assuming the response contains user data similar to your register endpoint
             const userData = response.data;
             setuser(userData.user);
 

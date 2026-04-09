@@ -70,9 +70,8 @@ const Login = () => {
             );
 
             const userData = response.data;
-            setuser(userData.user); // This will trigger the tracking ref
+            setuser(userData.user); 
 
-            // Navigate immediately without setTimeout
             if (userData.user.Role === 'Admin') {
                 toast.success(`Welcome ${userData.user.Name}`);
                 navigate("/admin", { replace: true });
@@ -91,7 +90,6 @@ const Login = () => {
     };
 
     return (
-        // ... rest of your JSX remains exactly the same
         <div className="min-h-screen bg-[#0a0a0f] text-white pt-20 relative overflow-hidden">
 
             {/* Animated Background Gradient */}
