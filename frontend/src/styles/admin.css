@@ -1,0 +1,70 @@
+/* Admin Panel Custom Styles */
+@keyframes gradient-x {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.animate-gradient-x {
+    background-size: 200% auto;
+    animation: gradient-x 3s ease infinite;
+}
+
+/* Custom Scrollbar for Admin */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, #ef4444, #a855f7);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom, #dc2626, #9333ea);
+}
+
+/* Hide scrollbar for sidebar */
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Table Styles */
+table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+th {
+    font-weight: 500;
+    letter-spacing: 0.05em;
+}
+
+/* Card Hover Effects */
+.hover-card {
+    transition: all 0.3s ease;
+}
+
+.hover-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px -15px rgba(239, 68, 68, 0.3);
+}
+
+/* Loading Animation */
+.loading-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}

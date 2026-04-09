@@ -1,0 +1,27 @@
+# dependencies
+node_modules/
+client/node_modules/
+backend/node_modules/
+
+# env
+.env
+client/.env
+backend/.env
+
+# build
+client/dist
+client/build
+backend/dist
+
+# logs
+*.log
+logs/
+
+# uploads
+uploads/
+backend/uploads/
+
+# misc
+.DS_Store
+Thumbs.db
+.vscode/
