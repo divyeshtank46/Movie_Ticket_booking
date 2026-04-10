@@ -53,7 +53,6 @@ export const handlePayment = async ({
                         // Navigate to bookings page
                         navigate("/bookings");
                         
-                        // Resolve the promise with booking details
                         resolve({
                             success: true,
                             bookingId: bookingResult._id || bookingResult.id,
@@ -73,3 +72,68 @@ export const handlePayment = async ({
         }
     });
 };
+
+// services/Razorpay.js
+// import { bookTicket } from "./Bookingservice";
+// import { createOrder } from "./CreateOrder";
+
+// export const handlePayment = async ({
+//     showId,
+//     seatType,
+//     seats,
+//     totalPrice,
+//     navigate,
+//     user
+// }) => {
+//     try {
+//         const data = await createOrder({
+//             amount: totalPrice
+//         });
+
+//         const options = {
+//             key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+//             amount: data.order.amount,
+//             currency: "INR",
+//             order_id: data.order.id,
+
+//             name: user?.Name || user?.name || "CINEBOOK",
+
+//             description: `Booking ${seats.length} ${seatType} seats`,
+
+//             prefill: {
+//                 name: user?.Name || user?.name || "",
+//                 email: user?.Email || user?.email || "",
+//                 contact: user?.Mobile || user?.mobile || user?.phone || ""
+//             },
+
+//             theme: {
+//                 color: "#EF4444"
+//             },
+
+//             handler: async (res) => {
+//                 try {
+//                     const bookingResult = await bookTicket({
+//                         showId,
+//                         seatType,
+//                         seats,
+//                         totalPrice,
+//                         paymentId: res.razorpay_payment_id,
+//                         orderId: res.razorpay_order_id,
+//                         paymentStatus: "success"
+//                     });
+
+//                     navigate("/bookings");
+
+//                 } catch (error) {
+//                     console.error(error);
+//                 }
+//             }
+//         };
+
+//         const razor = new window.Razorpay(options);
+//         razor.open();
+
+//     } catch (error) {
+//         throw new Error(error.message || "Payment failed");
+//     }
+// };

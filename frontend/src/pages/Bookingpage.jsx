@@ -114,48 +114,53 @@ const Bookingpage = () => {
             try {
                 const totalPrice = show.price[selectedSeatType] * values.seats.length;
 
+                // Wait for payment to complete first
                 const paymentResult = await handlePayment({
                     showId: show._id,
                     seatType: selectedSeatType,
                     seats: values.seats,
                     totalPrice,
                     navigate,
-                    user 
+                    user
                 });
-                toast.success(
-                    <div>
-                        <div className="flex items-center gap-2">
-                            <span className="text-2xl">🎉</span>
-                            <span className="font-bold">Booking Successful!</span>
-                        </div>
-                        <div className="text-sm mt-1">
-                            Seats: {values.seats.sort().join(", ")} • Amount: ₹{totalPrice}
-                        </div>
-                        <div className="text-xs mt-1 text-green-200">
-                            Enjoy your movie! 🍿
-                        </div>
-                    </div>,
-                    {
-                        position: "top-center",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        icon: "✅"
-                    }
-                );
-                
-                formik.resetForm();
-                
-                setTimeout(async () => {
-                    try {
-                        const updatedShow = await getShowById(showId);
-                        setShow(updatedShow);
-                    } catch (error) {
-                        console.error("Failed to refresh seats", error);
-                    }
-                }, 2000);
+
+                // Only show success toast if payment was successful
+                if (paymentResult?.success) {
+                    toast.success(
+                        <div>
+                            <div className="flex items-center gap-2">
+                                <span className="text-2xl">🎉</span>
+                                <span className="font-bold">Booking Successful!</span>
+                            </div>
+                            <div className="text-sm mt-1">
+                                Seats: {values.seats.sort().join(", ")} • Amount: ₹{totalPrice}
+                            </div>
+                            <div className="text-xs mt-1 text-green-200">
+                                Enjoy your movie! 🍿
+                            </div>
+                        </div>,
+                        {
+                            position: "top-center",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            icon: "✅"
+                        }
+                    );
+                    
+                    formik.resetForm();
+                    
+                    setTimeout(async () => {
+                        try {
+                            const updatedShow = await getShowById(showId);
+                            setShow(updatedShow);
+                        } catch (error) {
+                            console.error("Failed to refresh seats", error);
+                        }
+                    }, 2000);
+                }
                 
             } catch (error) {
                 toast.error(error.message || "Payment failed. Please try again.");

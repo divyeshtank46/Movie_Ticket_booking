@@ -5,7 +5,8 @@
     <!-- <link rel="icon" type="image/svg+xml" href="/vite.svg" /> -->
      <link rel="icon" type="image/png" href="./src/assets/ticket.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <!-- This must load BEFORE your payment JS runs -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <title>Cinebook</title>
   </head>
   <body id="root">

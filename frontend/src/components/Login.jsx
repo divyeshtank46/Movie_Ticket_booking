@@ -11,7 +11,7 @@ import axios from "axios";
 const Login = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { setuser } = useAuth();
+    const { setuser, fetchUser, user, isJustLoggedIn } = useAuth();
 
     useEffect(() => {
         if (location.state?.message) {
@@ -19,7 +19,25 @@ const Login = () => {
                 toastId: "login-first"
             });
         }
-    }, [location.state])
+    }, [location.state]);
+
+    // Effect to handle redirect after user is set
+    useEffect(() => {
+        if (user && isJustLoggedIn?.current) {
+            console.log("User detected in Login component:", user);
+            
+            // Small delay to ensure state is stable
+            setTimeout(() => {
+                if (user.Role === 'Admin' || user.role === 'Admin') {
+                    console.log("Redirecting to admin panel...");
+                    navigate("/admin", { replace: true });
+                } else if (user.Role === 'User' || user.role === 'User') {
+                    console.log("Redirecting to home...");
+                    navigate('/', { replace: true });
+                }
+            }, 100);
+        }
+    }, [user, navigate, isJustLoggedIn]);
 
     const formik = useFormik({
         initialValues: {
@@ -39,20 +57,19 @@ const Login = () => {
         onSubmit: async (values, { setSubmitting }) => {
             try {
                 const data = await loginUser(values);
-                setuser(data.user); // This will trigger the tracking ref
-
-                // Navigate immediately without setTimeout
-                if (data.user.Role === 'Admin') {
-                    toast.success(`Welcome ${data.user.Name}`);
-                    navigate("/admin", { replace: true });
-                } else {
-                    toast.success("Login Successful");
-                    navigate('/', { replace: true });
-                }
+                console.log("Login response:", data);
+                
+                // Update user in context
+                setuser(data.user);
+                
+                // Show success message
+                toast.success(`Welcome ${data.user.Name || data.user.name}`);
+                
+                // No need to navigate here - useEffect will handle it
+                
             } catch (error) {
                 const message = error.response?.data?.message || "Login Failed";
                 toast.error(message);
-            } finally {
                 setSubmitting(false);
             }
         },
@@ -70,15 +87,16 @@ const Login = () => {
             );
 
             const userData = response.data;
-            setuser(userData.user); 
-
-            if (userData.user.Role === 'Admin') {
-                toast.success(`Welcome ${userData.user.Name}`);
-                navigate("/admin", { replace: true });
-            } else {
-                toast.success("Google Login Successful");
-                navigate('/', { replace: true });
-            }
+            console.log("Google login response:", userData);
+            
+            // Update user in context
+            setuser(userData.user);
+            
+            // Show success message
+            toast.success(`Welcome ${userData.user.Name || userData.user.name}`);
+            
+            // No need to navigate here - useEffect will handle it
+            
         } catch (error) {
             const message = error.response?.data?.message || "Google Login Failed";
             toast.error(message);
@@ -207,7 +225,6 @@ const Login = () => {
                                 <button
                                     type="button"
                                     onClick={() => {
-                                        // Add forgot password logic here
                                         toast.info("Password reset feature coming soon!");
                                     }}
                                     className="text-sm text-gray-400 hover:text-red-400 transition-colors duration-300"
