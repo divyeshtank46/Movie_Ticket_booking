@@ -13,6 +13,7 @@ const CinemasManagement = () => {
     const handleEdit = (id) => {
         navigate(`/admin/editcinema/${id}`);
     }
+    
     useEffect(() => {
         const fetchCinema = async () => {
             try {
@@ -31,8 +32,7 @@ const CinemasManagement = () => {
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                 <div>
-                    <h1 className="text-3xl font-bold bg-linear-to-r from-red-500 to-purple-500 
-                        bg-clip-text text-transparent">
+                    <h1 className="text-3xl font-bold text-red-500">
                         Cinemas Management
                     </h1>
                     <p className="text-gray-400 text-sm mt-1">
@@ -42,9 +42,9 @@ const CinemasManagement = () => {
 
                 <button
                     onClick={() => navigate('/admin/addcinema')}
-                    className="flex items-center cursor-pointer gap-2 px-4 py-2 bg-linear-to-r 
-                    from-red-600 to-purple-600 rounded-xl text-white font-medium
-                    hover:from-red-700 hover:to-purple-700 transition-all duration-300
+                    className="flex items-center cursor-pointer gap-2 px-4 py-2 bg-red-600 
+                    rounded-xl text-white font-medium
+                    hover:bg-red-700 transition-all duration-300
                     transform hover:scale-[1.02]">
                     <MdAdd size={20} />
                     Add New Cinema
@@ -68,14 +68,13 @@ const CinemasManagement = () => {
 
 const CinemaCard = ({ cinema, index, onEdit }) => {
     return (
-
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
             whileHover={{ y: -5 }}
-            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden
-            hover:border-red-500/50 transition-all duration-300 group"
+            className="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden
+            hover:border-red-800 transition-all duration-300 group"
         >
             <div className="relative h-56 overflow-hidden">
                 <img
@@ -83,8 +82,6 @@ const CinemaCard = ({ cinema, index, onEdit }) => {
                     alt={cinema.Name}
                     className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
                 />
-
-                <div className="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent"></div>
 
                 <div className="absolute bottom-4 left-4">
                     <h3 className="text-xl font-bold text-white">{cinema.Name}</h3>
@@ -109,7 +106,7 @@ const CinemaCard = ({ cinema, index, onEdit }) => {
                 </div>
 
                 {/* Screens */}
-                <div className="flex items-center gap-4 p-3 bg-white/5 rounded-xl border border-white/10">
+                <div className="flex items-center gap-4 p-3 bg-gray-800 rounded-xl border border-gray-700">
                     <div className="flex items-center gap-2">
                         <MdTheaters className="text-purple-400" />
                         <span className="text-sm">{cinema.TotalScreens} Screens</span>
@@ -123,7 +120,7 @@ const CinemaCard = ({ cinema, index, onEdit }) => {
                         {cinema.Facilities?.map((facility, i) => (
                             <span
                                 key={i}
-                                className="text-xs bg-white/10 px-3 py-1 rounded-full"
+                                className="text-xs bg-gray-800 px-3 py-1 rounded-full text-gray-300"
                             >
                                 {facility}
                             </span>
@@ -132,11 +129,11 @@ const CinemaCard = ({ cinema, index, onEdit }) => {
                 </div>
 
                 {/* Actions */}
-                <div className="flex justify-end gap-2 pt-4 border-t border-white/10">
+                <div className="flex justify-end gap-2 pt-4 border-t border-gray-800">
                     <button
                         onClick={onEdit}
-                        className="p-2 hover:bg-blue-500/20 rounded-lg transition-colors
-                    text-blue-400 border border-blue-500/30">
+                        className="p-2 hover:bg-blue-900/50 rounded-lg transition-colors
+                    text-blue-400 border border-blue-800">
                         <MdEdit size={18} />
                     </button>
                     <button
@@ -150,36 +147,33 @@ const CinemaCard = ({ cinema, index, onEdit }) => {
                                 cancelButtonColor: "#6b7280",
                                 confirmButtonText: "Yes, delete it!",
                                 cancelButtonText: "Cancel",
-                                background: "#0a0a0f",
+                                background: "#111827",
                                 color: "#ffffff",
                                 iconColor: "#ef4444",
                                 customClass: {
-                                    popup: 'rounded-2xl border border-white/20 backdrop-blur-xl bg-white/5',
+                                    popup: 'rounded-2xl border border-gray-700 bg-gray-900',
                                     confirmButton: 'bg-red-600 hover:bg-red-700 rounded-lg px-4 py-2 transition-all',
-                                    cancelButton: 'bg-white/10 hover:bg-white/20 rounded-lg px-4 py-2 transition-all border border-white/20'
+                                    cancelButton: 'bg-gray-700 hover:bg-gray-600 rounded-lg px-4 py-2 transition-all border border-gray-600'
                                 }
                             });
                             if (result.isConfirmed) {
                                 try {
-                                    const res = await deleteCinemaById(cinema._id);
+                                    await deleteCinemaById(cinema._id);
                                     window.location.reload();
-
                                 }
                                 catch (err) {
-                                    toast.error(err.message || "Failed To Delete Cinema ")
+                                    toast.error(err.message || "Failed To Delete Cinema")
                                 }
                             }
                         }}
-                        className="p-2 hover:bg-red-500/20 rounded-lg transition-colors
-                    text-red-400 border border-red-500/30">
+                        className="p-2 hover:bg-red-900/50 rounded-lg transition-colors
+                    text-red-400 border border-red-800">
                         <MdDelete size={18} />
                     </button>
                 </div>
             </div>
         </motion.div>
     )
-
 }
-
 
 export default CinemasManagement;

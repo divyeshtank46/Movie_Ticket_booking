@@ -60,6 +60,7 @@ const EditCinema = () => {
             }
         }
     });
+    
     useEffect(() => {
         const fetchCinema = async () => {
             try {
@@ -84,10 +85,8 @@ const EditCinema = () => {
         if (id) fetchCinema();
     }, [id])
 
-
-
     return (
-        <div className="min-h-screen bg-[#0a0a0f] text-white pt-20 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-black text-white pt-20 px-4 sm:px-6 lg:px-8">
             {/* Main Container */}
             <div className="max-w-4xl mx-auto py-12">
                 {/* Header */}
@@ -96,14 +95,14 @@ const EditCinema = () => {
                         Update Cinema
                     </h1>
                     <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-                        Fill in the details below to add Update cinema partner
+                        Fill in the details below to update cinema partner
                     </p>
-                    <div className="w-24 h-1 bg-white/20 mx-auto mt-6"></div>
+                    <div className="w-24 h-0.5 bg-gray-800 mx-auto mt-6"></div>
                 </div>
 
                 {/* Form Card */}
-                <div className="bg-white/5 backdrop-blur-xl rounded-3xl 
-                    border border-white/10 shadow-2xl overflow-hidden">
+                <div className="bg-gray-900 rounded-3xl 
+                    border border-gray-800 shadow-2xl overflow-hidden">
 
                     <div className="p-6 sm:p-8">
                         <form onSubmit={formik.handleSubmit} className="space-y-6">
@@ -124,14 +123,14 @@ const EditCinema = () => {
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                         className={`w-full pl-10 pr-4 py-3 
-                                            bg-white/10 backdrop-blur-sm
+                                            bg-gray-800
                                             border rounded-xl
                                             text-white placeholder-gray-500
                                             focus:outline-none focus:ring-2
                                             transition-all duration-300
                                             ${formik.touched.name && formik.errors.name
-                                                ? "border-red-500/50 focus:ring-red-500/50"
-                                                : "border-white/20 focus:border-white/40 focus:ring-white/30"
+                                                ? "border-red-600 focus:ring-red-600"
+                                                : "border-gray-700 focus:border-gray-600 focus:ring-gray-600/50"
                                             }`}
                                     />
                                 </div>
@@ -159,14 +158,14 @@ const EditCinema = () => {
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
                                             className={`w-full pl-10 pr-4 py-3 
-                                                bg-white/10 backdrop-blur-sm
+                                                bg-gray-800
                                                 border rounded-xl
                                                 text-white placeholder-gray-500
                                                 focus:outline-none focus:ring-2
                                                 transition-all duration-300
                                                 ${formik.touched.city && formik.errors.city
-                                                    ? "border-red-500/50 focus:ring-red-500/50"
-                                                    : "border-white/20 focus:border-white/40 focus:ring-white/30"
+                                                    ? "border-red-600 focus:ring-red-600"
+                                                    : "border-gray-700 focus:border-gray-600 focus:ring-gray-600/50"
                                                 }`}
                                         />
                                     </div>
@@ -192,14 +191,14 @@ const EditCinema = () => {
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
                                             className={`w-full pl-10 pr-4 py-3 
-                                                bg-white/10 backdrop-blur-sm
+                                                bg-gray-800
                                                 border rounded-xl
                                                 text-white placeholder-gray-500
                                                 focus:outline-none focus:ring-2
                                                 transition-all duration-300
                                                 ${formik.touched.contactNumber && formik.errors.contactNumber
-                                                    ? "border-red-500/50 focus:ring-red-500/50"
-                                                    : "border-white/20 focus:border-white/40 focus:ring-white/30"
+                                                    ? "border-red-600 focus:ring-red-600"
+                                                    : "border-gray-700 focus:border-gray-600 focus:ring-gray-600/50"
                                                 }`}
                                         />
                                     </div>
@@ -226,14 +225,14 @@ const EditCinema = () => {
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                         className={`w-full pl-10 pr-4 py-3 
-                                            bg-white/10 backdrop-blur-sm
+                                            bg-gray-800
                                             border rounded-xl
                                             text-white placeholder-gray-500
                                             focus:outline-none focus:ring-2
                                             transition-all duration-300 resize-none
                                             ${formik.touched.address && formik.errors.address
-                                                ? "border-red-500/50 focus:ring-red-500/50"
-                                                : "border-white/20 focus:border-white/40 focus:ring-white/30"
+                                                ? "border-red-600 focus:ring-red-600"
+                                                : "border-gray-700 focus:border-gray-600 focus:ring-gray-600/50"
                                             }`}
                                     />
                                 </div>
@@ -261,14 +260,14 @@ const EditCinema = () => {
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
                                             className={`w-full pl-10 pr-4 py-3 
-                                                bg-white/10 backdrop-blur-sm
+                                                bg-gray-800
                                                 border rounded-xl
                                                 text-white placeholder-gray-500
                                                 focus:outline-none focus:ring-2
                                                 transition-all duration-300
                                                 ${formik.touched.totalScreens && formik.errors.totalScreens
-                                                    ? "border-red-500/50 focus:ring-red-500/50"
-                                                    : "border-white/20 focus:border-white/40 focus:ring-white/30"
+                                                    ? "border-red-600 focus:ring-red-600"
+                                                    : "border-gray-700 focus:border-gray-600 focus:ring-gray-600/50"
                                                 }`}
                                         />
                                     </div>
@@ -292,10 +291,10 @@ const EditCinema = () => {
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
                                             className="w-full pl-10 pr-4 py-3 
-                                                bg-white/10 backdrop-blur-sm
-                                                border border-white/20 rounded-xl
+                                                bg-gray-800
+                                                border border-gray-700 rounded-xl
                                                 text-white
-                                                focus:outline-none focus:ring-2 focus:ring-white/30
+                                                focus:outline-none focus:ring-2 focus:ring-gray-600/50
                                                 transition-all duration-300
                                                 appearance-none cursor-pointer"
                                         >
@@ -329,14 +328,14 @@ const EditCinema = () => {
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                         className={`w-full pl-10 pr-4 py-3 
-                                            bg-white/10 backdrop-blur-sm
+                                            bg-gray-800
                                             border rounded-xl
                                             text-white placeholder-gray-500
                                             focus:outline-none focus:ring-2
                                             transition-all duration-300
                                             ${formik.touched.facilities && formik.errors.facilities
-                                                ? "border-red-500/50 focus:ring-red-500/50"
-                                                : "border-white/20 focus:border-white/40 focus:ring-white/30"
+                                                ? "border-red-600 focus:ring-red-600"
+                                                : "border-gray-700 focus:border-gray-600 focus:ring-gray-600/50"
                                             }`}
                                     />
                                 </div>
@@ -349,12 +348,12 @@ const EditCinema = () => {
                             {/* Submit Button */}
                             <button
                                 type="submit"
-                                className="w-full bg-white/10 backdrop-blur-sm 
-                                    border border-white/20 text-white py-3.5 rounded-xl font-semibold text-lg
-                                    hover:bg-white/20 transition-all duration-300
+                                className="w-full bg-red-600 
+                                    text-white py-3.5 rounded-xl font-semibold text-lg
+                                    hover:bg-red-700 transition-all duration-300
                                     transform hover:scale-[1.02]"
                             >
-                                Update
+                                Update Cinema
                             </button>
                         </form>
                     </div>

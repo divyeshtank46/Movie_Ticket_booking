@@ -5,6 +5,7 @@ import '../styles/index.css'
 import image1 from '../assets/image_5.jpg'
 import image2 from '../assets/image_6.jpg'
 import image3 from '../assets/image_7.jpg'
+
 const AboutUs = () => {
     const stats = [
         { label: "Movies", value: "21+" },
@@ -82,18 +83,15 @@ const AboutUs = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#0a0a0f] text-white pt-20 relative overflow-hidden">
-            {/* Animated Background Gradient */}
-            <div className="absolute inset-0 bg-linear-to-r from-red-600/10 via-purple-600/10 to-blue-600/10 animate-gradient-x"></div>
-
+        <div className="min-h-screen bg-black text-white pt-20 relative overflow-hidden">
             {/* Decorative Film Strip */}
-            <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-red-500 via-purple-500 to-blue-500"></div>
+            <div className="absolute top-0 left-0 right-0 h-1 bg-red-600"></div>
 
             {/* Background Icons */}
-            <div className="absolute top-20 left-10 text-6xl opacity-5 animate-pulse">🎬</div>
-            <div className="absolute bottom-20 right-10 text-6xl opacity-5 animate-pulse">🎥</div>
-            <div className="absolute top-1/2 left-1/4 text-6xl opacity-5 animate-pulse">🍿</div>
-            <div className="absolute bottom-1/3 right-1/4 text-6xl opacity-5 animate-pulse">🎟️</div>
+            <div className="absolute top-20 left-10 text-6xl opacity-5">🎬</div>
+            <div className="absolute bottom-20 right-10 text-6xl opacity-5">🎥</div>
+            <div className="absolute top-1/2 left-1/4 text-6xl opacity-5">🍿</div>
+            <div className="absolute bottom-1/3 right-1/4 text-6xl opacity-5">🎟️</div>
 
             {/* Hero Section */}
             <motion.div
@@ -102,13 +100,11 @@ const AboutUs = () => {
                 variants={staggerContainer}
                 className="relative z-10"
             >
-                <div className="relative bg-black/40 backdrop-blur-xl border-b border-white/10">
+                <div className="relative bg-gray-900 border-b border-gray-800">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
                         <motion.h1
                             variants={fadeInUp}
-                            className="text-5xl md:text-7xl font-bold text-center mb-6 
-                                bg-linear-to-r from-red-500 via-purple-500 to-blue-500 
-                                bg-clip-text text-transparent animate-gradient"
+                            className="text-5xl md:text-7xl font-bold text-center mb-6 text-red-500"
                         >
                             ABOUT US
                         </motion.h1>
@@ -121,7 +117,7 @@ const AboutUs = () => {
                         </motion.p>
                         <motion.div
                             variants={fadeInUp}
-                            className="w-24 h-1 bg-linear-to-r from-red-500 to-blue-500 mx-auto mt-8"
+                            className="w-24 h-0.5 bg-red-600 mx-auto mt-8"
                         ></motion.div>
                     </div>
                 </div>
@@ -136,13 +132,12 @@ const AboutUs = () => {
                             <motion.div
                                 key={index}
                                 whileHover={{ scale: 1.05 }}
-                                className="bg-white/5 backdrop-blur-sm border border-white/10 
+                                className="bg-gray-900 border border-gray-800 
                                     rounded-2xl p-6 text-center
-                                    hover:border-red-500/50 hover:bg-red-500/5
+                                    hover:border-red-800 hover:bg-red-900/20
                                     transition-all duration-300"
                             >
-                                <div className="text-3xl font-bold bg-linear-to-r 
-                                    from-red-500 to-purple-500 bg-clip-text text-transparent">
+                                <div className="text-3xl font-bold text-red-500">
                                     {stat.value}
                                 </div>
                                 <div className="text-gray-400 text-sm mt-2">{stat.label}</div>
@@ -161,8 +156,7 @@ const AboutUs = () => {
                             viewport={{ once: true }}
                         >
                             <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                                <span className="bg-linear-to-r from-red-500 to-purple-500 
-                                    bg-clip-text text-transparent">
+                                <span className="text-red-500">
                                     Our Story
                                 </span>
                             </h2>
@@ -186,7 +180,7 @@ const AboutUs = () => {
 
                             {/* Mission/Vision Cards */}
                             <div className="grid grid-cols-2 gap-4 mt-8">
-                                <div className="bg-white/5 backdrop-blur-sm border border-white/10 
+                                <div className="bg-gray-900 border border-gray-800 
                                     rounded-xl p-4">
                                     <span className="text-3xl mb-2 block">🎯</span>
                                     <h3 className="font-semibold text-white mb-1">Our Mission</h3>
@@ -194,7 +188,7 @@ const AboutUs = () => {
                                         To provide seamless, secure, and enjoyable ticket booking experience.
                                     </p>
                                 </div>
-                                <div className="bg-white/5 backdrop-blur-sm border border-white/10 
+                                <div className="bg-gray-900 border border-gray-800 
                                     rounded-xl p-4">
                                     <span className="text-3xl mb-2 block">👁️</span>
                                     <h3 className="font-semibold text-white mb-1">Our Vision</h3>
@@ -216,16 +210,13 @@ const AboutUs = () => {
                                 <img
                                     src="https://ik.imagekit.io/c6x5kvy0f/Movie_Cinema/cinema-interior.jpg?updatedAt=1773291361498"
                                     alt="Cinema Interior"
-                                    className="rounded-2xl shadow-2xl border border-white/20
+                                    className="rounded-2xl shadow-2xl border border-gray-800
                                         group-hover:scale-[1.02] transition-transform duration-500"
                                 />
-                                <div className="absolute inset-0 bg-linear-to-t 
-                                    from-red-600/20 via-transparent to-transparent 
-                                    rounded-2xl"></div>
 
                                 {/* Floating Cards */}
                                 <div className="absolute -bottom-6 -left-6 
-                                    bg-black/80 backdrop-blur-xl border border-white/20
+                                    bg-black border border-gray-800
                                     rounded-xl p-4 shadow-2xl
                                     transform hover:scale-105 transition-transform duration-300">
                                     <div className="flex items-center gap-3">
@@ -238,7 +229,7 @@ const AboutUs = () => {
                                 </div>
 
                                 <div className="absolute -top-6 -right-6 
-                                    bg-black/80 backdrop-blur-xl border border-white/20
+                                    bg-black border border-gray-800
                                     rounded-xl p-4 shadow-2xl
                                     transform hover:scale-105 transition-transform duration-300">
                                     <div className="flex items-center gap-3">
@@ -264,8 +255,7 @@ const AboutUs = () => {
                         className="text-center mb-12"
                     >
                         <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                            <span className="bg-linear-to-r from-red-500 to-purple-500 
-                                bg-clip-text text-transparent">
+                            <span className="text-red-500">
                                 Why Choose Us
                             </span>
                         </h2>
@@ -286,9 +276,9 @@ const AboutUs = () => {
                                 key={index}
                                 variants={fadeInUp}
                                 whileHover={{ y: -10 }}
-                                className="bg-white/5 backdrop-blur-sm border border-white/10 
+                                className="bg-gray-900 border border-gray-800 
                                     rounded-2xl p-8
-                                    hover:border-red-500/50 hover:bg-red-500/5
+                                    hover:border-red-800 hover:bg-red-900/20
                                     transition-all duration-300 group"
                             >
                                 <div className="text-5xl mb-4 transform group-hover:scale-110 
@@ -316,8 +306,7 @@ const AboutUs = () => {
                         className="text-center mb-12"
                     >
                         <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                            <span className="bg-linear-to-r from-red-500 to-purple-500 
-                                bg-clip-text text-transparent">
+                            <span className="text-red-500">
                                 Meet Our Team
                             </span>
                         </h2>
@@ -338,9 +327,9 @@ const AboutUs = () => {
                                 key={index}
                                 variants={fadeInUp}
                                 whileHover={{ y: -10 }}
-                                className="bg-white/5 backdrop-blur-sm border border-white/10 
+                                className="bg-gray-900 border border-gray-800 
                                     rounded-2xl overflow-hidden
-                                    hover:border-red-500/50 hover:bg-red-500/5
+                                    hover:border-red-800 hover:bg-red-900/20
                                     transition-all duration-300 group"
                             >
                                 <div className="relative h-64 overflow-hidden">
@@ -353,9 +342,6 @@ const AboutUs = () => {
                                             e.target.src = "https://via.placeholder.com/300x400?text=Team+Member";
                                         }}
                                     />
-                                    <div className="absolute inset-0 bg-linear-to-t 
-                                        from-black via-transparent to-transparent 
-                                        opacity-60"></div>
                                 </div>
                                 <div className="p-6">
                                     <h3 className="text-xl font-bold text-white mb-1">
@@ -381,19 +367,10 @@ const AboutUs = () => {
                     viewport={{ once: true }}
                     className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16"
                 >
-                    <div className="bg-linear-to-r from-red-600/20 to-purple-600/20 
-                        backdrop-blur-sm border border-white/10 rounded-3xl p-12 
+                    <div className="bg-gray-900 border border-gray-800 rounded-3xl p-12 
                         text-center relative overflow-hidden">
-
-                        {/* Background Decorations */}
-                        <div className="absolute top-0 left-0 w-32 h-32 
-                            bg-red-500/20 rounded-full blur-3xl"></div>
-                        <div className="absolute bottom-0 right-0 w-32 h-32 
-                            bg-purple-500/20 rounded-full blur-3xl"></div>
-
                         <h2 className="text-3xl md:text-4xl font-bold mb-4 relative z-10">
-                            <span className="bg-linear-to-r from-red-500 to-purple-500 
-                                bg-clip-text text-transparent">
+                            <span className="text-red-500">
                                 Ready for a Movie?
                             </span>
                         </h2>
@@ -403,16 +380,13 @@ const AboutUs = () => {
                         </p>
                         <Link
                             to="/movies"
-                            className="inline-block bg-linear-to-r from-red-600 to-purple-600 
+                            className="inline-block bg-red-600 
                                 text-white px-8 py-4 rounded-xl font-semibold text-lg
-                                hover:from-red-700 hover:to-purple-700
+                                hover:bg-red-700
                                 transition-all duration-300
-                                transform hover:scale-[1.02] hover:shadow-lg hover:shadow-red-500/30
+                                hover:scale-[1.02] hover:shadow-lg hover:shadow-red-900/30
                                 relative overflow-hidden group"
                         >
-                            <span className="absolute inset-0 bg-white/20 transform 
-                                -translate-x-full group-hover:translate-x-0 
-                                transition-transform duration-500"></span>
                             <span className="relative flex items-center justify-center gap-2">
                                 Book Tickets Now
                                 <span className="text-xl group-hover:translate-x-1 transition-transform">→</span>
@@ -428,26 +402,6 @@ const AboutUs = () => {
                     </p>
                 </div>
             </motion.div>
-
-            {/* Animations */}
-            <style jsx>{`
-                @keyframes gradient {
-                    0%, 100% { background-position: 0% 50%; }
-                    50% { background-position: 100% 50%; }
-                }
-                @keyframes gradient-x {
-                    0%, 100% { background-position: 0% 50%; }
-                    50% { background-position: 100% 50%; }
-                }
-                .animate-gradient {
-                    background-size: 200% auto;
-                    animation: gradient 3s ease infinite;
-                }
-                .animate-gradient-x {
-                    background-size: 200% auto;
-                    animation: gradient-x 3s ease infinite;
-                }
-            `}</style>
         </div>
     );
 };

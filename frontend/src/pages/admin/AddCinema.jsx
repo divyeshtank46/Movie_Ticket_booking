@@ -104,7 +104,7 @@ const AddCinema = () => {
         const newImages = [...formik.values.images, ...validFiles];
         formik.setFieldValue("images", newImages);
 
-        // FIX 2: Mark images as touched so validation errors show immediately
+        // Mark images as touched so validation errors show immediately
         formik.setFieldTouched("images", true);
 
         validFiles.forEach((file) => {
@@ -127,7 +127,7 @@ const AddCinema = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#0a0a0f] text-white pt-20 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-black text-white pt-20 px-4 sm:px-6 lg:px-8">
             {/* Main Container */}
             <div className="max-w-4xl mx-auto py-12">
                 {/* Header */}
@@ -138,11 +138,11 @@ const AddCinema = () => {
                     <p className="text-gray-400 text-lg max-w-2xl mx-auto">
                         Fill in the details below to add a new cinema partner
                     </p>
-                    <div className="w-24 h-1 bg-white/20 mx-auto mt-6"></div>
+                    <div className="w-24 h-0.5 bg-gray-800 mx-auto mt-6"></div>
                 </div>
 
                 {/* Form Card */}
-                <div className="bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl overflow-hidden">
+                <div className="bg-gray-900 rounded-3xl border border-gray-800 shadow-2xl overflow-hidden">
                     <div className="p-6 sm:p-8">
                         <form onSubmit={formik.handleSubmit} className="space-y-6">
 
@@ -162,7 +162,6 @@ const AddCinema = () => {
                                             multiple
                                             className="hidden"
                                             id="imageUpload"
-                                            // FIX 3: Disable input when max images reached or submitting
                                             disabled={
                                                 formik.values.images.length >= 5 ||
                                                 formik.isSubmitting
@@ -172,13 +171,13 @@ const AddCinema = () => {
                                             htmlFor="imageUpload"
                                             className={`flex items-center justify-center gap-2
                                                     w-full px-4 py-3 
-                                                    bg-white/10 backdrop-blur-sm
-                                                    border-2 border-dashed border-white/30 
+                                                    bg-gray-800
+                                                    border-2 border-dashed border-gray-700 
                                                     rounded-xl
                                                     transition-all duration-300
                                                     ${formik.values.images.length >= 5 || formik.isSubmitting
                                                     ? "opacity-50 cursor-not-allowed"
-                                                    : "cursor-pointer hover:bg-white/20 hover:border-white/50"
+                                                    : "cursor-pointer hover:bg-gray-700 hover:border-gray-600"
                                                 }`}
                                         >
                                             <span className="text-2xl">📸</span>
@@ -198,17 +197,16 @@ const AddCinema = () => {
                                                     <img
                                                         src={preview}
                                                         alt={`Preview ${index + 1}`}
-                                                        className="w-20 h-20 object-cover rounded-lg border border-white/20"
+                                                        className="w-20 h-20 object-cover rounded-lg border border-gray-700"
                                                     />
-                                                    {/* FIX 4: Disable remove button while submitting */}
                                                     <button
                                                         type="button"
                                                         onClick={() => removeImage(index)}
                                                         disabled={formik.isSubmitting}
                                                         className="absolute -top-2 -right-2 w-5 h-5 
-                                                                bg-white/20 backdrop-blur-sm rounded-full 
+                                                                bg-gray-800 rounded-full 
                                                                 flex items-center justify-center
-                                                                text-white text-xs hover:bg-white/40 transition
+                                                                text-white text-xs hover:bg-gray-700 transition
                                                                 opacity-0 group-hover:opacity-100
                                                                 disabled:cursor-not-allowed"
                                                     >
@@ -248,15 +246,15 @@ const AddCinema = () => {
                                         onBlur={formik.handleBlur}
                                         disabled={formik.isSubmitting}
                                         className={`w-full pl-10 pr-4 py-3 
-                                                bg-white/10 backdrop-blur-sm
+                                                bg-gray-800
                                                 border rounded-xl
                                                 text-white placeholder-gray-500
                                                 focus:outline-none focus:ring-2
                                                 transition-all duration-300
                                                 disabled:opacity-50 disabled:cursor-not-allowed
                                                 ${formik.touched.name && formik.errors.name
-                                                ? "border-red-500/50 focus:ring-red-500/50"
-                                                : "border-white/20 focus:border-white/40 focus:ring-white/30"
+                                                ? "border-red-600 focus:ring-red-600"
+                                                : "border-gray-700 focus:border-gray-600 focus:ring-gray-600/50"
                                             }`}
                                     />
                                 </div>
@@ -285,15 +283,15 @@ const AddCinema = () => {
                                             onBlur={formik.handleBlur}
                                             disabled={formik.isSubmitting}
                                             className={`w-full pl-10 pr-4 py-3 
-                                                    bg-white/10 backdrop-blur-sm
+                                                    bg-gray-800
                                                     border rounded-xl
                                                     text-white placeholder-gray-500
                                                     focus:outline-none focus:ring-2
                                                     transition-all duration-300
                                                     disabled:opacity-50 disabled:cursor-not-allowed
                                                     ${formik.touched.city && formik.errors.city
-                                                    ? "border-red-500/50 focus:ring-red-500/50"
-                                                    : "border-white/20 focus:border-white/40 focus:ring-white/30"
+                                                    ? "border-red-600 focus:ring-red-600"
+                                                    : "border-gray-700 focus:border-gray-600 focus:ring-gray-600/50"
                                                 }`}
                                         />
                                     </div>
@@ -320,15 +318,15 @@ const AddCinema = () => {
                                             onBlur={formik.handleBlur}
                                             disabled={formik.isSubmitting}
                                             className={`w-full pl-10 pr-4 py-3 
-                                                    bg-white/10 backdrop-blur-sm
+                                                    bg-gray-800
                                                     border rounded-xl
                                                     text-white placeholder-gray-500
                                                     focus:outline-none focus:ring-2
                                                     transition-all duration-300
                                                     disabled:opacity-50 disabled:cursor-not-allowed
                                                     ${formik.touched.contactNumber && formik.errors.contactNumber
-                                                    ? "border-red-500/50 focus:ring-red-500/50"
-                                                    : "border-white/20 focus:border-white/40 focus:ring-white/30"
+                                                    ? "border-red-600 focus:ring-red-600"
+                                                    : "border-gray-700 focus:border-gray-600 focus:ring-gray-600/50"
                                                 }`}
                                         />
                                     </div>
@@ -356,15 +354,15 @@ const AddCinema = () => {
                                         onBlur={formik.handleBlur}
                                         disabled={formik.isSubmitting}
                                         className={`w-full pl-10 pr-4 py-3 
-                                                bg-white/10 backdrop-blur-sm
+                                                bg-gray-800
                                                 border rounded-xl
                                                 text-white placeholder-gray-500
                                                 focus:outline-none focus:ring-2
                                                 transition-all duration-300 resize-none
                                                 disabled:opacity-50 disabled:cursor-not-allowed
                                                 ${formik.touched.address && formik.errors.address
-                                                ? "border-red-500/50 focus:ring-red-500/50"
-                                                : "border-white/20 focus:border-white/40 focus:ring-white/30"
+                                                ? "border-red-600 focus:ring-red-600"
+                                                : "border-gray-700 focus:border-gray-600 focus:ring-gray-600/50"
                                             }`}
                                     />
                                 </div>
@@ -393,15 +391,15 @@ const AddCinema = () => {
                                             onBlur={formik.handleBlur}
                                             disabled={formik.isSubmitting}
                                             className={`w-full pl-10 pr-4 py-3 
-                                                    bg-white/10 backdrop-blur-sm
+                                                    bg-gray-800
                                                     border rounded-xl
                                                     text-white placeholder-gray-500
                                                     focus:outline-none focus:ring-2
                                                     transition-all duration-300
                                                     disabled:opacity-50 disabled:cursor-not-allowed
                                                     ${formik.touched.totalScreens && formik.errors.totalScreens
-                                                    ? "border-red-500/50 focus:ring-red-500/50"
-                                                    : "border-white/20 focus:border-white/40 focus:ring-white/30"
+                                                    ? "border-red-600 focus:ring-red-600"
+                                                    : "border-gray-700 focus:border-gray-600 focus:ring-gray-600/50"
                                                 }`}
                                         />
                                     </div>
@@ -426,10 +424,10 @@ const AddCinema = () => {
                                             onBlur={formik.handleBlur}
                                             disabled={formik.isSubmitting}
                                             className="w-full pl-10 pr-4 py-3 
-                                                    bg-white/10 backdrop-blur-sm
-                                                    border border-white/20 rounded-xl
+                                                    bg-gray-800
+                                                    border border-gray-700 rounded-xl
                                                     text-white
-                                                    focus:outline-none focus:ring-2 focus:ring-white/30
+                                                    focus:outline-none focus:ring-2 focus:ring-gray-600/50
                                                     transition-all duration-300
                                                     appearance-none cursor-pointer
                                                     disabled:opacity-50 disabled:cursor-not-allowed"
@@ -465,15 +463,15 @@ const AddCinema = () => {
                                         onBlur={formik.handleBlur}
                                         disabled={formik.isSubmitting}
                                         className={`w-full pl-10 pr-4 py-3 
-                                                bg-white/10 backdrop-blur-sm
+                                                bg-gray-800
                                                 border rounded-xl
                                                 text-white placeholder-gray-500
                                                 focus:outline-none focus:ring-2
                                                 transition-all duration-300
                                                 disabled:opacity-50 disabled:cursor-not-allowed
                                                 ${formik.touched.facilities && formik.errors.facilities
-                                                ? "border-red-500/50 focus:ring-red-500/50"
-                                                : "border-white/20 focus:border-white/40 focus:ring-white/30"
+                                                ? "border-red-600 focus:ring-red-600"
+                                                : "border-gray-700 focus:border-gray-600 focus:ring-gray-600/50"
                                             }`}
                                     />
                                 </div>
@@ -483,15 +481,15 @@ const AddCinema = () => {
                                 <p className="text-xs text-gray-500">Separate multiple facilities with commas</p>
                             </div>
 
-                            {/* FIX 5: Submit Button with loading state */}
+                            {/* Submit Button with loading state */}
                             <button
                                 type="submit"
                                 disabled={formik.isSubmitting}
-                                className="w-full bg-white/10 backdrop-blur-sm 
-                                        border border-white/20 text-white py-3.5 rounded-xl font-semibold text-lg
-                                        hover:bg-white/20 transition-all duration-300
+                                className="w-full bg-red-600 
+                                        text-white py-3.5 rounded-xl font-semibold text-lg
+                                        hover:bg-red-700 transition-all duration-300
                                         transform hover:scale-[1.02]
-                                        disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:bg-white/10
+                                        disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:bg-red-600
                                         flex items-center justify-center gap-2"
                             >
                                 {formik.isSubmitting ? (

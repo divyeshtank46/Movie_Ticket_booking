@@ -12,18 +12,18 @@ import { useAuth } from "../context/Authcontext";
 
 const SeatButton = React.memo(({ seat, selected, onSeatClick, seatType, price, isBooked }) => {
     const getSeatColor = () => {
-        if (isBooked) return "bg-gray-600 text-gray-400 cursor-not-allowed opacity-50";
-        if (selected) return "bg-linear-to-r from-red-500 to-purple-500 text-white border-white/50 shadow-lg shadow-red-500/30";
+        if (isBooked) return "bg-gray-700 text-gray-500 cursor-not-allowed opacity-50";
+        if (selected) return "bg-red-600 text-white border-red-700 shadow-lg shadow-red-900/30";
 
         switch (seatType) {
             case 'platinum':
-                return "bg-blue-500/20 text-blue-300 border-blue-500/30 hover:bg-blue-500/30";
+                return "bg-blue-900/50 text-blue-300 border-blue-800 hover:bg-blue-800/50";
             case 'gold':
-                return "bg-yellow-500/20 text-yellow-300 border-yellow-500/30 hover:bg-yellow-500/30";
+                return "bg-yellow-900/50 text-yellow-300 border-yellow-800 hover:bg-yellow-800/50";
             case 'silver':
-                return "bg-gray-500/20 text-gray-300 border-gray-500/30 hover:bg-gray-500/30";
+                return "bg-gray-800 text-gray-300 border-gray-700 hover:bg-gray-700";
             default:
-                return "bg-white/5 backdrop-blur-sm text-gray-300 border-white/20 hover:bg-white/20";
+                return "bg-gray-800 text-gray-300 border-gray-700 hover:bg-gray-700";
         }
     };
 
@@ -213,21 +213,20 @@ const Bookingpage = () => {
     }, [show, selectedSeatType, formik.values.seats.length]);
 
     if (initialLoading) return (
-        <div className="min-h-screen bg-[#0a0a0f] pt-20">
+        <div className="min-h-screen bg-black pt-20">
             <Loader />
         </div>
     );
 
     if (!show) return (
-        <div className="min-h-screen bg-[#0a0a0f] pt-20">
+        <div className="min-h-screen bg-black pt-20">
             <div className="max-w-2xl mx-auto text-center px-4">
-                <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-16">
+                <div className="bg-gray-900 border border-gray-800 rounded-3xl p-16">
                     <span className="text-7xl mb-6 block">🎬</span>
                     <h2 className="text-3xl font-bold text-white mb-3">Show not found</h2>
                     <button
                         onClick={() => navigate(-1)}
-                        className="mt-6 px-6 py-3 bg-linear-to-r from-red-600 to-purple-600 
-                        text-white rounded-xl"
+                        className="mt-6 px-6 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700"
                     >
                         Go Back
                     </button>
@@ -237,30 +236,25 @@ const Bookingpage = () => {
     );
 
     return (
-        <div className="min-h-screen bg-[#0a0a0f] text-white pt-20 relative overflow-hidden">
-            {/* Animated Background Gradient */}
-            <div className="absolute inset-0 bg-linear-to-r from-red-600/10 via-purple-600/10 to-blue-600/10 animate-gradient-x"></div>
-
+        <div className="min-h-screen bg-black text-white pt-20 relative overflow-hidden">
             {/* Decorative Film Strip */}
-            <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-red-500 via-purple-500 to-blue-500"></div>
+            <div className="absolute top-0 left-0 right-0 h-1 bg-red-600"></div>
 
             {/* Background Movie Icons */}
-            <div className="absolute top-20 left-10 text-6xl opacity-5 animate-pulse">🎬</div>
-            <div className="absolute bottom-20 right-10 text-6xl opacity-5 animate-pulse">🎥</div>
+            <div className="absolute top-20 left-10 text-6xl opacity-5">🎬</div>
+            <div className="absolute bottom-20 right-10 text-6xl opacity-5">🎥</div>
 
             {/* Main Container */}
             <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 {/* Header with Selected Show Info */}
                 <div className="text-center mb-8">
-                    <h1 className="text-4xl md:text-5xl font-bold mb-4 
-                        bg-linear-to-r from-red-500 via-purple-500 to-blue-500 
-                        bg-clip-text text-transparent animate-gradient">
+                    <h1 className="text-4xl md:text-5xl font-bold mb-4 text-red-500">
                         Book Your Seats
                     </h1>
 
                     {/* Selected Show Details - Highlighted */}
-                    <div className="max-w-2xl mx-auto mt-4 p-4 bg-white/5 backdrop-blur-sm 
-                        rounded-xl border border-red-500/30">
+                    <div className="max-w-2xl mx-auto mt-4 p-4 bg-gray-900 
+                        rounded-xl border border-red-800">
                         <div className="flex flex-col md:flex-row items-center justify-center gap-4">
                             <div className="flex items-center gap-2">
                                 <span className="text-red-400">🎬</span>
@@ -268,18 +262,17 @@ const Bookingpage = () => {
                                     {show.movieId?.title || "Movie"}
                                 </span>
                             </div>
-                            <div className="w-1 h-4 bg-red-500/30 hidden md:block"></div>
+                            <div className="w-1 h-4 bg-red-800 hidden md:block"></div>
                             <div className="flex items-center gap-2">
                                 <span className="text-purple-400">🏢</span>
                                 <span className="text-white">
                                     {show.cinemaId?.Name || show.cinemaId?.name}
                                 </span>
                             </div>
-                            <div className="w-1 h-4 bg-red-500/30 hidden md:block"></div>
+                            <div className="w-1 h-4 bg-red-800 hidden md:block"></div>
                             <div className="flex items-center gap-2">
                                 <span className="text-blue-400">⏰</span>
-                                <span className="text-white font-bold bg-linear-to-r 
-                                    from-red-500 to-purple-500 bg-clip-text">
+                                <span className="text-white font-bold text-red-500">
                                     {show.showTime}
                                 </span>
                             </div>
@@ -289,10 +282,10 @@ const Bookingpage = () => {
 
                 {/* Main Booking Card */}
                 <div className="max-w-4xl mx-auto">
-                    <div className="bg-white/5 backdrop-blur-xl rounded-3xl 
-                        border border-white/10 shadow-2xl overflow-hidden
+                    <div className="bg-gray-900 rounded-3xl 
+                        border border-gray-800 shadow-2xl overflow-hidden
                         transform transition-all duration-500
-                        hover:shadow-2xl hover:shadow-red-500/10">
+                        hover:shadow-2xl hover:shadow-red-900/20">
 
                         <div className="p-6 sm:p-8">
                             <form onSubmit={formik.handleSubmit} className="space-y-8">
@@ -310,9 +303,10 @@ const Bookingpage = () => {
                                                 className={`px-6 py-3 rounded-xl font-medium
                                                     transition-all duration-300 transform hover:scale-[1.02]
                                                     ${selectedSeatType === type
-                                                        ? `bg-${type === 'platinum' ? 'blue' : type === 'gold' ? 'yellow' : 'gray'}-600 
-                                                    text-white shadow-lg`
-                                                        : 'bg-white/5 backdrop-blur-sm border border-white/20 text-gray-300'
+                                                        ? type === 'platinum' ? 'bg-blue-600 text-white' 
+                                                        : type === 'gold' ? 'bg-yellow-600 text-white' 
+                                                        : 'bg-gray-600 text-white'
+                                                        : 'bg-gray-800 border border-gray-700 text-gray-300 hover:bg-gray-700'
                                                     }`}
                                             >
                                                 {type.charAt(0).toUpperCase() + type.slice(1)} - ₹{show.price[type]}
@@ -324,11 +318,11 @@ const Bookingpage = () => {
                                 {/* Screen Indicator */}
                                 <div className="relative py-8">
                                     <div className="absolute inset-0 flex items-center">
-                                        <div className="w-full border-t border-white/20"></div>
+                                        <div className="w-full border-t border-gray-800"></div>
                                     </div>
                                     <div className="relative flex justify-center">
-                                        <div className="px-4 py-2 bg-white/5 backdrop-blur-sm 
-                                            rounded-full border border-white/20 text-sm text-gray-400">
+                                        <div className="px-4 py-2 bg-gray-800 
+                                            rounded-full border border-gray-700 text-sm text-gray-400">
                                             <span className="mr-2">🎬</span> SCREEN <span className="ml-2">🎬</span>
                                         </div>
                                     </div>
@@ -339,23 +333,23 @@ const Bookingpage = () => {
                                     {/* Seat Legend */}
                                     <div className="flex flex-wrap justify-center gap-4 mb-6">
                                         <div className="flex items-center gap-2">
-                                            <div className="w-4 h-4 bg-gray-500/20 border border-gray-500/30 rounded"></div>
+                                            <div className="w-4 h-4 bg-gray-800 border border-gray-700 rounded"></div>
                                             <span className="text-xs text-gray-400">Silver (₹{show.price.silver})</span>
                                         </div>
                                         <div className="flex items-center gap-2">
-                                            <div className="w-4 h-4 bg-yellow-500/20 border border-yellow-500/30 rounded"></div>
+                                            <div className="w-4 h-4 bg-yellow-900/50 border border-yellow-800 rounded"></div>
                                             <span className="text-xs text-gray-400">Gold (₹{show.price.gold})</span>
                                         </div>
                                         <div className="flex items-center gap-2">
-                                            <div className="w-4 h-4 bg-blue-500/20 border border-blue-500/30 rounded"></div>
+                                            <div className="w-4 h-4 bg-blue-900/50 border border-blue-800 rounded"></div>
                                             <span className="text-xs text-gray-400">Platinum (₹{show.price.platinum})</span>
                                         </div>
                                         <div className="flex items-center gap-2">
-                                            <div className="w-4 h-4 bg-linear-to-r from-red-500 to-purple-500 rounded"></div>
+                                            <div className="w-4 h-4 bg-red-600 rounded"></div>
                                             <span className="text-xs text-gray-400">Selected</span>
                                         </div>
                                         <div className="flex items-center gap-2">
-                                            <div className="w-4 h-4 bg-gray-600 rounded opacity-50"></div>
+                                            <div className="w-4 h-4 bg-gray-700 rounded opacity-50"></div>
                                             <span className="text-xs text-gray-400">Booked</span>
                                         </div>
                                     </div>
@@ -392,8 +386,8 @@ const Bookingpage = () => {
 
                                 {/* Booking Summary */}
                                 {formik.values.seats.length > 0 && (
-                                    <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 
-                                        border border-white/20 space-y-3">
+                                    <div className="bg-gray-800 rounded-xl p-6 
+                                        border border-gray-700 space-y-3">
                                         <h3 className="text-lg font-semibold text-gray-300 mb-3">
                                             Booking Summary
                                         </h3>
@@ -407,9 +401,10 @@ const Bookingpage = () => {
 
                                         <div className="flex justify-between items-center text-sm">
                                             <span className="text-gray-400">Seat Type:</span>
-                                            <span className={`text-${selectedSeatType === 'platinum' ? 'blue' :
-                                                selectedSeatType === 'gold' ? 'yellow' : 'gray'
-                                                }-400 font-medium`}>
+                                            <span className={`font-medium ${
+                                                selectedSeatType === 'platinum' ? 'text-blue-400' :
+                                                selectedSeatType === 'gold' ? 'text-yellow-400' : 'text-gray-400'
+                                            }`}>
                                                 {selectedSeatType.toUpperCase()} - ₹{show.price[selectedSeatType]}
                                             </span>
                                         </div>
@@ -420,10 +415,9 @@ const Bookingpage = () => {
                                         </div>
 
                                         <div className="flex justify-between items-center text-lg font-bold pt-3 
-                                            border-t border-white/20">
+                                            border-t border-gray-700">
                                             <span className="text-gray-300">Total Amount:</span>
-                                            <span className="bg-linear-to-r from-red-500 to-purple-500 
-                                                bg-clip-text text-transparent">
+                                            <span className="text-red-500">
                                                 ₹{totalPrice}
                                             </span>
                                         </div>
@@ -435,41 +429,31 @@ const Bookingpage = () => {
                                     <button
                                         type="submit"
                                         disabled={loading || formik.values.seats.length === 0}
-                                        className="flex-1 relative overflow-hidden
-                                            bg-linear-to-r from-red-600 to-purple-600 
+                                        className="flex-1 bg-red-600 
                                             text-white py-3.5 rounded-xl font-semibold text-lg
-                                            hover:from-red-700 hover:to-purple-700
+                                            hover:bg-red-700
                                             transition-all duration-300
-                                            transform hover:scale-[1.02] hover:shadow-lg hover:shadow-red-500/30
-                                            disabled:opacity-50 disabled:cursor-not-allowed
-                                            group/btn"
+                                            hover:scale-[1.02] hover:shadow-lg hover:shadow-red-900/30
+                                            disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
-                                        <span className="absolute inset-0 bg-white/20 transform 
-                                            -translate-x-full group-hover/btn:translate-x-0 
-                                            transition-transform duration-500"></span>
-                                        <span className="relative flex items-center justify-center gap-2">
-                                            {loading ? (
-                                                <>
-                                                    <span className="w-5 h-5 border-2 border-white 
-                                                        border-t-transparent rounded-full animate-spin"></span>
-                                                    Processing...
-                                                </>
-                                            ) : (
-                                                <>
-                                                    Confirm Booking • ₹{totalPrice}
-                                                    <span className="text-xl group-hover/btn:translate-x-1 transition-transform">→</span>
-                                                </>
-                                            )}
-                                        </span>
+                                        {loading ? (
+                                            <>
+                                                <span className="w-5 h-5 border-2 border-white 
+                                                    border-t-transparent rounded-full animate-spin inline-block mr-2"></span>
+                                                Processing...
+                                            </>
+                                        ) : (
+                                            `Confirm Booking • ₹${totalPrice} →`
+                                        )}
                                     </button>
 
                                     <button
                                         type="button"
                                         onClick={() => navigate(-1)}
-                                        className="px-6 py-3.5 bg-white/5 backdrop-blur-sm 
-                                            border border-white/20 text-gray-300 rounded-xl font-medium
-                                            hover:bg-white/10 transition-all duration-300
-                                            transform hover:scale-[1.02]"
+                                        className="px-6 py-3.5 bg-gray-800 
+                                            border border-gray-700 text-gray-300 rounded-xl font-medium
+                                            hover:bg-gray-700 transition-all duration-300
+                                            hover:scale-[1.02]"
                                     >
                                         Cancel
                                     </button>
@@ -479,26 +463,6 @@ const Bookingpage = () => {
                     </div>
                 </div>
             </div>
-
-            {/* Add animations */}
-            <style jsx>{`
-                @keyframes gradient {
-                    0%, 100% { background-position: 0% 50%; }
-                    50% { background-position: 100% 50%; }
-                }
-                @keyframes gradient-x {
-                    0%, 100% { background-position: 0% 50%; }
-                    50% { background-position: 100% 50%; }
-                }
-                .animate-gradient {
-                    background-size: 200% auto;
-                    animation: gradient 3s ease infinite;
-                }
-                .animate-gradient-x {
-                    background-size: 200% auto;
-                    animation: gradient-x 3s ease infinite;
-                }
-            `}</style>
         </div>
     );
 };

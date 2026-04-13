@@ -9,7 +9,6 @@ import Swal from "sweetalert2";
 import { deletebooking } from "../../services/Bookingservice";
 
 const BookingsManagement = () => {
-    const [] = useState("all");
     const { user } = useAuth();
     const [bookings, setbookings] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -22,7 +21,6 @@ const BookingsManagement = () => {
                 setLoading(true);
                 const res = await getAllBookings();
                 console.log("API:", res);
-                // Access the data array from the response
                 const bookingsData = res?.data || [];
                 setbookings(bookingsData);
                 console.log("Bookings data:", bookingsData);
@@ -40,30 +38,26 @@ const BookingsManagement = () => {
 
     const getStatusColor = (status) => {
         switch (status) {
-            case 'confirmed': return 'bg-green-500/20 text-green-400 border-green-500/30';
-            case 'pending': return 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30';
-            case 'cancelled': return 'bg-red-500/20 text-red-400 border-red-500/30';
-            default: return 'bg-green-500/20 text-green-400 border-green-500/30';
+            case 'confirmed': return 'bg-green-900/50 text-green-400 border-green-800';
+            case 'pending': return 'bg-yellow-900/50 text-yellow-400 border-yellow-800';
+            case 'cancelled': return 'bg-red-900/50 text-red-400 border-red-800';
+            default: return 'bg-green-900/50 text-green-400 border-green-800';
         }
     };
 
-    // Helper function to get cinema name from different data structures
     const getCinemaName = (booking) => {
         if (booking.show?.cinemaId?.Name) {
             return booking.show.cinemaId.Name;
         }
         if (booking.cinema) {
-            // If cinema is an object with Name property
             if (typeof booking.cinema === 'object' && booking.cinema.Name) {
                 return booking.cinema.Name;
             }
-            // If cinema is just an ID string, we might need to fetch cinema details
             return "Cinema ID: " + booking.cinema;
         }
         return "N/A";
     };
 
-    // Helper function to get show date
     const getShowDate = (booking) => {
         if (booking.show?.showDate) {
             return new Date(booking.show.showDate).toLocaleDateString();
@@ -74,7 +68,6 @@ const BookingsManagement = () => {
         return "-";
     };
 
-    // Helper function to get show time
     const getShowTime = (booking) => {
         if (booking.show?.showTime) {
             return booking.show.showTime;
@@ -85,7 +78,6 @@ const BookingsManagement = () => {
         return "-";
     };
 
-    // Helper function to get seat type
     const getSeatType = (booking) => {
         if (booking.seatType) {
             return booking.seatType;
@@ -94,9 +86,7 @@ const BookingsManagement = () => {
     };
 
     if (loading) {
-        return (
-            <Loader />
-        );
+        return <Loader />;
     }
 
     if (!bookings || bookings.length === 0) {
@@ -104,8 +94,7 @@ const BookingsManagement = () => {
             <div className="p-6">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                     <div>
-                        <h1 className="text-3xl font-bold bg-linear-to-r from-red-500 to-purple-500 
-                                bg-clip-text text-transparent">
+                        <h1 className="text-3xl font-bold text-red-500">
                             Bookings Management
                         </h1>
                         <p className="text-gray-400 text-sm mt-1">
@@ -113,7 +102,7 @@ const BookingsManagement = () => {
                         </p>
                     </div>
                 </div>
-                <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 text-center">
+                <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 text-center">
                     <p className="text-gray-400">No bookings found</p>
                 </div>
             </div>
@@ -124,8 +113,7 @@ const BookingsManagement = () => {
         <div className="p-6">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                 <div>
-                    <h1 className="text-3xl font-bold bg-linear-to-r from-red-500 to-purple-500 
-                            bg-clip-text text-transparent">
+                    <h1 className="text-3xl font-bold text-red-500">
                         Bookings Management
                     </h1>
                     <p className="text-gray-400 text-sm mt-1">
@@ -138,18 +126,18 @@ const BookingsManagement = () => {
                         <input
                             type="text"
                             placeholder="Search bookings..."
-                            className="pl-10 pr-4 py-2 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:border-red-500/50"
+                            className="pl-10 pr-4 py-2 bg-gray-900 border border-gray-800 rounded-lg focus:outline-none focus:border-red-600 text-white placeholder-gray-500"
                         />
                     </div>
-                    <button className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 flex items-center gap-2">
+                    <button className="px-4 py-2 bg-gray-900 border border-gray-800 rounded-lg hover:bg-gray-800 flex items-center gap-2 text-gray-300">
                         <MdFilterList /> Filter
                     </button>
                 </div>
             </div>
 
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-x-auto">
+            <div className="bg-gray-900 border border-gray-800 rounded-2xl overflow-x-auto">
                 <table className="w-full min-w-250">
-                    <thead className="bg-white/5 border-b border-white/10">
+                    <thead className="bg-gray-800 border-b border-gray-700">
                         <tr>
                             <th className="text-left p-4 text-sm text-gray-400">Booking ID</th>
                             <th className="text-left p-4 text-sm text-gray-400">User</th>
@@ -170,32 +158,20 @@ const BookingsManagement = () => {
                             const showTime = getShowTime(booking);
                             const seatType = getSeatType(booking);
 
-                            // Debug log for first few bookings
-                            if (index < 3) {
-                                console.log(`Booking ${index}:`, {
-                                    id: booking._id,
-                                    cinemaName,
-                                    showDate,
-                                    showTime,
-                                    hasShow: !!booking.show,
-                                    hasCinema: !!booking.cinema
-                                });
-                            }
-
                             return (
                                 <motion.tr
                                     key={booking._id}
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     transition={{ delay: index * 0.05 }}
-                                    className="border-b border-white/5 hover:bg-white/5"
+                                    className="border-b border-gray-800 hover:bg-gray-800/50"
                                 >
-                                    <td className="p-4 text-sm font-mono">
+                                    <td className="p-4 text-sm font-mono text-gray-300">
                                         #{booking._id.slice(-6)}
                                     </td>
 
                                     <td className="p-4">
-                                        <p className="font-medium">
+                                        <p className="font-medium text-white">
                                             {booking.user?.Name || "N/A"}
                                         </p>
                                         <p className="text-xs text-gray-500">
@@ -203,7 +179,7 @@ const BookingsManagement = () => {
                                         </p>
                                     </td>
 
-                                    <td className="p-4 text-sm">
+                                    <td className="p-4 text-sm text-gray-300">
                                         {booking.movie?.title || "N/A"}
                                     </td>
 
@@ -212,7 +188,7 @@ const BookingsManagement = () => {
                                     </td>
 
                                     <td className="p-4">
-                                        <p className="text-sm">{showDate}</p>
+                                        <p className="text-sm text-gray-300">{showDate}</p>
                                         <p className="text-xs text-gray-500">{showTime}</p>
                                     </td>
 
@@ -221,7 +197,7 @@ const BookingsManagement = () => {
                                             {booking.seats?.map((seat, i) => (
                                                 <span
                                                     key={i}
-                                                    className="text-xs bg-red-500/20 text-red-400 px-1.5 py-0.5 rounded border border-red-500/30"
+                                                    className="text-xs bg-red-900/50 text-red-400 px-1.5 py-0.5 rounded border border-red-800"
                                                 >
                                                     {seat}
                                                 </span>
@@ -232,7 +208,7 @@ const BookingsManagement = () => {
                                         </p>
                                     </td>
 
-                                    <td className="p-4 text-sm font-bold">
+                                    <td className="p-4 text-sm font-bold text-red-500">
                                         ₹{booking.totalPrice}
                                     </td>
 
@@ -255,35 +231,28 @@ const BookingsManagement = () => {
                                                         cancelButtonColor: "#6b7280",
                                                         confirmButtonText: "Yes, delete it!",
                                                         cancelButtonText: "Cancel",
-                                                        background: "#0a0a0f",
+                                                        background: "#1f2937",
                                                         color: "#ffffff",
                                                         iconColor: "#ef4444",
                                                         customClass: {
-                                                            popup: 'rounded-2xl border border-white/20 backdrop-blur-xl bg-white/5',
+                                                            popup: 'rounded-2xl border border-gray-700 bg-gray-900',
                                                             confirmButton: 'bg-red-600 hover:bg-red-700 rounded-lg px-4 py-2 transition-all',
-                                                            cancelButton: 'bg-white/10 hover:bg-white/20 rounded-lg px-4 py-2 transition-all border border-white/20'
+                                                            cancelButton: 'bg-gray-700 hover:bg-gray-600 rounded-lg px-4 py-2 transition-all border border-gray-600'
                                                         }
                                                     });
 
                                                     if (result.isConfirmed) {
                                                         try {
                                                             await deletebooking(booking._id);
-
                                                             toast.success("Booking Deleted Successfully");
-
-                                                            // 🔥 remove booking from UI (NO REFRESH)
                                                             setbookings(prev => prev.filter(b => b._id !== booking._id));
-
                                                         } catch (error) {
                                                             toast.error(error.message || "Failed To Delete Booking");
                                                         }
                                                     }
-                                                }
-
-                                                }
-                                                className="p-1.5 hover:bg-blue-500/20 rounded-lg text-blue-400">
-
-
+                                                }}
+                                                className="p-1.5 hover:bg-red-900/50 rounded-lg text-red-400"
+                                            >
                                                 <MdDelete size={16} />
                                             </button>
                                         </div>

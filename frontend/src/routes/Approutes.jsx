@@ -58,7 +58,7 @@ const Approutes = () => {
                         <Route index element={<AdminDashboard />} />
                         <Route path="movies" element={<MoviesManagement />} />
                         <Route path="cinemas" element={<CinemasManagement />} />
-                        <Route path="shows" element={<ShowsManagement />} />
+                        <Route path="shows/:id" element={<ShowsManagement />} />
                         <Route path="bookings" element={<BookingsManagement />} />
                         <Route path="users" element={<UsersManagement />} />
                         <Route path='revenue' element={<RevenueChart />} />

@@ -41,73 +41,67 @@ const EditMovie = () => {
             status: "Now showing",
         },
         validationSchema: movieSchema,
-        onSubmit: (values) => {
+        onSubmit: async (values) => {
             try {
-                const res = editMovieById(id,values);
+                const res = await editMovieById(id, values);
                 toast.success("Movie Updated Successfully");
                 navigate('/admin/movies');
-            }catch(err){
-                toast.error(err.message ||"Failed To Update Movie");
+            } catch (err) {
+                toast.error(err.message || "Failed To Update Movie");
             }
         },
     });
-  useEffect(() => {
-    const fetchMovie = async () => {
-        try {
-            const res = await getMovieById(id);
-            const movie = res.data;
+    
+    useEffect(() => {
+        const fetchMovie = async () => {
+            try {
+                const res = await getMovieById(id);
+                const movie = res.data;
 
-            formik.setValues({
-                title: movie.title || "",
-                description: movie.description || "",
-                duration: movie.duration || "",
-                language: movie.language || "",
-                releaseDate: movie.releaseDate?.split("T")[0] || "",
-                price: movie.price || "",
-                showTimes: movie.showTimes?.join(", ") || "",
-                status: movie.status || "Now showing"
-            });
+                formik.setValues({
+                    title: movie.title || "",
+                    description: movie.description || "",
+                    duration: movie.duration || "",
+                    language: movie.language || "",
+                    releaseDate: movie.releaseDate?.split("T")[0] || "",
+                    price: movie.price || "",
+                    showTimes: movie.showTimes?.join(", ") || "",
+                    status: movie.status || "Now showing"
+                });
 
-        } catch (err) {
-            toast.error("Failed To Fill Data");
-            console.log(err);
-        }
-    };
+            } catch (err) {
+                toast.error("Failed To Fill Data");
+                console.log(err);
+            }
+        };
 
-    if (id) fetchMovie();
-
-}, [id]);
+        if (id) fetchMovie();
+    }, [id]);
 
     return (
-        <div className="min-h-screen bg-[#0a0a0f] text-white pt-20 relative overflow-hidden">
-            {/* Animated Background Gradient */}
-            <div className="absolute inset-0 bg-linear-to-r from-red-600/10 via-purple-600/10 to-blue-600/10 animate-gradient-x"></div>
-
+        <div className="min-h-screen bg-black text-white pt-20 relative overflow-hidden">
             {/* Decorative Film Strip */}
-            <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-red-500 via-purple-500 to-blue-500"></div>
+            <div className="absolute top-0 left-0 right-0 h-1 bg-red-600"></div>
 
             {/* Background Icons */}
-            <div className="absolute top-20 left-10 text-6xl opacity-5 animate-pulse">🎬</div>
-            <div className="absolute bottom-20 right-10 text-6xl opacity-5 animate-pulse">🎥</div>
+            <div className="absolute top-20 left-10 text-6xl opacity-5">🎬</div>
+            <div className="absolute bottom-20 right-10 text-6xl opacity-5">🎥</div>
 
             {/* Main Container */}
             <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 {/* Header */}
                 <div className="text-center mb-8">
-                    <h1 className="text-4xl md:text-5xl font-bold mb-4 
-                        bg-linear-to-r from-red-500 via-purple-500 to-blue-500 
-                        bg-clip-text text-transparent animate-gradient">
+                    <h1 className="text-4xl md:text-5xl font-bold mb-4 text-red-500">
                         Edit Movie
                     </h1>
-                  
-                    <div className="w-24 h-1 bg-linear-to-r from-red-500 to-blue-500 mx-auto mt-6"></div>
+                    <div className="w-24 h-0.5 bg-red-600 mx-auto mt-6"></div>
                 </div>
 
                 {/* Form Card */}
-                <div className="bg-white/5 backdrop-blur-xl rounded-3xl 
-                    border border-white/10 shadow-2xl overflow-hidden
+                <div className="bg-gray-900 rounded-3xl 
+                    border border-gray-800 shadow-2xl overflow-hidden
                     transform transition-all duration-500
-                    hover:shadow-2xl hover:shadow-red-500/10">
+                    hover:shadow-2xl hover:shadow-red-900/20">
 
                     <div className="p-6 sm:p-8">
                         <form onSubmit={formik.handleSubmit} className="space-y-6">
@@ -128,14 +122,14 @@ const EditMovie = () => {
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                         className={`w-full pl-10 pr-4 py-3 
-                                            bg-white/10 backdrop-blur-sm
+                                            bg-gray-800
                                             border rounded-xl
                                             text-white placeholder-gray-500
                                             focus:outline-none focus:ring-2
                                             transition-all duration-300
                                             ${formik.touched.title && formik.errors.title
-                                                ? "border-red-500/50 focus:ring-red-500/50"
-                                                : "border-white/20 focus:border-red-500/50 focus:ring-red-500/30"
+                                                ? "border-red-600 focus:ring-red-600"
+                                                : "border-gray-700 focus:border-red-600 focus:ring-red-600/50"
                                             }`}
                                     />
                                 </div>
@@ -163,14 +157,14 @@ const EditMovie = () => {
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                         className={`w-full pl-10 pr-4 py-3 
-                                            bg-white/10 backdrop-blur-sm
+                                            bg-gray-800
                                             border rounded-xl
                                             text-white placeholder-gray-500
                                             focus:outline-none focus:ring-2
                                             transition-all duration-300 resize-none
                                             ${formik.touched.description && formik.errors.description
-                                                ? "border-red-500/50 focus:ring-red-500/50"
-                                                : "border-white/20 focus:border-red-500/50 focus:ring-red-500/30"
+                                                ? "border-red-600 focus:ring-red-600"
+                                                : "border-gray-700 focus:border-red-600 focus:ring-red-600/50"
                                             }`}
                                     />
                                 </div>
@@ -200,14 +194,14 @@ const EditMovie = () => {
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
                                             className={`w-full pl-10 pr-4 py-3 
-                                                bg-white/10 backdrop-blur-sm
+                                                bg-gray-800
                                                 border rounded-xl
                                                 text-white placeholder-gray-500
                                                 focus:outline-none focus:ring-2
                                                 transition-all duration-300
                                                 ${formik.touched.duration && formik.errors.duration
-                                                    ? "border-red-500/50 focus:ring-red-500/50"
-                                                    : "border-white/20 focus:border-red-500/50 focus:ring-red-500/30"
+                                                    ? "border-red-600 focus:ring-red-600"
+                                                    : "border-gray-700 focus:border-red-600 focus:ring-red-600/50"
                                                 }`}
                                         />
                                     </div>
@@ -233,14 +227,14 @@ const EditMovie = () => {
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
                                             className={`w-full pl-10 pr-4 py-3 
-                                                bg-white/10 backdrop-blur-sm
+                                                bg-gray-800
                                                 border rounded-xl
                                                 text-white placeholder-gray-500
                                                 focus:outline-none focus:ring-2
                                                 transition-all duration-300
                                                 ${formik.touched.language && formik.errors.language
-                                                    ? "border-red-500/50 focus:ring-red-500/50"
-                                                    : "border-white/20 focus:border-red-500/50 focus:ring-red-500/30"
+                                                    ? "border-red-600 focus:ring-red-600"
+                                                    : "border-gray-700 focus:border-red-600 focus:ring-red-600/50"
                                                 }`}
                                         />
                                     </div>
@@ -265,14 +259,14 @@ const EditMovie = () => {
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
                                             className={`w-full pl-10 pr-4 py-3 
-                                                bg-white/10 backdrop-blur-sm
+                                                bg-gray-800
                                                 border rounded-xl
                                                 text-white
                                                 focus:outline-none focus:ring-2
                                                 transition-all duration-300
                                                 ${formik.touched.releaseDate && formik.errors.releaseDate
-                                                    ? "border-red-500/50 focus:ring-red-500/50"
-                                                    : "border-white/20 focus:border-red-500/50 focus:ring-red-500/30"
+                                                    ? "border-red-600 focus:ring-red-600"
+                                                    : "border-gray-700 focus:border-red-600 focus:ring-red-600/50"
                                                 }`}
                                         />
                                     </div>
@@ -298,14 +292,14 @@ const EditMovie = () => {
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
                                             className={`w-full pl-10 pr-4 py-3 
-                                                bg-white/10 backdrop-blur-sm
+                                                bg-gray-800
                                                 border rounded-xl
                                                 text-white placeholder-gray-500
                                                 focus:outline-none focus:ring-2
                                                 transition-all duration-300
                                                 ${formik.touched.price && formik.errors.price
-                                                    ? "border-red-500/50 focus:ring-red-500/50"
-                                                    : "border-white/20 focus:border-red-500/50 focus:ring-red-500/30"
+                                                    ? "border-red-600 focus:ring-red-600"
+                                                    : "border-gray-700 focus:border-red-600 focus:ring-red-600/50"
                                                 }`}
                                         />
                                     </div>
@@ -332,14 +326,14 @@ const EditMovie = () => {
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                         className={`w-full pl-10 pr-4 py-3 
-                                            bg-white/10 backdrop-blur-sm
+                                            bg-gray-800
                                             border rounded-xl
                                             text-white placeholder-gray-500
                                             focus:outline-none focus:ring-2
                                             transition-all duration-300
                                             ${formik.touched.showTimes && formik.errors.showTimes
-                                                ? "border-red-500/50 focus:ring-red-500/50"
-                                                : "border-white/20 focus:border-red-500/50 focus:ring-red-500/30"
+                                                ? "border-red-600 focus:ring-red-600"
+                                                : "border-gray-700 focus:border-red-600 focus:ring-red-600/50"
                                             }`}
                                     />
                                 </div>
@@ -364,10 +358,10 @@ const EditMovie = () => {
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                         className="w-full pl-10 pr-4 py-3 
-                                            bg-white/10 backdrop-blur-sm
-                                            border border-white/20 rounded-xl
+                                            bg-gray-800
+                                            border border-gray-700 rounded-xl
                                             text-white
-                                            focus:outline-none focus:ring-2 focus:ring-red-500/30
+                                            focus:outline-none focus:ring-2 focus:ring-red-600/50
                                             transition-all duration-300
                                             appearance-none cursor-pointer"
                                     >
@@ -382,49 +376,22 @@ const EditMovie = () => {
                                     <p className="text-red-400 text-sm">{formik.errors.status}</p>
                                 )}
                             </div>
+                            
                             {/* Submit Button */}
                             <button
                                 type="submit"
-                                className="w-full relative overflow-hidden
-                                    bg-linear-to-r from-red-600 to-purple-600 
+                                className="w-full bg-red-600 
                                     text-white py-3.5 rounded-xl font-semibold text-lg
-                                    hover:from-red-700 hover:to-purple-700
+                                    hover:bg-red-700
                                     transition-all duration-300
-                                    transform hover:scale-[1.02] hover:shadow-lg hover:shadow-red-500/30
-                                    group/btn"
+                                    hover:scale-[1.02] hover:shadow-lg hover:shadow-red-900/30"
                             >
-                                <span className="absolute inset-0 bg-white/20 transform 
-                                    -translate-x-full group-hover/btn:translate-x-0 
-                                    transition-transform duration-500"></span>
-                                <span className="relative flex items-center justify-center gap-2">
-                                    Update Movie
-                                    <span className="text-xl group-hover/btn:translate-x-1 transition-transform">→</span>
-                                </span>
+                                Update Movie →
                             </button>
                         </form>
                     </div>
                 </div>
             </div>
-
-            {/* Animations */}
-            <style jsx>{`
-                @keyframes gradient {
-                    0%, 100% { background-position: 0% 50%; }
-                    50% { background-position: 100% 50%; }
-                }
-                @keyframes gradient-x {
-                    0%, 100% { background-position: 0% 50%; }
-                    50% { background-position: 100% 50%; }
-                }
-                .animate-gradient {
-                    background-size: 200% auto;
-                    animation: gradient 3s ease infinite;
-                }
-                .animate-gradient-x {
-                    background-size: 200% auto;
-                    animation: gradient-x 3s ease infinite;
-                }
-            `}</style>
         </div>
     );
 };

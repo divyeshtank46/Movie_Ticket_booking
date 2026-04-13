@@ -96,10 +96,10 @@ const Mybookings = () => {
     // Get seat type color
     const getSeatTypeColor = (type) => {
         switch(type?.toLowerCase()) {
-            case 'platinum': return 'text-blue-400 bg-blue-500/20 border-blue-500/30';
-            case 'gold': return 'text-yellow-400 bg-yellow-500/20 border-yellow-500/30';
-            case 'silver': return 'text-gray-400 bg-gray-500/20 border-gray-500/30';
-            default: return 'text-gray-400 bg-gray-500/20 border-gray-500/30';
+            case 'platinum': return 'text-blue-400 bg-blue-900/50 border-blue-800';
+            case 'gold': return 'text-yellow-400 bg-yellow-900/50 border-yellow-800';
+            case 'silver': return 'text-gray-400 bg-gray-800 border-gray-700';
+            default: return 'text-gray-400 bg-gray-800 border-gray-700';
         }
     };
 
@@ -134,13 +134,13 @@ const Mybookings = () => {
     // Redirect to login if no user
     if (!user && !isLoading) {
         return (
-            <div className="min-h-screen bg-[#0a0a0f] text-white pt-20">
+            <div className="min-h-screen bg-black text-white pt-20">
                 <div className="max-w-2xl mx-auto text-center px-4">
-                    <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-12">
+                    <div className="bg-gray-900 border border-gray-800 rounded-3xl p-12">
                         <span className="text-6xl mb-4 block">🔒</span>
                         <h2 className="text-2xl font-bold mb-2">Please Login</h2>
                         <p className="text-gray-400 mb-6">You need to be logged in to view your bookings.</p>
-                        <Link to="/login" className="inline-block bg-linear-to-r from-red-600 to-purple-600 text-white px-6 py-3 rounded-xl">
+                        <Link to="/login" className="inline-block bg-red-600 text-white px-6 py-3 rounded-xl hover:bg-red-700 transition-colors">
                             Go to Login
                         </Link>
                     </div>
@@ -150,30 +150,21 @@ const Mybookings = () => {
     }
 
     return (
-        <div className="min-h-screen bg-[#0a0a0f] text-white pt-20 relative overflow-hidden">
-            {/* Animated Background Gradient */}
-            <div className="absolute inset-0 bg-linear-to-r from-red-600/10 via-purple-600/10 to-blue-600/10 animate-gradient-x"></div>
-            
+        <div className="min-h-screen bg-black text-white pt-20 relative overflow-hidden">
             {/* Decorative Film Strip */}
-            <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-red-500 via-purple-500 to-blue-500"></div>
-            
-            {/* Background Icons */}
-            <div className="absolute top-20 left-10 text-6xl opacity-5 animate-pulse">🎬</div>
-            <div className="absolute bottom-20 right-10 text-6xl opacity-5 animate-pulse">🎥</div>
+            <div className="absolute top-0 left-0 right-0 h-1 bg-red-600"></div>
 
             {/* Hero Section */}
             <div className="relative z-10">
-                <div className="relative bg-black/40 backdrop-blur-xl border-b border-white/10">
+                <div className="relative bg-gray-900 border-b border-gray-800">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                        <h1 className="text-5xl md:text-6xl font-bold text-center mb-4 
-                            bg-linear-to-r from-red-500 via-purple-500 to-blue-500 
-                            bg-clip-text text-transparent animate-gradient">
+                        <h1 className="text-5xl md:text-6xl font-bold text-center mb-4 text-red-500">
                             MY BOOKINGS
                         </h1>
                         <p className="text-gray-400 text-center text-lg max-w-2xl mx-auto">
                             Track and manage all your movie ticket bookings in one place.
                         </p>
-                        <div className="w-24 h-1 bg-linear-to-r from-red-500 to-blue-500 mx-auto mt-6"></div>
+                        <div className="w-24 h-0.5 bg-red-600 mx-auto mt-6"></div>
                     </div>
                 </div>
             </div>
@@ -190,20 +181,19 @@ const Mybookings = () => {
                 {/* No Bookings */}
                 {!isLoading && bookings.length === 0 && (
                     <div className="max-w-2xl mx-auto text-center">
-                        <div className="bg-white/5 backdrop-blur-sm border border-white/10 
-                            rounded-3xl p-16">
-                            <span className="text-8xl mb-6 block animate-pulse">🎫</span>
+                        <div className="bg-gray-900 border border-gray-800 rounded-3xl p-16">
+                            <span className="text-8xl mb-6 block">🎫</span>
                             <h2 className="text-3xl font-bold text-white mb-3">No Bookings Found</h2>
                             <p className="text-gray-400 text-lg mb-8">
                                 You haven't booked any tickets yet. Start your cinema experience today!
                             </p>
                             <Link 
                                 to="/movies"
-                                className="inline-block bg-linear-to-r from-red-600 to-purple-600 
+                                className="inline-block bg-red-600 
                                     text-white px-8 py-4 rounded-xl font-medium text-lg
-                                    hover:from-red-700 hover:to-purple-700
+                                    hover:bg-red-700
                                     transition-all duration-300
-                                    transform hover:scale-[1.02] hover:shadow-lg hover:shadow-red-500/30"
+                                    hover:scale-[1.02]"
                             >
                                 Browse Movies
                             </Link>
@@ -214,25 +204,21 @@ const Mybookings = () => {
                 {/* Booking Stats */}
                 {!isLoading && bookings.length > 0 && (
                     <div className="mb-8 flex flex-wrap gap-4 justify-between items-center">
-                        <div className="bg-white/5 backdrop-blur-sm px-5 py-2.5 rounded-full 
-                            border border-white/10 text-base">
+                        <div className="bg-gray-900 px-5 py-2.5 rounded-full border border-gray-800 text-base">
                             <span className="text-gray-400">Total Bookings: </span>
                             <span className="text-white font-semibold">{bookings.length}</span>
                         </div>
                         
                         <div className="flex gap-3">
-                            <div className="bg-white/5 backdrop-blur-sm px-4 py-2 rounded-full 
-                                border border-white/10 text-sm flex items-center gap-2">
+                            <div className="bg-gray-900 px-4 py-2 rounded-full border border-gray-800 text-sm flex items-center gap-2">
                                 <span className="w-2 h-2 bg-green-400 rounded-full"></span>
                                 <span className="text-gray-400">Upcoming</span>
                             </div>
-                            <div className="bg-white/5 backdrop-blur-sm px-4 py-2 rounded-full 
-                                border border-white/10 text-sm flex items-center gap-2">
+                            <div className="bg-gray-900 px-4 py-2 rounded-full border border-gray-800 text-sm flex items-center gap-2">
                                 <span className="w-2 h-2 bg-yellow-400 rounded-full"></span>
                                 <span className="text-gray-400">Soon</span>
                             </div>
-                            <div className="bg-white/5 backdrop-blur-sm px-4 py-2 rounded-full 
-                                border border-white/10 text-sm flex items-center gap-2">
+                            <div className="bg-gray-900 px-4 py-2 rounded-full border border-gray-800 text-sm flex items-center gap-2">
                                 <span className="w-2 h-2 bg-gray-500 rounded-full"></span>
                                 <span className="text-gray-400">Past</span>
                             </div>
@@ -256,41 +242,36 @@ const Mybookings = () => {
                             return (
                                 <div key={booking._id} className="flex flex-col h-full">
                                     {/* Card - Image Section */}
-                                    <div className="group bg-linear-to-b from-gray-900 to-black 
-                                        rounded-2xl overflow-hidden shadow-2xl 
-                                        hover:shadow-2xl hover:shadow-red-500/20 
-                                        transform hover:-translate-y-2 transition-all duration-500
-                                        border border-white/10 hover:border-red-500/50">
+                                    <div className="group bg-black rounded-2xl overflow-hidden shadow-xl 
+                                        hover:shadow-2xl hover:shadow-red-900/20 
+                                        transform hover:-translate-y-1 transition-all duration-300
+                                        border border-gray-800 hover:border-red-800">
                                         
-                                        <div className="relative w-full h-96 overflow-hidden bg-gray-800">
+                                        <div className="relative w-full h-96 overflow-hidden bg-gray-900">
                                             <img
                                                 src={movie.poster || fallbackImage}
                                                 alt={movie.title || "Movie Poster"}
                                                 className="w-full h-full object-cover 
-                                                    group-hover:scale-110 transition-transform duration-700"
+                                                    group-hover:scale-110 transition-transform duration-500"
                                                 onError={(e) => {
                                                     e.target.src = fallbackImage;
                                                 }}
                                             />
                                             
-                                            <div className="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent 
-                                                opacity-60 group-hover:opacity-80 transition-opacity duration-500">
-                                            </div>
-                                            
                                             {showDateTime && (
                                                 <div className={`absolute top-3 right-3 
-                                                    bg-black/80 backdrop-blur-sm 
+                                                    bg-black border 
                                                     ${getStatusColor(showDateTime)} 
                                                     px-3 py-1.5 rounded-full text-xs font-semibold
-                                                    border border-white/20 z-10`}>
+                                                    border-gray-700 z-10`}>
                                                     {getStatusText(showDateTime)}
                                                 </div>
                                             )}
                                             
                                             <div className="absolute bottom-3 left-3 
-                                                bg-black/60 backdrop-blur-sm 
+                                                bg-black/80 
                                                 text-gray-300 text-xs px-2 py-1 rounded
-                                                border border-white/10 z-10">
+                                                border border-gray-700 z-10">
                                                 #{booking._id?.slice(-8) || "N/A"}
                                             </div>
                                         </div>
@@ -299,9 +280,7 @@ const Mybookings = () => {
                                     {/* Details - Outside Card */}
                                     <div className="mt-4 space-y-3 flex-1 flex flex-col">
                                         {/* Movie Title */}
-                                        <h2 className="text-xl font-bold line-clamp-1
-                                            bg-linear-to-r from-red-500 to-purple-500 
-                                            bg-clip-text text-transparent">
+                                        <h2 className="text-xl font-bold line-clamp-1 text-red-500">
                                             {movie.title || "Unknown Movie"}
                                         </h2>
 
@@ -348,8 +327,8 @@ const Mybookings = () => {
                                                 <div className="flex flex-wrap gap-1 mt-1">
                                                     {booking.seats?.map((seat, idx) => (
                                                         <span key={idx} 
-                                                            className="text-xs bg-red-500/20 text-red-400 
-                                                            px-2 py-0.5 rounded border border-red-500/30">
+                                                            className="text-xs bg-red-900/50 text-red-400 
+                                                            px-2 py-0.5 rounded border border-red-800">
                                                             {seat}
                                                         </span>
                                                     ))}
@@ -373,8 +352,7 @@ const Mybookings = () => {
                                             <span className="text-red-500 mt-1">💵</span>
                                             <div>
                                                 <p className="text-gray-400 text-xs">Total Price</p>
-                                                <p className="text-2xl font-bold bg-linear-to-r 
-                                                    from-red-500 to-purple-500 bg-clip-text text-transparent">
+                                                <p className="text-2xl font-bold text-red-500">
                                                     ₹{booking.totalPrice || 0}
                                                 </p>
                                             </div>
@@ -405,13 +383,13 @@ const Mybookings = () => {
                                                 onClick={() => handleCancel(booking._id)}
                                                 disabled={cancellingId === booking._id}
                                                 className="w-full relative overflow-hidden
-                                                    bg-red-600/20 border border-red-500/50
+                                                    bg-red-900/50 border border-red-800
                                                     text-red-400 py-3 rounded-xl font-medium
-                                                    hover:bg-red-600 hover:text-white
+                                                    hover:bg-red-700 hover:text-white
                                                     transition-all duration-300
-                                                    transform hover:scale-[1.02] hover:shadow-lg hover:shadow-red-500/30
+                                                    hover:scale-[1.02]
                                                     disabled:opacity-50 disabled:cursor-not-allowed
-                                                    group/btn mt-4"
+                                                    mt-4"
                                             >
                                                 {cancellingId === booking._id ? (
                                                     <span className="flex items-center justify-center gap-2">
@@ -420,17 +398,12 @@ const Mybookings = () => {
                                                         Cancelling...
                                                     </span>
                                                 ) : (
-                                                    <>
-                                                        <span className="absolute inset-0 bg-white/20 transform 
-                                                            -translate-x-full group-hover/btn:translate-x-0 
-                                                            transition-transform duration-500"></span>
-                                                        <span className="relative">Cancel Booking</span>
-                                                    </>
+                                                    "Cancel Booking"
                                                 )}
                                             </button>
                                         ) : (
-                                            <div className="w-full bg-gray-800/50 text-gray-500 
-                                                py-3 rounded-xl text-center text-sm border border-gray-700 mt-4">
+                                            <div className="w-full bg-gray-900 text-gray-500 
+                                                py-3 rounded-xl text-center text-sm border border-gray-800 mt-4">
                                                 Show Completed
                                             </div>
                                         )}
@@ -441,26 +414,6 @@ const Mybookings = () => {
                     </div>
                 )}
             </div>
-
-            {/* Animations */}
-            <style jsx>{`
-                @keyframes gradient {
-                    0%, 100% { background-position: 0% 50%; }
-                    50% { background-position: 100% 50%; }
-                }
-                @keyframes gradient-x {
-                    0%, 100% { background-position: 0% 50%; }
-                    50% { background-position: 100% 50%; }
-                }
-                .animate-gradient {
-                    background-size: 200% auto;
-                    animation: gradient 3s ease infinite;
-                }
-                .animate-gradient-x {
-                    background-size: 200% auto;
-                    animation: gradient-x 3s ease infinite;
-                }
-            `}</style>
         </div>
     );
 };

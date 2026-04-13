@@ -35,12 +35,11 @@ const UsersManagement = () => {
     });
 
     return (
-        <div className="min-h-screen bg-[#0a0a0f] text-white pt-16 sm:pt-20 px-3 sm:px-4 md:px-6 lg:px-8">
+        <div className="min-h-screen bg-black text-white pt-16 sm:pt-20 px-3 sm:px-4 md:px-6 lg:px-8">
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sm:mb-8">
                 <div>
-                    <h1 className="text-2xl sm:text-3xl font-bold bg-linear-to-r from-red-500 to-purple-500 
-                        bg-clip-text text-transparent">
+                    <h1 className="text-2xl sm:text-3xl font-bold text-red-500">
                         Users Management
                     </h1>
                     <p className="text-gray-400 text-xs sm:text-sm mt-1">
@@ -58,9 +57,9 @@ const UsersManagement = () => {
                         placeholder="Search users by name or email..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full pl-10 pr-4 py-2 bg-white/5 border border-white/10 rounded-xl
+                        className="w-full pl-10 pr-4 py-2 bg-gray-900 border border-gray-800 rounded-xl
                             text-white placeholder-gray-400 focus:outline-none focus:ring-2 
-                            focus:ring-red-500/30 text-sm sm:text-base"
+                            focus:ring-red-600/50 text-sm sm:text-base"
                     />
                 </div>
 
@@ -68,16 +67,16 @@ const UsersManagement = () => {
                     <select
                         value={filterRole}
                         onChange={(e) => setFilterRole(e.target.value)}
-                        className="flex-1 sm:flex-none px-3 sm:px-4 py-2 bg-white/5 border border-white/10 rounded-xl
-                            text-white focus:outline-none focus:ring-2 focus:ring-red-500/30 text-sm sm:text-base"
+                        className="flex-1 sm:flex-none px-3 sm:px-4 py-2 bg-gray-900 border border-gray-800 rounded-xl
+                            text-white focus:outline-none focus:ring-2 focus:ring-red-600/50 text-sm sm:text-base"
                     >
                         <option value="all">All Roles</option>
                         <option value="user">Users</option>
                         <option value="admin">Admins</option>
                     </select>
 
-                    <button className="p-2 bg-white/5 border border-white/10 rounded-xl
-                        hover:bg-white/10 transition-colors">
+                    <button className="p-2 bg-gray-900 border border-gray-800 rounded-xl
+                        hover:bg-gray-800 transition-colors">
                         <MdFilterList size={18} className="sm:w-5 sm:h-5" />
                     </button>
                 </div>
@@ -114,13 +113,13 @@ const UserCard = ({ user, index, fetchUsers }) => {
             cancelButtonColor: "#6b7280",
             confirmButtonText: "Yes, Switch The Role!",
             cancelButtonText: "Cancel",
-            background: "#0a0a0f",
+            background: "#1f2937",
             color: "#ffffff",
             iconColor: "#ef4444",
             customClass: {
-                popup: 'rounded-2xl border border-white/20 backdrop-blur-xl',
+                popup: 'rounded-2xl border border-gray-700 bg-gray-900',
                 confirmButton: 'bg-red-600 hover:bg-red-700 rounded-lg px-4 py-2',
-                cancelButton: 'bg-white/10 hover:bg-white/20 rounded-lg px-4 py-2'
+                cancelButton: 'bg-gray-700 hover:bg-gray-600 rounded-lg px-4 py-2 border border-gray-600'
             }
         });
 
@@ -144,13 +143,13 @@ const UserCard = ({ user, index, fetchUsers }) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
             whileHover={{ y: -5 }}
-            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 sm:p-5 lg:p-6
-                hover:border-red-500/50 transition-all duration-300 group"
+            className="bg-gray-900 border border-gray-800 rounded-2xl p-4 sm:p-5 lg:p-6
+                hover:border-red-800 transition-all duration-300 group"
         >
             <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-4 gap-3 sm:gap-0">
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-linear-to-r from-red-600 to-purple-600 
-                        flex items-center justify-center text-base sm:text-xl font-bold">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-red-600 
+                        flex items-center justify-center text-base sm:text-xl font-bold text-white">
                         {user.Name?.charAt(0).toUpperCase()}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -160,14 +159,14 @@ const UserCard = ({ user, index, fetchUsers }) => {
                 </div>
 
                 {user.Role === 'Admin' ? (
-                    <span className="px-2 py-1 bg-purple-500/20 text-purple-400 
-                        text-xs rounded-full border border-purple-500/30 flex items-center gap-1 w-fit">
+                    <span className="px-2 py-1 bg-purple-900/50 text-purple-400 
+                        text-xs rounded-full border border-purple-800 flex items-center gap-1 w-fit">
                         <MdVerifiedUser size={12} />
                         Admin
                     </span>
                 ) : (
-                    <span className="px-2 py-1 bg-blue-500/20 text-blue-400 
-                        text-xs rounded-full border border-blue-500/30 w-fit">
+                    <span className="px-2 py-1 bg-blue-900/50 text-blue-400 
+                        text-xs rounded-full border border-blue-800 w-fit">
                         User
                     </span>
                 )}
@@ -184,11 +183,11 @@ const UserCard = ({ user, index, fetchUsers }) => {
                 </p>
             </div>
 
-            <div className="flex flex-col xs:flex-row items-start xs:items-center justify-between pt-4 border-t border-white/10 gap-3 xs:gap-0">
+            <div className="flex flex-col xs:flex-row items-start xs:items-center justify-between pt-4 border-t border-gray-800 gap-3 xs:gap-0">
                 <span className={`px-2 py-1 text-xs rounded-full border w-fit
                     ${user.status === 'Active'
-                        ? 'bg-green-500/20 text-green-400 border-green-500/30'
-                        : 'bg-gray-500/20 text-gray-400 border-gray-500/30'}`}>
+                        ? 'bg-green-900/50 text-green-400 border-green-800'
+                        : 'bg-gray-800 text-gray-400 border-gray-700'}`}>
                     {user.Status || "Active"}
                 </span>
 
@@ -197,11 +196,11 @@ const UserCard = ({ user, index, fetchUsers }) => {
                     <button 
                         onClick={handleSwitchRole}
                         disabled={isSwitching}
-                        className="p-1.5 bg-white/5 backdrop-blur-sm border border-white/20 
+                        className="p-1.5 bg-gray-800 border border-gray-700 
                             rounded-lg transition-all duration-300 text-green-400
-                            hover:bg-green-500/20 hover:border-green-500/50 hover:scale-110
+                            hover:bg-green-900/50 hover:border-green-800 hover:scale-110
                             disabled:opacity-50 disabled:cursor-not-allowed
-                            focus:outline-none focus:ring-2 focus:ring-green-500/50
+                            focus:outline-none focus:ring-2 focus:ring-green-600/50
                             relative group"
                         title={`Switch to ${user.Role === 'Admin' ? 'User' : 'Admin'} role`}
                     >
@@ -211,9 +210,9 @@ const UserCard = ({ user, index, fetchUsers }) => {
                             <>
                                 <MdSwapHoriz size={10} className="sm:w-4 sm:h-4" />
                                 <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 
-                                    bg-black/90 backdrop-blur-sm text-white text-xs rounded-lg whitespace-nowrap
+                                    bg-gray-900 text-white text-xs rounded-lg whitespace-nowrap
                                     opacity-0 group-hover:opacity-100 transition-opacity duration-300
-                                    border border-white/20 pointer-events-none z-10 hidden sm:block">
+                                    border border-gray-700 pointer-events-none z-10 hidden sm:block">
                                     Switch to {user.Role === 'Admin' ? 'User' : 'Admin'}
                                 </div>
                             </>
@@ -221,15 +220,14 @@ const UserCard = ({ user, index, fetchUsers }) => {
                     </button>
                     
                     <button 
-                        className="p-1.5 bg-white/5 backdrop-blur-sm border border-white/20 
+                        className="p-1.5 bg-gray-800 border border-gray-700 
                             rounded-lg transition-all duration-300 text-red-400
-                            hover:bg-red-500/20 hover:border-red-500/50 hover:scale-110
-                            focus:outline-none focus:ring-2 focus:ring-red-500/50
+                            hover:bg-red-900/50 hover:border-red-800 hover:scale-110
+                            focus:outline-none focus:ring-2 focus:ring-red-600/50
                             relative group"
                         title="Block User"
                     >
                         <MdBlock size={14} className="sm:w-4 sm:h-4" />
-                        
                     </button>
                 </div>
             </div>

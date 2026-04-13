@@ -45,16 +45,13 @@ const ContactUs = () => {
     });
 
     return (
-        <div className="min-h-screen bg-[#0a0a0f] text-white pt-20 relative overflow-hidden">
-            {/* Animated Background Gradient */}
-            <div className="absolute inset-0 bg-linear-to-r from-red-600/10 via-purple-600/10 to-blue-600/10 animate-gradient-x"></div>
-
+        <div className="min-h-screen bg-black text-white pt-20 relative overflow-hidden">
             {/* Decorative Film Strip */}
-            <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-red-500 via-purple-500 to-blue-500"></div>
+            <div className="absolute top-0 left-0 right-0 h-1 bg-red-600"></div>
 
             {/* Background Movie Icons */}
-            <div className="absolute top-20 left-10 text-6xl opacity-5 animate-pulse">🎬</div>
-            <div className="absolute bottom-20 right-10 text-6xl opacity-5 animate-pulse">🎥</div>
+            <div className="absolute top-20 left-10 text-6xl opacity-5">🎬</div>
+            <div className="absolute bottom-20 right-10 text-6xl opacity-5">🎥</div>
             <div className="absolute top-40 right-20 text-4xl opacity-5 rotate-12">🍿</div>
             <div className="absolute bottom-40 left-20 text-5xl opacity-5">🎫</div>
 
@@ -63,16 +60,13 @@ const ContactUs = () => {
                 {/* Header */}
                 <div className="text-center mb-8">
                     <Link to="/" className="inline-block group mb-6">
-                        <span className="text-3xl font-bold bg-linear-to-r from-red-500 via-purple-500 to-blue-500 
-                            bg-clip-text text-transparent animate-gradient">
+                        <span className="text-3xl font-bold text-red-500">
                             CINEBOOK
                         </span>
                         <span className="ml-1 text-3xl">🎬</span>
                     </Link>
 
-                    <h1 className="text-4xl md:text-5xl font-bold mb-4 
-                        bg-linear-to-r from-red-500 via-purple-500 to-blue-500 
-                        bg-clip-text text-transparent animate-gradient">
+                    <h1 className="text-4xl md:text-5xl font-bold mb-4 text-red-500">
                         Contact Us
                     </h1>
 
@@ -80,15 +74,15 @@ const ContactUs = () => {
                         Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
                     </p>
 
-                    <div className="w-24 h-1 bg-linear-to-r from-red-500 to-blue-500 mx-auto mt-6"></div>
+                    <div className="w-24 h-0.5 bg-red-600 mx-auto mt-6"></div>
                 </div>
 
                 {/* Contact Form Card */}
                 <div className="max-w-2xl mx-auto">
-                    <div className="bg-white/5 backdrop-blur-xl rounded-3xl 
-                        border border-white/10 shadow-2xl overflow-hidden
+                    <div className="bg-gray-900 rounded-3xl 
+                        border border-gray-800 shadow-2xl overflow-hidden
                         transform transition-all duration-500
-                        hover:shadow-2xl hover:shadow-red-500/10">
+                        hover:shadow-2xl hover:shadow-red-900/20">
 
                         <div className="p-6 sm:p-8">
                             <form onSubmit={formik.handleSubmit} className="space-y-6">
@@ -109,14 +103,14 @@ const ContactUs = () => {
                                                 {...formik.getFieldProps("name")}
                                                 placeholder="Your Name"
                                                 className={`w-full pl-10 pr-4 py-3 
-                                                    bg-white/10 backdrop-blur-sm
+                                                    bg-gray-800
                                                     border rounded-xl
                                                     text-white placeholder-gray-500
                                                     focus:outline-none focus:ring-2
                                                     transition-all duration-300
                                                     ${formik.touched.name && formik.errors.name
-                                                        ? "border-red-500/50 focus:ring-red-500/50"
-                                                        : "border-white/20 focus:border-red-500/50 focus:ring-red-500/30"
+                                                        ? "border-red-600 focus:ring-red-600"
+                                                        : "border-gray-700 focus:border-red-600 focus:ring-red-600/50"
                                                     }`}
                                             />
                                         </div>
@@ -142,14 +136,14 @@ const ContactUs = () => {
                                                 {...formik.getFieldProps("email")}
                                                 placeholder="example@gmail.com"
                                                 className={`w-full pl-10 pr-4 py-3 
-                                                    bg-white/10 backdrop-blur-sm
+                                                    bg-gray-800
                                                     border rounded-xl
                                                     text-white placeholder-gray-500
                                                     focus:outline-none focus:ring-2
                                                     transition-all duration-300
                                                     ${formik.touched.email && formik.errors.email
-                                                        ? "border-red-500/50 focus:ring-red-500/50"
-                                                        : "border-white/20 focus:border-red-500/50 focus:ring-red-500/30"
+                                                        ? "border-red-600 focus:ring-red-600"
+                                                        : "border-gray-700 focus:border-red-600 focus:ring-red-600/50"
                                                     }`}
                                             />
                                         </div>
@@ -176,14 +170,14 @@ const ContactUs = () => {
                                             {...formik.getFieldProps("subject")}
                                             placeholder="How can we help you?"
                                             className={`w-full pl-10 pr-4 py-3 
-                                                bg-white/10 backdrop-blur-sm
+                                                bg-gray-800
                                                 border rounded-xl
                                                 text-white placeholder-gray-500
                                                 focus:outline-none focus:ring-2
                                                 transition-all duration-300
                                                 ${formik.touched.subject && formik.errors.subject
-                                                    ? "border-red-500/50 focus:ring-red-500/50"
-                                                    : "border-white/20 focus:border-red-500/50 focus:ring-red-500/30"
+                                                    ? "border-red-600 focus:ring-red-600"
+                                                    : "border-gray-700 focus:border-red-600 focus:ring-red-600/50"
                                                 }`}
                                         />
                                     </div>
@@ -209,14 +203,14 @@ const ContactUs = () => {
                                             {...formik.getFieldProps("message")}
                                             placeholder="Write your message here..."
                                             className={`w-full pl-10 pr-4 py-3 
-                                                bg-white/10 backdrop-blur-sm
+                                                bg-gray-800
                                                 border rounded-xl
                                                 text-white placeholder-gray-500
                                                 focus:outline-none focus:ring-2
                                                 transition-all duration-300 resize-none
                                                 ${formik.touched.message && formik.errors.message
-                                                    ? "border-red-500/50 focus:ring-red-500/50"
-                                                    : "border-white/20 focus:border-red-500/50 focus:ring-red-500/30"
+                                                    ? "border-red-600 focus:ring-red-600"
+                                                    : "border-gray-700 focus:border-red-600 focus:ring-red-600/50"
                                                 }`}
                                         />
                                     </div>
@@ -231,51 +225,39 @@ const ContactUs = () => {
                                 <button
                                     type="submit"
                                     disabled={formik.isSubmitting}
-                                    className="w-full relative overflow-hidden
-                                        bg-linear-to-r from-red-600 to-purple-600 
+                                    className="w-full bg-red-600 
                                         text-white py-3.5 rounded-xl font-semibold text-lg
-                                        hover:from-red-700 hover:to-purple-700
+                                        hover:bg-red-700
                                         transition-all duration-300
-                                        transform hover:scale-[1.02] hover:shadow-lg hover:shadow-red-500/30
-                                        disabled:opacity-50 disabled:cursor-not-allowed
-                                        group/btn"
+                                        hover:scale-[1.02] hover:shadow-lg hover:shadow-red-900/30
+                                        disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
-                                    <span className="absolute inset-0 bg-white/20 transform 
-                                        -translate-x-full group-hover/btn:translate-x-0 
-                                        transition-transform duration-500"></span>
-                                    <span className="relative flex items-center justify-center gap-2">
-                                        {formik.isSubmitting ? (
-                                            <>
-                                                <span className="w-5 h-5 border-2 border-white 
-                                                    border-t-transparent rounded-full animate-spin"></span>
-                                                Sending...
-                                            </>
-                                        ) : (
-                                            <>
-                                                Send Message
-                                                <span className="text-xl group-hover/btn:translate-x-1 transition-transform"><FaArrowRight /></span>
-                                            </>
-                                        )}
-                                    </span>
+                                    {formik.isSubmitting ? (
+                                        <>
+                                            <span className="w-5 h-5 border-2 border-white 
+                                                border-t-transparent rounded-full animate-spin inline-block mr-2"></span>
+                                            Sending...
+                                        </>
+                                    ) : (
+                                        `Send Message →`
+                                    )}
                                 </button>
                             </form>
 
                             {/* Contact Information */}
-                            <div className="mt-8 pt-8 border-t border-white/10">
-                                <h3 className="text-lg font-semibold text-center mb-4 
-                                    bg-linear-to-r from-red-500 to-purple-500 
-                                    bg-clip-text text-transparent">
+                            <div className="mt-8 pt-8 border-t border-gray-800">
+                                <h3 className="text-lg font-semibold text-center mb-4 text-red-500">
                                     Get in Touch
                                 </h3>
 
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     {/* Email Contact */}
-                                    <div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 
-                                        border border-white/10 hover:border-red-500/30 
+                                    <div className="bg-gray-800 rounded-xl p-4 
+                                        border border-gray-700 hover:border-red-800 
                                         transition-all duration-300 group">
                                         <div className="flex items-center gap-3">
                                             <div className="w-10 h-10 rounded-lg 
-                                                bg-linear-to-r from-red-600/20 to-purple-600/20 
+                                                bg-red-900/20 
                                                 flex items-center justify-center text-xl
                                                 group-hover:scale-110 transition-transform duration-300">
                                                 <MdEmail />
@@ -291,12 +273,12 @@ const ContactUs = () => {
                                     </div>
 
                                     {/* Phone Contact */}
-                                    <div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 
-                                        border border-white/10 hover:border-red-500/30 
+                                    <div className="bg-gray-800 rounded-xl p-4 
+                                        border border-gray-700 hover:border-red-800 
                                         transition-all duration-300 group">
                                         <div className="flex items-center gap-3">
                                             <div className="w-10 h-10 rounded-lg 
-                                                bg-linear-to-r from-red-600/20 to-purple-600/20 
+                                                bg-red-900/20 
                                                 flex items-center justify-center text-xl
                                                 group-hover:scale-110 transition-transform duration-300">
                                                 <FaPhoneAlt />
@@ -314,21 +296,21 @@ const ContactUs = () => {
 
                                 {/* Social Links */}
                                 <div className="flex justify-center gap-4 mt-6">
-                                    <a href="#" className="w-10 h-10 bg-white/5 backdrop-blur-sm 
-                                        rounded-full border border-white/10 flex items-center justify-center
-                                        hover:bg-white/20 hover:scale-110 transition-all duration-300
+                                    <a href="#" className="w-10 h-10 bg-gray-800 
+                                        rounded-full border border-gray-700 flex items-center justify-center
+                                        hover:bg-gray-700 hover:scale-110 transition-all duration-300
                                         text-xl">
                                         <FaFacebookF />
                                     </a>
-                                    <a href="#" className="w-10 h-10 bg-white/5 backdrop-blur-sm 
-                                        rounded-full border border-white/10 flex items-center justify-center
-                                        hover:bg-white/20 hover:scale-110 transition-all duration-300
+                                    <a href="#" className="w-10 h-10 bg-gray-800 
+                                        rounded-full border border-gray-700 flex items-center justify-center
+                                        hover:bg-gray-700 hover:scale-110 transition-all duration-300
                                         text-xl">
                                         <FaTwitter />
                                     </a>
-                                    <a href="#" className="w-10 h-10 bg-white/5 backdrop-blur-sm 
-                                        rounded-full border border-white/10 flex items-center justify-center
-                                        hover:bg-white/20 hover:scale-110 transition-all duration-300
+                                    <a href="#" className="w-10 h-10 bg-gray-800 
+                                        rounded-full border border-gray-700 flex items-center justify-center
+                                        hover:bg-gray-700 hover:scale-110 transition-all duration-300
                                         text-xl">
                                         <FaInstagram />
                                     </a>
@@ -349,26 +331,6 @@ const ContactUs = () => {
                     </div>
                 </div>
             </div>
-
-            {/* Add animations */}
-            <style jsx>{`
-                @keyframes gradient {
-                    0%, 100% { background-position: 0% 50%; }
-                    50% { background-position: 100% 50%; }
-                }
-                @keyframes gradient-x {
-                    0%, 100% { background-position: 0% 50%; }
-                    50% { background-position: 100% 50%; }
-                }
-                .animate-gradient {
-                    background-size: 200% auto;
-                    animation: gradient 3s ease infinite;
-                }
-                .animate-gradient-x {
-                    background-size: 200% auto;
-                    animation: gradient-x 3s ease infinite;
-                }
-            `}</style>
         </div>
     );
 };

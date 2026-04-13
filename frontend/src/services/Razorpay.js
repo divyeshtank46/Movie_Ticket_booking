@@ -30,7 +30,7 @@ export const handlePayment = async ({
                     contact: user?.Mobile || user?.mobile || user?.phone || ""
                 },
                 theme: {
-                    color: "#EF4444" // Red theme to match your app
+                    color: "#e8000c" // Red theme to match your app
                 },
                 modal: {
                     ondismiss: () => {

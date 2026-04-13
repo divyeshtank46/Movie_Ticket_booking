@@ -33,26 +33,24 @@ const AdminSidebar = ({ sidebarOpen, setSidebarOpen }) => {
             {/* Mobile Overlay */}
             {sidebarOpen && (
                 <div
-                    className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
+                    className="fixed inset-0 bg-black/70 z-40 lg:hidden"
                     onClick={() => setSidebarOpen(false)}
                 />
             )}
 
             {/* Sidebar */}
             <div className={`
-                fixed left-0 top-0 h-full bg-black/40 backdrop-blur-xl 
-                border-r border-white/10 transition-all duration-300 z-50
+                fixed left-0 top-0 h-full bg-black border-r border-gray-800 transition-all duration-300 z-50
                 ${sidebarOpen ? 'w-64' : 'w-20'}
                 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
             `}>
 
                 {/* Logo Area */}
-                <div className="h-16 flex items-center justify-between px-4 border-b border-white/10">
+                <div className="h-16 flex items-center justify-between px-4 border-b border-gray-800">
                     <Link to="/admin" className="flex items-center gap-2 overflow-hidden">
                         <span className="text-2xl shrink-0">🎬</span>
                         {sidebarOpen && (
-                            <span className="text-xl font-bold bg-linear-to-r from-red-500 to-purple-500 
-                                bg-clip-text text-transparent whitespace-nowrap">
+                            <span className="text-xl font-bold text-red-500 whitespace-nowrap">
                                 Admin Panel
                             </span>
                         )}
@@ -61,7 +59,7 @@ const AdminSidebar = ({ sidebarOpen, setSidebarOpen }) => {
                     {/* Close Button for Mobile */}
                     <button
                         onClick={() => setSidebarOpen(false)}
-                        className="lg:hidden p-1 hover:bg-white/10 rounded-lg transition-colors"
+                        className="lg:hidden p-1 hover:bg-gray-800 rounded-lg transition-colors"
                     >
                         <MdClose size={20} />
                     </button>
@@ -78,8 +76,8 @@ const AdminSidebar = ({ sidebarOpen, setSidebarOpen }) => {
                                 className={`flex items-center gap-3 px-4 py-3 rounded-xl
                                     transition-all duration-300 group relative
                                     ${location.pathname === item.path
-                                        ? 'bg-linear-to-r from-red-600/20 to-purple-600/20 text-white border border-red-500/30'
-                                        : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                                        ? 'bg-red-900/30 text-white border border-red-800'
+                                        : 'text-gray-400 hover:bg-gray-900 hover:text-white'
                                     }`}
                             >
                                 <span className="text-xl shrink-0">{item.icon}</span>
@@ -87,10 +85,10 @@ const AdminSidebar = ({ sidebarOpen, setSidebarOpen }) => {
                                     <span className="text-sm font-medium truncate">{item.label}</span>
                                 )}
                                 {!sidebarOpen && (
-                                    <div className="absolute left-full ml-2 px-2 py-1 bg-black/90 
-                                        backdrop-blur-sm border border-white/20 rounded-lg text-sm
+                                    <div className="absolute left-full ml-2 px-2 py-1 bg-black 
+                                        border border-gray-700 rounded-lg text-sm
                                         whitespace-nowrap opacity-0 invisible group-hover:opacity-100 
-                                        group-hover:visible transition-all duration-300 z-50">
+                                        group-hover:visible transition-all duration-300 z-50 text-white">
                                         {item.label}
                                     </div>
                                 )}
@@ -103,7 +101,7 @@ const AdminSidebar = ({ sidebarOpen, setSidebarOpen }) => {
                         <button
                             onClick={handleLogout}
                             className={`flex items-center gap-3 px-4 py-3 rounded-xl w-full
-                                text-gray-400 hover:bg-red-500/20 hover:text-red-400
+                                text-gray-400 hover:bg-red-900/50 hover:text-red-400
                                 transition-all duration-300 ${!sidebarOpen && 'justify-center'}`}
                         >
                             <MdLogout className="text-xl shrink-0" />

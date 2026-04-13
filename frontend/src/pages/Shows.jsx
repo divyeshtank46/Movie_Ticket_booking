@@ -64,38 +64,33 @@ const Shows = ({ movieId }) => {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-[#0a0a0f] pt-20">
+            <div className="min-h-screen bg-black pt-20">
                 <Loader />
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-[#0a0a0f] text-white pt-20 relative overflow-hidden">
-            {/* Animated Background Gradient */}
-            <div className="absolute inset-0 bg-linear-to-r from-red-600/10 via-purple-600/10 to-blue-600/10 animate-gradient-x"></div>
-
+        <div className="min-h-screen bg-black text-white pt-20 relative overflow-hidden">
             {/* Decorative Film Strip */}
-            <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-red-500 via-purple-500 to-blue-500"></div>
+            <div className="absolute top-0 left-0 right-0 h-1 bg-red-600"></div>
 
             {/* Background Movie Icons */}
-            <div className="absolute top-20 left-10 text-6xl opacity-5 animate-pulse">🎬</div>
-            <div className="absolute bottom-20 right-10 text-6xl opacity-5 animate-pulse">🎥</div>
+            <div className="absolute top-20 left-10 text-6xl opacity-5">🎬</div>
+            <div className="absolute bottom-20 right-10 text-6xl opacity-5">🎥</div>
 
             {/* Main Container */}
             <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
                 {/* Header */}
                 <div className="text-center mb-10">
-                    <h1 className="text-5xl md:text-6xl font-bold mb-4 
-                        bg-linear-to-r from-red-500 via-purple-500 to-blue-500 
-                        bg-clip-text text-transparent animate-gradient">
+                    <h1 className="text-5xl md:text-6xl font-bold mb-4 text-red-500">
                         SHOW TIMINGS
                     </h1>
                     <p className="text-gray-400 text-lg max-w-2xl mx-auto">
                         Find show times for your favorite movies across all cinemas
                     </p>
-                    <div className="w-24 h-1 bg-linear-to-r from-red-500 to-blue-500 mx-auto mt-6"></div>
+                    <div className="w-24 h-0.5 bg-red-600 mx-auto mt-6"></div>
                 </div>
 
                 {/* Date Filter - Horizontal Scroll */}
@@ -104,9 +99,8 @@ const Shows = ({ movieId }) => {
                 {/* Cinema Filter - Quick Select */}
                 {filteredCinemas.length > 0 && (
                     <div className="mb-8">
-                        {/* <span>Show Date {formatDate(Date.now())} </span> */}
-                        <div className="bg-white/5 backdrop-blur-sm rounded-xl p-3 
-    border border-white/10 inline-flex items-center gap-2">
+                        <div className="bg-gray-900 rounded-xl p-3 
+                            border border-gray-800 inline-flex items-center gap-2">
                             <span className="text-red-400 text-lg">📅</span>
                             <div>
                                 <p className="text-xs text-gray-400">Show Date</p>
@@ -122,14 +116,14 @@ const Shows = ({ movieId }) => {
                         </div>
                         <div className="flex items-center gap-2 mb-3">
                             <span className="text-sm text-gray-400">🎬 Select Cinema</span>
-                            <div className="flex-1 h-px bg-linear-to-r from-purple-500/50 to-transparent"></div>
+                            <div className="flex-1 h-px bg-gray-800"></div>
                         </div>
                         <div className="flex flex-wrap gap-2">
                             <button
                                 onClick={() => setSelectedCinema(null)}
                                 className={`px-4 py-2 rounded-lg text-sm transition-all ${selectedCinema === null
-                                    ? "bg-linear-to-r from-red-600 to-purple-600 text-white shadow-lg shadow-red-500/30"
-                                    : "bg-white/5 text-gray-300 hover:bg-white/10 border border-white/10"
+                                    ? "bg-red-600 text-white shadow-lg shadow-red-900/30"
+                                    : "bg-gray-800 text-gray-300 hover:bg-gray-700 border border-gray-700"
                                     }`}
                             >
                                 All Cinemas
@@ -139,8 +133,8 @@ const Shows = ({ movieId }) => {
                                     key={cinemaGroup.cinema?._id}
                                     onClick={() => setSelectedCinema(cinemaGroup.cinema?._id)}
                                     className={`px-4 py-2 rounded-lg text-sm transition-all ${selectedCinema === cinemaGroup.cinema?._id
-                                        ? "bg-linear-to-r from-red-600 to-purple-600 text-white shadow-lg shadow-red-500/30"
-                                        : "bg-white/5 text-gray-300 hover:bg-white/10 border border-white/10"
+                                        ? "bg-red-600 text-white shadow-lg shadow-red-900/30"
+                                        : "bg-gray-800 text-gray-300 hover:bg-gray-700 border border-gray-700"
                                         }`}
                                 >
                                     {cinemaGroup.cinema?.Name || cinemaGroup.cinema?.name} ({cinemaGroup.shows.length})
@@ -155,9 +149,9 @@ const Shows = ({ movieId }) => {
                     {selectedCinema !== null ? (
                         // Single Cinema View
                         <div>
-                            <div className="mb-4 p-4 bg-white/5 rounded-xl border border-white/10">
+                            <div className="mb-4 p-4 bg-gray-900 rounded-xl border border-gray-800">
                                 <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 bg-red-500/20 rounded-full flex items-center justify-center">
+                                    <div className="w-10 h-10 bg-red-900/20 rounded-full flex items-center justify-center">
                                         <span className="text-xl">🏢</span>
                                     </div>
                                     <div>
@@ -182,10 +176,10 @@ const Shows = ({ movieId }) => {
                         // All Cinemas View
                         <div className="space-y-6">
                             {filteredCinemas.map((cinemaGroup) => (
-                                <div key={cinemaGroup.cinema?._id} className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 overflow-hidden">
-                                    <div className="p-4 border-b border-white/10">
+                                <div key={cinemaGroup.cinema?._id} className="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden">
+                                    <div className="p-4 border-b border-gray-800">
                                         <div className="flex items-center gap-3">
-                                            <div className="w-10 h-10 bg-purple-500/20 rounded-full flex items-center justify-center">
+                                            <div className="w-10 h-10 bg-red-900/20 rounded-full flex items-center justify-center">
                                                 <span className="text-xl">🏢</span>
                                             </div>
                                             <div>
@@ -196,7 +190,7 @@ const Shows = ({ movieId }) => {
                                                     {cinemaGroup.cinema?.Address?.split(',')[0] || cinemaGroup.cinema?.address?.split(',')[0]}
                                                 </p>
                                             </div>
-                                            <div className="ml-auto bg-white/10 px-3 py-1 rounded-full text-xs">
+                                            <div className="ml-auto bg-gray-800 px-3 py-1 rounded-full text-xs text-gray-400">
                                                 {cinemaGroup.shows.length} shows
                                             </div>
                                         </div>
@@ -217,8 +211,8 @@ const Shows = ({ movieId }) => {
                 {/* No Shows */}
                 {filteredCinemas.length === 0 && (
                     <div className="max-w-2xl mx-auto text-center">
-                        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-16">
-                            <span className="text-8xl mb-6 block animate-pulse">🎬</span>
+                        <div className="bg-gray-900 border border-gray-800 rounded-3xl p-16">
+                            <span className="text-8xl mb-6 block">🎬</span>
                             <h2 className="text-3xl font-bold text-white mb-3">No Shows Found</h2>
                             <p className="text-gray-400 text-lg mb-8">
                                 There are no shows available for the selected filters.
@@ -228,7 +222,7 @@ const Shows = ({ movieId }) => {
                                     setSelectedDate("all");
                                     setSelectedCinema(null);
                                 }}
-                                className="bg-linear-to-r from-red-600 to-purple-600 text-white px-8 py-4 rounded-xl font-medium text-lg hover:from-red-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg hover:shadow-red-500/30"
+                                className="bg-red-600 text-white px-8 py-4 rounded-xl font-medium text-lg hover:bg-red-700 transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg hover:shadow-red-900/30"
                             >
                                 Clear Filters
                             </button>
@@ -236,28 +230,6 @@ const Shows = ({ movieId }) => {
                     </div>
                 )}
             </div>
-
-            <style jsx>{`
-                @keyframes gradient {
-                    0%, 100% { background-position: 0% 50%; }
-                    50% { background-position: 100% 50%; }
-                }
-                @keyframes gradient-x {
-                    0%, 100% { background-position: 0% 50%; }
-                    50% { background-position: 100% 50%; }
-                }
-                .animate-gradient {
-                    background-size: 200% auto;
-                    animation: gradient 3s ease infinite;
-                }
-                .animate-gradient-x {
-                    background-size: 200% auto;
-                    animation: gradient-x 3s ease infinite;
-                }
-                .scrollbar-hide::-webkit-scrollbar {
-                    display: none;
-                }
-            `}</style>
         </div>
     );
 };
@@ -271,11 +243,11 @@ const ShowCard = ({ show, onClick }) => {
     return (
         <button
             onClick={() => onClick(show)}
-            className="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-3 hover:border-red-500/50 hover:bg-red-500/5 transition-all duration-300 text-center w-full"
+            className="group bg-gray-900 border border-gray-800 rounded-xl p-3 hover:border-red-800 hover:bg-red-900/20 transition-all duration-300 text-center w-full"
         >
             {/* Show Time */}
             <div className="text-center mb-2">
-                <span className="inline-block px-2 py-1 bg-linear-to-r from-red-600 to-purple-600 text-white text-xs font-bold rounded-full">
+                <span className="inline-block px-2 py-1 bg-red-600 text-white text-xs font-bold rounded-full">
                     {show.showTime}
                 </span>
             </div>
@@ -319,9 +291,9 @@ const ShowCard = ({ show, onClick }) => {
             </div>
 
             {/* Booked Percentage Indicator */}
-            <div className="h-1 bg-white/10 rounded-full overflow-hidden">
+            <div className="h-1 bg-gray-800 rounded-full overflow-hidden">
                 <div
-                    className="h-full bg-linear-to-r from-red-500 to-purple-500"
+                    className="h-full bg-red-600"
                     style={{
                         width: `${occupancyPercentage}%`
                     }}

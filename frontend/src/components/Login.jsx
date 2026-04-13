@@ -108,45 +108,37 @@ const Login = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#0a0a0f] text-white pt-20 relative overflow-hidden">
-
-            {/* Animated Background Gradient */}
-            <div className="absolute inset-0 bg-linear-to-r from-red-600/10 via-purple-600/10 to-blue-600/10 animate-gradient-x"></div>
-
+        <div className="min-h-screen bg-black text-white pt-20 relative overflow-hidden">
             {/* Decorative Film Strip */}
-            <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-red-500 via-purple-500 to-blue-500"></div>
+            <div className="absolute top-0 left-0 right-0 h-1 bg-red-600"></div>
 
             {/* Background Movie Icons */}
-            <div className="absolute top-20 left-10 text-6xl opacity-5 animate-pulse">🎬</div>
-            <div className="absolute bottom-20 right-10 text-6xl opacity-5 animate-pulse">🎥</div>
+            <div className="absolute top-20 left-10 text-6xl opacity-5">🎬</div>
+            <div className="absolute bottom-20 right-10 text-6xl opacity-5">🎥</div>
             <div className="absolute top-40 right-20 text-4xl opacity-5 rotate-12">🍿</div>
 
             {/* Main Container */}
             <div className="relative z-10 min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12">
-                {/* Glass Card Container */}
+                {/* Card Container */}
                 <div className="w-full max-w-md">
                     {/* Decorative Top Bar */}
                     <div className="mb-6 text-center">
                         <Link to="/" className="inline-block group">
-                            <span className="text-3xl font-bold bg-linear-to-r from-red-500 via-purple-500 to-blue-500 
-                                bg-clip-text text-transparent animate-gradient">
+                            <span className="text-3xl font-bold text-red-500">
                                 CINEBOOK
                             </span>
                             <span className="ml-1 text-3xl">🎬</span>
                         </Link>
                     </div>
 
-                    {/* Login Form Card with Glass Effect */}
-                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl 
-                        border border-white/10 shadow-2xl
+                    {/* Login Form Card */}
+                    <div className="bg-gray-900 rounded-2xl border border-gray-800 shadow-2xl
                         transform transition-all duration-500
-                        hover:shadow-2xl hover:shadow-red-500/10">
+                        hover:shadow-2xl hover:shadow-red-900/20">
 
-                        {/* Card Header with Gradient */}
+                        {/* Card Header */}
                         <div className="px-8 pt-8 pb-4">
-                            <h2 className="text-3xl font-bold text-center 
-                                bg-linear-to-r from-red-500 to-purple-500 
-                                bg-clip-text text-transparent">
+                            <h2 className="text-3xl font-bold text-center text-red-500">
                                 Welcome Back
                             </h2>
                             <p className="text-gray-400 text-center text-sm mt-2">
@@ -170,14 +162,14 @@ const Login = () => {
                                         placeholder="Enter your email"
                                         {...formik.getFieldProps("Email")}
                                         className={`w-full pl-10 pr-4 py-3 
-                                            bg-white/10 backdrop-blur-sm
+                                            bg-gray-800
                                             border rounded-xl
                                             text-white placeholder-gray-500
                                             focus:outline-none focus:ring-2
                                             transition-all duration-300
                                             ${formik.touched.Email && formik.errors.Email
-                                                ? "border-red-500/50 focus:ring-red-500/50"
-                                                : "border-white/20 focus:border-red-500/50 focus:ring-red-500/30"
+                                                ? "border-red-600 focus:ring-red-600"
+                                                : "border-gray-700 focus:border-red-600 focus:ring-red-600/50"
                                             }`}
                                     />
                                 </div>
@@ -202,14 +194,14 @@ const Login = () => {
                                         placeholder="Enter your password"
                                         {...formik.getFieldProps("Password")}
                                         className={`w-full pl-10 pr-4 py-3 
-                                            bg-white/10 backdrop-blur-sm
+                                            bg-gray-800
                                             border rounded-xl
                                             text-white placeholder-gray-500
                                             focus:outline-none focus:ring-2
                                             transition-all duration-300
                                             ${formik.touched.Password && formik.errors.Password
-                                                ? "border-red-500/50 focus:ring-red-500/50"
-                                                : "border-white/20 focus:border-red-500/50 focus:ring-red-500/30"
+                                                ? "border-red-600 focus:ring-red-600"
+                                                : "border-gray-700 focus:border-red-600 focus:ring-red-600/50"
                                             }`}
                                     />
                                 </div>
@@ -237,41 +229,31 @@ const Login = () => {
                             <button
                                 type="submit"
                                 disabled={formik.isSubmitting}
-                                className="w-full relative overflow-hidden
-                                    bg-linear-to-r from-red-600 to-purple-600 
+                                className="w-full bg-red-600 
                                     text-white py-3.5 rounded-xl font-semibold text-lg
-                                    hover:from-red-700 hover:to-purple-700
+                                    hover:bg-red-700
                                     transition-all duration-300
-                                    transform hover:scale-[1.02] hover:shadow-lg hover:shadow-red-500/30
-                                    disabled:opacity-50 disabled:cursor-not-allowed
-                                    group"
+                                    hover:scale-[1.02] hover:shadow-lg hover:shadow-red-900/30
+                                    disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                                <span className="absolute inset-0 bg-white/20 transform 
-                                    -translate-x-full group-hover:translate-x-0 
-                                    transition-transform duration-500"></span>
-                                <span className="relative flex items-center justify-center gap-2">
-                                    {formik.isSubmitting ? (
-                                        <>
-                                            <span className="w-5 h-5 border-2 border-white 
-                                                border-t-transparent rounded-full animate-spin"></span>
-                                            Signing in...
-                                        </>
-                                    ) : (
-                                        <>
-                                            Sign In
-                                            <span className="text-xl group-hover:translate-x-1 transition-transform">→</span>
-                                        </>
-                                    )}
-                                </span>
+                                {formik.isSubmitting ? (
+                                    <>
+                                        <span className="w-5 h-5 border-2 border-white 
+                                            border-t-transparent rounded-full animate-spin inline-block mr-2"></span>
+                                        Signing in...
+                                    </>
+                                ) : (
+                                    "Sign In →"
+                                )}
                             </button>
 
                             {/* Divider */}
                             <div className="relative my-6">
                                 <div className="absolute inset-0 flex items-center">
-                                    <div className="w-full border-t border-white/20"></div>
+                                    <div className="w-full border-t border-gray-800"></div>
                                 </div>
                                 <div className="relative flex justify-center text-sm">
-                                    <span className="px-2 bg-white/5 text-gray-400 rounded-full">
+                                    <span className="px-2 bg-gray-900 text-gray-400 rounded-full">
                                         Or continue with
                                     </span>
                                 </div>
@@ -296,8 +278,7 @@ const Login = () => {
                                 New to CINEBOOK?{" "}
                                 <Link
                                     to="/register"
-                                    className="text-transparent bg-linear-to-r from-red-500 to-purple-500 
-                                        bg-clip-text font-semibold hover:from-red-600 hover:to-purple-600
+                                    className="text-red-500 font-semibold hover:text-red-400
                                         transition-all duration-300"
                                 >
                                     Create Account
@@ -312,26 +293,6 @@ const Login = () => {
                     </p>
                 </div>
             </div>
-
-            {/* Add animations */}
-            <style jsx>{`
-                @keyframes gradient {
-                    0%, 100% { background-position: 0% 50%; }
-                    50% { background-position: 100% 50%; }
-                }
-                @keyframes gradient-x {
-                    0%, 100% { background-position: 0% 50%; }
-                    50% { background-position: 100% 50%; }
-                }
-                .animate-gradient {
-                    background-size: 200% auto;
-                    animation: gradient 3s ease infinite;
-                }
-                .animate-gradient-x {
-                    background-size: 200% auto;
-                    animation: gradient-x 3s ease infinite;
-                }
-            `}</style>
         </div>
     );
 };
