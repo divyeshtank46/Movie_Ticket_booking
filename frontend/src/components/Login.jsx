@@ -25,7 +25,7 @@ const Login = () => {
     useEffect(() => {
         if (user && isJustLoggedIn?.current) {
             console.log("User detected in Login component:", user);
-            
+
             // Small delay to ensure state is stable
             setTimeout(() => {
                 if (user.Role === 'Admin' || user.role === 'Admin') {
@@ -58,15 +58,15 @@ const Login = () => {
             try {
                 const data = await loginUser(values);
                 console.log("Login response:", data);
-                
+
                 // Update user in context
                 setuser(data.user);
-                
+
                 // Show success message
                 toast.success(`Welcome ${data.user.Name || data.user.name}`);
-                
+
                 // No need to navigate here - useEffect will handle it
-                
+
             } catch (error) {
                 const message = error.response?.data?.message || "Login Failed";
                 toast.error(message);
@@ -77,7 +77,7 @@ const Login = () => {
 
     const handleGoogleLoginSuccess = async (credentialResponse) => {
         try {
-            const response = await axios.post("http://localhost:3000/api/auth/google-login",
+            const response = await axios.post("https://movie-ticket-booking-7sx2.onrender.com/api/auth/google-login",
                 {
                     token: credentialResponse.credential
                 },
@@ -88,15 +88,15 @@ const Login = () => {
 
             const userData = response.data;
             console.log("Google login response:", userData);
-            
+
             // Update user in context
             setuser(userData.user);
-            
+
             // Show success message
             toast.success(`Welcome ${userData.user.Name || userData.user.name}`);
-            
+
             // No need to navigate here - useEffect will handle it
-            
+
         } catch (error) {
             const message = error.response?.data?.message || "Google Login Failed";
             toast.error(message);

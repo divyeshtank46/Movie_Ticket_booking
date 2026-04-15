@@ -13,6 +13,7 @@ app.use(cors({
     origin: [
         "http://localhost:5173",
         "http://localhost:5174",
+        "https://movie-ticket-booking-seven-brown.vercel.app/"
         // "http://192.168.29.168:5173"
     ],
     credentials: true

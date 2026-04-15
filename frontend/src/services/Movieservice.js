@@ -1,15 +1,16 @@
 
 import axios from "axios";
 
-const API_BASE = "http://localhost:3000/api";
+const API_BASE = "https://movie-ticket-booking-7sx2.onrender.com/api";
 
 export const api = axios.create({
-    baseURL: "http://localhost:3000/api",
+    // baseURL: "http://localhost:3000/api",
+    baseURL: "https://movie-ticket-booking-7sx2.onrender.com/api",
     withCredentials: true,
 });
 
 export const createMovie = async (values) => {
-    const res = await axios.post("http://localhost:3000/api/movie/add", values,
+    const res = await axios.post("https://movie-ticket-booking-7sx2.onrender.com/api/movie/add", values,
         { withCredentials: true });
     return res.data;
 }
@@ -40,12 +41,12 @@ export const searchMovie = async (name) => {
 
 }
 // Delete Movie
-export const    deleteMovieById = async (id) => {
+export const deleteMovieById = async (id) => {
     const res = await api.delete(`/movie/movies/${id}`);
     return res.data
 }
 // Update Movie
-export const editMovieById = async (id,values) => {
-    const res = await api.patch(`/movie/movies/${id}`,values);
+export const editMovieById = async (id, values) => {
+    const res = await api.patch(`/movie/movies/${id}`, values);
     return res.data;
 }

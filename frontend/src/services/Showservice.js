@@ -1,7 +1,7 @@
 
 import axios from "axios"
-
-const API_BASE = "http://localhost:3000/api"
+// https://movie-ticket-booking-7sx2.onrender.com
+const API_BASE = "https://movie-ticket-booking-7sx2.onrender.com/api"
 
 // Get shows by movie ID
 export const getShowsByMovieId = async (movieId) => {
