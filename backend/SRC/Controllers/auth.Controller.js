@@ -286,8 +286,8 @@ const googleLogin = async (req, res) => {
         // store token in cookie
         res.cookie("token", jwtToken, {
             httpOnly: true,
-            secure: false,
-            sameSite: "lax",
+            secure: true,
+            sameSite: "None",
             maxAge: 24 * 60 * 60 * 1000
         });
 
