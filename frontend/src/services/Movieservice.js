@@ -40,7 +40,7 @@ export const searchMovie = async (name) => {
 
 }
 // Delete Movie
-export const deleteMovieById = async (id) => {
+export const    deleteMovieById = async (id) => {
     const res = await api.delete(`/movie/movies/${id}`);
     return res.data
 }
