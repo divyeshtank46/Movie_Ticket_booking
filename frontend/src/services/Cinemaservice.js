@@ -13,7 +13,7 @@ const API_BASE = "http://localhost:3000/api";
 export const addCinema = async (formData) => {
     try {
         const res = await axios.post(
-            "http://localhost:3000/api/cinema/addcinema",
+            "https://movie-ticket-booking-7sx2.onrender.com/api/cinema/addcinema",
             formData,
 
             {
