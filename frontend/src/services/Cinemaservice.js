@@ -8,7 +8,7 @@ const api = axios.create({
     withCredentials: true
 });
 
-const API_BASE = "http://localhost:3000/api";
+const API_BASE = "https://movie-ticket-booking-7sx2.onrender.com/api";
 
 export const addCinema = async (formData) => {
     try {
