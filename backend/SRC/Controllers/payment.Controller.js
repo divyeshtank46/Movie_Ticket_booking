@@ -17,6 +17,7 @@ const createOrder = async (req, res) => {
         });
 
     } catch (error) {
+        console.log("ENV CHECK:", process.env.RAZORPAY_KEY_ID);
         return res.status(500).json({
             success: false,
             message: `Order Creation Failed ${error.message}`

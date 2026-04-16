@@ -273,7 +273,7 @@ const Bookingpage = () => {
                             <div className="w-1 h-4 bg-red-800 hidden md:block"></div>
                             <div className="flex items-center gap-2">
                                 <span className="text-blue-400">⏰</span>
-                                <span className="text-white font-bold text-red-500">
+                                <span className="text-white font-bold">
                                     {show.showTime}
                                 </span>
                             </div>
