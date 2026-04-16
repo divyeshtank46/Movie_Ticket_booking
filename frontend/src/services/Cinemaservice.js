@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 
 const api = axios.create({
     // baseURL: "http://localhost:3000/api",
-    baseURL: "https://movie-ticket-booking-7sx2.onrender.com",
+    baseURL: "https://movie-ticket-booking-7sx2.onrender.com/api",
     withCredentials: true
 });
 
