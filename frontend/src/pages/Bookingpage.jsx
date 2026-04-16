@@ -163,7 +163,7 @@ const Bookingpage = () => {
                 }
                 
             } catch (error) {
-                toast.error(error.message || "Payment failed. Please try again.");
+                toast.error( "Payment failed. Please try again.");
             } finally {
                 setLoading(false);
             }
