@@ -6,6 +6,8 @@ export const getAllBookings = async () => {
             "https://movie-ticket-booking-7sx2.onrender.com/api/ticket/allbookings",
             {
                 withCredentials: true,
+
+                
             }
         );
         return response.data;
