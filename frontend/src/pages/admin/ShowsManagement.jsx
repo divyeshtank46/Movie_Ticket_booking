@@ -115,7 +115,7 @@ const ShowsManagement = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
+        <div className="min-h-screen bg-linear-to-br from-gray-950 via-gray-900 to-gray-950">
             <div className="flex gap-6 p-6 max-w-7xl mx-auto">
                 {/* Mobile Sidebar Toggle */}
                 <button
@@ -160,7 +160,7 @@ const ShowsManagement = () => {
                                         }}
                                         className={`w-full text-left px-4 py-3 rounded-xl transition-all duration-200
                                         ${selectedMovie === movie._id
-                                                ? "bg-gradient-to-r from-red-600 to-red-700 text-white shadow-lg"
+                                                ? "bg-linear-to-r from-red-600 to-red-700 text-white shadow-lg"
                                                 : "hover:bg-gray-800 text-gray-300"
                                             }`}
                                     >
@@ -181,7 +181,7 @@ const ShowsManagement = () => {
                     <div className="mb-8">
                         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                             <div>
-                                <h1 className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-red-500 to-red-300 bg-clip-text text-transparent">
+                                <h1 className="text-3xl lg:text-4xl font-bold bg-linear-to-r from-red-500 to-red-300 bg-clip-text text-transparent">
                                     Shows Management
                                 </h1>
                                 <p className="text-gray-400 text-sm mt-2">
@@ -204,7 +204,7 @@ const ShowsManagement = () => {
                                 <motion.button
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
-                                    className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-red-600 to-red-700 
+                                    className="flex items-center gap-2 px-5 py-2.5 bg-linear-to-r from-red-600 to-red-700 
                                     rounded-xl text-white font-medium shadow-lg hover:shadow-red-600/25
                                     transition-all duration-300"
                                 >
@@ -216,7 +216,7 @@ const ShowsManagement = () => {
 
                         {/* Filters Bar */}
                         <div className="mt-6 flex flex-wrap gap-3 items-center">
-                            <div className="relative flex-1 min-w-[200px]">
+                            <div className="relative flex-1 min-w-50">
                                 <MdSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                                 <input
                                     type="text"
@@ -347,7 +347,7 @@ const ShowsManagement = () => {
                                             <div className="mt-2">
                                                 <div className="h-1.5 bg-gray-800 rounded-full overflow-hidden">
                                                     <div 
-                                                        className="h-full bg-gradient-to-r from-red-600 to-red-400 rounded-full transition-all duration-500"
+                                                        className="h-full bg-linear-to-r from-red-600 to-red-400 rounded-full transition-all duration-500"
                                                         style={{ width: `${(availableSeats / show.totalSeats) * 100}%` }}
                                                     />
                                                 </div>
