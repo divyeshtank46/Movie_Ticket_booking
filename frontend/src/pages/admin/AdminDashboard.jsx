@@ -39,7 +39,6 @@ const AdminDashboard = () => {
                     getAllUsers(),
                     getAllBookings()
                 ]);
-
                 setMovie(moviesRes.length);
                 setCinema(cinemaRes.length);
                 setShows(showsRes);

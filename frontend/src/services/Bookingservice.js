@@ -2,7 +2,7 @@
 import axios from "axios";
 
 export const api = axios.create({
-        baseURL:"https://movie-ticket-booking-7sx2.onrender.app/api",
+        baseURL:"https://movie-ticket-booking-7sx2.onrender.com/api",
     // baseURL: "http://localhost:3000/api",
     withCredentials: true
 });
@@ -39,7 +39,7 @@ export const getUserBookings = async () => {
 
 // Get Monthly Revenue
 
-export const getRevenue = async () => {
+export const    getRevenue = async () => {
     try {
         const res = await api.get("/ticket/admin/revenue", {
             withCredentials: true
