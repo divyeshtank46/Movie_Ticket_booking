@@ -3,7 +3,7 @@ import axios from "axios";
 export const getAllBookings = async () => {
     try {
         const response = await axios.get(
-            "http://localhost:3000/api/ticket/allbookings",
+            "https://movie-ticket-booking-7sx2.onrender.com/api/ticket/allbookings",
             {
                 withCredentials: true,
             }
