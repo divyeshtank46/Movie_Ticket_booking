@@ -49,7 +49,6 @@ const Bookingpage = () => {
     const [show, setShow] = useState(null);
     const [loading, setLoading] = useState(false);
     const [initialLoading, setInitialLoading] = useState(true);
-    const [selectedSeatType, setSelectedSeatType] = useState('silver');
 
     const { selectedShow } = location.state || {};
 
@@ -112,13 +111,25 @@ const Bookingpage = () => {
         onSubmit: async (values) => {
             setLoading(true);
             try {
-                const totalPrice = show.price[selectedSeatType] * values.seats.length;
+                // Calculate total price based on actual seat types selected
+                let totalPrice = 0;
+                const seatDetails = values.seats.map(seatId => {
+                    const row = seatId[0];
+                    const seatData = seatLayout[row]?.find(s => s.id === seatId);
+                    totalPrice += seatData?.price || 0;
+                    return {
+                        seatId,
+                        type: seatData?.type,
+                        price: seatData?.price
+                    };
+                });
 
                 // Wait for payment to complete first
                 const paymentResult = await handlePayment({
                     showId: show._id,
-                    seatType: selectedSeatType,
+                    seatType: 'mixed',
                     seats: values.seats,
+                    seatDetails,
                     totalPrice,
                     navigate,
                     user
@@ -163,7 +174,6 @@ const Bookingpage = () => {
                 }
                 
             } catch (error) {
-                console.log(error);
                 toast.error(error.message || "Payment failed. Please try again.");
             } finally {
                 setLoading(false);
@@ -182,11 +192,6 @@ const Bookingpage = () => {
             return;
         }
 
-        if (seatData?.type !== selectedSeatType) {
-            toast.warning(`Please select ${selectedSeatType} seats only`);
-            return;
-        }
-
         const currentSeats = formik.values.seats;
 
         if (currentSeats.includes(seat)) {
@@ -201,17 +206,34 @@ const Bookingpage = () => {
             }
             formik.setFieldValue("seats", [...currentSeats, seat]);
         }
-    }, [formik, selectedSeatType, seatLayout]);
-
-    const handleSeatTypeChange = (type) => {
-        setSelectedSeatType(type);
-        formik.setFieldValue("seats", []);
-    };
+    }, [formik, seatLayout]);
 
     const totalPrice = useMemo(() => {
         if (!show) return 0;
-        return show.price[selectedSeatType] * formik.values.seats.length;
-    }, [show, selectedSeatType, formik.values.seats.length]);
+        let total = 0;
+        formik.values.seats.forEach(seatId => {
+            const row = seatId[0];
+            const seatData = seatLayout[row]?.find(s => s.id === seatId);
+            total += seatData?.price || 0;
+        });
+        return total;
+    }, [show, formik.values.seats, seatLayout]);
+
+    // Get unique seat types in selected seats
+    const selectedSeatTypes = useMemo(() => {
+        const types = {};
+        formik.values.seats.forEach(seatId => {
+            const row = seatId[0];
+            const seatData = seatLayout[row]?.find(s => s.id === seatId);
+            if (seatData) {
+                if (!types[seatData.type]) {
+                    types[seatData.type] = [];
+                }
+                types[seatData.type].push(seatId);
+            }
+        });
+        return types;
+    }, [formik.values.seats, seatLayout]);
 
     if (initialLoading) return (
         <div className="min-h-screen bg-black pt-20">
@@ -246,7 +268,7 @@ const Bookingpage = () => {
             <div className="absolute bottom-20 right-10 text-6xl opacity-5">🎥</div>
 
             {/* Main Container */}
-            <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 {/* Header with Selected Show Info */}
                 <div className="text-center mb-8">
                     <h1 className="text-4xl md:text-5xl font-bold mb-4 text-red-500">
@@ -281,56 +303,17 @@ const Bookingpage = () => {
                     </div>
                 </div>
 
-                {/* Main Booking Card */}
-                <div className="max-w-4xl mx-auto">
-                    <div className="bg-gray-900 rounded-3xl 
-                        border border-gray-800 shadow-2xl overflow-hidden
-                        transform transition-all duration-500
-                        hover:shadow-2xl hover:shadow-red-900/20">
+                {/* Two Column Layout - Seats on Left, Summary on Right */}
+                <div className="flex flex-col lg:flex-row gap-8">
+                    {/* Left Column - Seat Selection */}
+                    <div className="flex-1 lg:w-2/3">
+                        <div className="bg-gray-900 rounded-3xl 
+                            border border-gray-800 shadow-2xl overflow-hidden
+                            transform transition-all duration-500
+                            hover:shadow-2xl hover:shadow-red-900/20">
 
-                        <div className="p-6 sm:p-8">
-                            <form onSubmit={formik.handleSubmit} className="space-y-8">
-                                {/* Seat Type Selection */}
-                                <div className="space-y-3">
-                                    <label className="block text-sm font-medium text-gray-300">
-                                        Select Seat Type
-                                    </label>
-                                    <div className="flex flex-wrap gap-3">
-                                        {['silver', 'gold', 'platinum'].map(type => (
-                                            <button
-                                                key={type}
-                                                type="button"
-                                                onClick={() => handleSeatTypeChange(type)}
-                                                className={`px-6 py-3 rounded-xl font-medium
-                                                    transition-all duration-300 transform hover:scale-[1.02]
-                                                    ${selectedSeatType === type
-                                                        ? type === 'platinum' ? 'bg-blue-600 text-white' 
-                                                        : type === 'gold' ? 'bg-yellow-600 text-white' 
-                                                        : 'bg-gray-600 text-white'
-                                                        : 'bg-gray-800 border border-gray-700 text-gray-300 hover:bg-gray-700'
-                                                    }`}
-                                            >
-                                                {type.charAt(0).toUpperCase() + type.slice(1)} - ₹{show.price[type]}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                {/* Screen Indicator */}
-                                <div className="relative py-8">
-                                    <div className="absolute inset-0 flex items-center">
-                                        <div className="w-full border-t border-gray-800"></div>
-                                    </div>
-                                    <div className="relative flex justify-center">
-                                        <div className="px-4 py-2 bg-gray-800 
-                                            rounded-full border border-gray-700 text-sm text-gray-400">
-                                            <span className="mr-2">🎬</span> SCREEN <span className="ml-2">🎬</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Seat Layout */}
-                                <div className="space-y-3">
+                            <div className="p-6 sm:p-8">
+                                <form onSubmit={formik.handleSubmit} className="space-y-8">
                                     {/* Seat Legend */}
                                     <div className="flex flex-wrap justify-center gap-4 mb-6">
                                         <div className="flex items-center gap-2">
@@ -355,111 +338,175 @@ const Bookingpage = () => {
                                         </div>
                                     </div>
 
-                                    {/* Seat Grid */}
-                                    <div className="space-y-2 overflow-x-auto pb-4">
-                                        {rows.map(row => (
-                                            <div key={row} className="flex items-center justify-center gap-2 min-w-max">
-                                                <span className="w-6 text-gray-400 font-medium">{row}</span>
-                                                <div className="flex gap-1">
-                                                    {seatLayout[row]?.map((seat, index) => (
-                                                        <React.Fragment key={seat.id}>
-                                                            {index === 6 && <div className="w-4" />}
-                                                            <SeatButton
-                                                                seat={seat.id}
-                                                                selected={selectedSeatsSet.has(seat.id)}
-                                                                onSeatClick={handleSeat}
-                                                                seatType={seat.type}
-                                                                price={seat.price}
-                                                                isBooked={seat.isBooked}
-                                                            />
-                                                        </React.Fragment>
-                                                    ))}
-                                                </div>
+                                    {/* Screen Indicator */}
+                                    <div className="relative py-8">
+                                        <div className="absolute inset-0 flex items-center">
+                                            <div className="w-full border-t border-gray-800"></div>
+                                        </div>
+                                        <div className="relative flex justify-center">
+                                            <div className="px-4 py-2 bg-gray-800 
+                                                rounded-full border border-gray-700 text-sm text-gray-400">
+                                                <span className="mr-2">🎬</span> SCREEN <span className="ml-2">🎬</span>
                                             </div>
-                                        ))}
+                                        </div>
                                     </div>
 
-                                    {/* Seat Info */}
-                                    <p className="text-center text-xs text-gray-500 mt-4">
-                                        <span className="text-red-400">{selectedSeatType.charAt(0).toUpperCase() + selectedSeatType.slice(1)}</span> seats selected • Max 8 seats
-                                    </p>
-                                </div>
+                                    {/* Seat Grid */}
+                                    <div className="space-y-3">
+                                        <div className="space-y-2 overflow-x-auto pb-4">
+                                            {rows.map(row => (
+                                                <div key={row} className="flex items-center justify-center gap-2 min-w-max">
+                                                    <span className="w-6 text-gray-400 font-medium">{row}</span>
+                                                    <div className="flex gap-1">
+                                                        {seatLayout[row]?.map((seat, index) => (
+                                                            <React.Fragment key={seat.id}>
+                                                                {index === 6 && <div className="w-4" />}
+                                                                <SeatButton
+                                                                    seat={seat.id}
+                                                                    selected={selectedSeatsSet.has(seat.id)}
+                                                                    onSeatClick={handleSeat}
+                                                                    seatType={seat.type}
+                                                                    price={seat.price}
+                                                                    isBooked={seat.isBooked}
+                                                                />
+                                                            </React.Fragment>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
 
-                                {/* Booking Summary */}
-                                {formik.values.seats.length > 0 && (
-                                    <div className="bg-gray-800 rounded-xl p-6 
-                                        border border-gray-700 space-y-3">
-                                        <h3 className="text-lg font-semibold text-gray-300 mb-3">
-                                            Booking Summary
-                                        </h3>
+                                        {/* Seat Info */}
+                                        <p className="text-center text-xs text-gray-500 mt-4">
+                                            Select any seats • Max 8 seats • Click on seats to select/deselect
+                                        </p>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
 
-                                        <div className="flex justify-between items-center text-sm">
-                                            <span className="text-gray-400">Selected Seats:</span>
-                                            <span className="text-white font-medium">
-                                                {formik.values.seats.sort().join(", ")}
+                    {/* Right Column - Booking Summary */}
+                    <div className="lg:w-1/3">
+                        <div className="bg-gray-900 rounded-3xl border border-gray-800 shadow-2xl overflow-hidden sticky top-24">
+                            <div className="p-6">
+                                <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                                    <span className="text-red-500">🎫</span>
+                                    Booking Summary
+                                </h3>
+
+                                {formik.values.seats.length > 0 ? (
+                                    <div className="space-y-4">
+                                        {/* Selected Seats */}
+                                        <div>
+                                            <p className="text-sm text-gray-400 mb-2">Selected Seats</p>
+                                            <div className="flex flex-wrap gap-2">
+                                                {formik.values.seats.sort().map(seat => (
+                                                    <span key={seat} className="bg-red-600 text-white px-3 py-1 rounded-lg text-sm font-medium">
+                                                        {seat}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                        {/* Seat Type Breakdown */}
+                                        <div>
+                                            <p className="text-sm text-gray-400 mb-2">Seat Details</p>
+                                            <div className="space-y-2">
+                                                {Object.entries(selectedSeatTypes).map(([type, seats]) => (
+                                                    <div key={type} className="flex justify-between items-center text-sm">
+                                                        <span className={`font-medium ${
+                                                            type === 'platinum' ? 'text-blue-400' :
+                                                            type === 'gold' ? 'text-yellow-400' : 'text-gray-300'
+                                                        }`}>
+                                                            {type.charAt(0).toUpperCase() + type.slice(1)}
+                                                        </span>
+                                                        <span className="text-white">
+                                                            {seats.join(", ")}
+                                                        </span>
+                                                        <span className="text-gray-300">
+                                                            ₹{show.price[type]} × {seats.length}
+                                                        </span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                        {/* Divider */}
+                                        <div className="border-t border-gray-700 my-2"></div>
+
+                                        {/* Total Seats */}
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-gray-400">Total Seats</span>
+                                            <span className="text-white font-semibold text-lg">
+                                                {formik.values.seats.length}
                                             </span>
                                         </div>
 
-                                        <div className="flex justify-between items-center text-sm">
-                                            <span className="text-gray-400">Seat Type:</span>
-                                            <span className={`font-medium ${
-                                                selectedSeatType === 'platinum' ? 'text-blue-400' :
-                                                selectedSeatType === 'gold' ? 'text-yellow-400' : 'text-gray-400'
-                                            }`}>
-                                                {selectedSeatType.toUpperCase()} - ₹{show.price[selectedSeatType]}
-                                            </span>
-                                        </div>
-
-                                        <div className="flex justify-between items-center text-sm">
-                                            <span className="text-gray-400">Number of Seats:</span>
-                                            <span className="text-white">{formik.values.seats.length}</span>
-                                        </div>
-
-                                        <div className="flex justify-between items-center text-lg font-bold pt-3 
-                                            border-t border-gray-700">
-                                            <span className="text-gray-300">Total Amount:</span>
-                                            <span className="text-red-500">
+                                        {/* Total Amount */}
+                                        <div className="flex justify-between items-center pt-2">
+                                            <span className="text-gray-300 font-semibold">Total Amount</span>
+                                            <span className="text-red-500 font-bold text-2xl">
                                                 ₹{totalPrice}
                                             </span>
                                         </div>
+
+                                        {/* Action Buttons */}
+                                        <div className="space-y-3 pt-4">
+                                            <button
+                                                onClick={() => formik.handleSubmit()}
+                                                disabled={loading}
+                                                className="w-full bg-red-600 
+                                                    text-white py-3 rounded-xl font-semibold text-lg
+                                                    hover:bg-red-700
+                                                    transition-all duration-300
+                                                    hover:scale-[1.02] hover:shadow-lg hover:shadow-red-900/30
+                                                    disabled:opacity-50 disabled:cursor-not-allowed"
+                                            >
+                                                {loading ? (
+                                                    <>
+                                                        <span className="w-5 h-5 border-2 border-white 
+                                                            border-t-transparent rounded-full animate-spin inline-block mr-2"></span>
+                                                        Processing...
+                                                    </>
+                                                ) : (
+                                                    `Confirm Booking →`
+                                                )}
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    formik.setFieldValue("seats", []);
+                                                }}
+                                                className="w-full px-6 py-3 bg-gray-800 
+                                                    border border-gray-700 text-gray-300 rounded-xl font-medium
+                                                    hover:bg-gray-700 transition-all duration-300"
+                                            >
+                                                Clear All Seats
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                onClick={() => navigate(-1)}
+                                                className="w-full px-6 py-3 bg-gray-800 
+                                                    border border-gray-700 text-gray-300 rounded-xl font-medium
+                                                    hover:bg-gray-700 transition-all duration-300"
+                                            >
+                                                Cancel
+                                            </button>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="text-center py-8">
+                                        <span className="text-6xl mb-4 block">🎫</span>
+                                        <p className="text-gray-400">No seats selected</p>
+                                        <p className="text-sm text-gray-500 mt-2">
+                                            Click on any seat to start booking
+                                        </p>
                                     </div>
                                 )}
-
-                                {/* Action Buttons */}
-                                <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                                    <button
-                                        type="submit"
-                                        disabled={loading || formik.values.seats.length === 0}
-                                        className="flex-1 bg-red-600 
-                                            text-white py-3.5 rounded-xl font-semibold text-lg
-                                            hover:bg-red-700
-                                            transition-all duration-300
-                                            hover:scale-[1.02] hover:shadow-lg hover:shadow-red-900/30
-                                            disabled:opacity-50 disabled:cursor-not-allowed"
-                                    >
-                                        {loading ? (
-                                            <>
-                                                <span className="w-5 h-5 border-2 border-white 
-                                                    border-t-transparent rounded-full animate-spin inline-block mr-2"></span>
-                                                Processing...
-                                            </>
-                                        ) : (
-                                            `Confirm Booking • ₹${totalPrice} →`
-                                        )}
-                                    </button>
-
-                                    <button
-                                        type="button"
-                                        onClick={() => navigate(-1)}
-                                        className="px-6 py-3.5 bg-gray-800 
-                                            border border-gray-700 text-gray-300 rounded-xl font-medium
-                                            hover:bg-gray-700 transition-all duration-300
-                                            hover:scale-[1.02]"
-                                    >
-                                        Cancel
-                                    </button>
-                                </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
