@@ -84,7 +84,7 @@ const Moviedetail = () => {
                 ></div>
 
                 {/* Decorative Film Strip */}
-                <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-red-600 via-red-500 to-red-600"></div>
+                <div className="absolute top-0 left-0 right-0 h-0.5 bg-linear-to-r from-red-600 via-red-500 to-red-600"></div>
 
                 {/* Main Content */}
                 <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 md:py-16">
@@ -113,7 +113,7 @@ const Moviedetail = () => {
                         {/* Movie Details - Right Side */}
                         <div className="flex-1">
                             {/* Title - Properly sized */}
-                            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4 bg-gradient-to-r from-red-500 via-red-600 to-red-700 bg-clip-text text-transparent">
+                            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4 bg-linear-to-r from-red-500 via-red-600 to-red-700 bg-clip-text text-transparent">
                                 {movie.title}
                             </h1>
 

@@ -81,7 +81,7 @@ const Userdetail = () => {
     return (
         <div className="min-h-screen bg-black text-white relative overflow-hidden">
             {/* Decorative Film Strip */}
-            <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-red-600 via-red-500 to-red-600"></div>
+            <div className="absolute top-0 left-0 right-0 h-0.5 bg-linear-to-r from-red-600 via-red-500 to-red-600"></div>
 
             {/* Background Movie Icons */}
             <div className="absolute top-24 left-4 sm:left-10 text-4xl sm:text-6xl opacity-5">🎬</div>
@@ -94,14 +94,14 @@ const Userdetail = () => {
                 <div className="text-center mb-6 sm:mb-8 pt-16 sm:pt-20 md:pt-24">
                     
                     <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mt-4 sm:mt-6">
-                        <span className="bg-gradient-to-r from-red-500 via-red-600 to-red-700 bg-clip-text text-transparent">
+                        <span className="bg-linear-to-r from-red-500 via-red-600 to-red-700 bg-clip-text text-transparent">
                             My Profile
                         </span>
                     </h1>
                     <div className="flex justify-center items-center gap-2 sm:gap-3 mt-3 sm:mt-4">
-                        <div className="w-12 sm:w-16 h-0.5 bg-gradient-to-r from-transparent to-red-600"></div>
+                        <div className="w-12 sm:w-16 h-0.5 bg-linear-to-r from-transparent to-red-600"></div>
                         <div className="w-1.5 h-1.5 bg-red-600 rounded-full"></div>
-                        <div className="w-12 sm:w-16 h-0.5 bg-gradient-to-l from-transparent to-red-600"></div>
+                        <div className="w-12 sm:w-16 h-0.5 bg-linear-to-l from-transparent to-red-600"></div>
                     </div>
                 </div>
 
@@ -113,7 +113,7 @@ const Userdetail = () => {
                         hover:shadow-2xl hover:shadow-red-900/20">
 
                         {/* Profile Header with Cover Image */}
-                        <div className="relative h-24 sm:h-28 md:h-32 bg-gradient-to-r from-red-900/30 to-red-800/10 border-b border-gray-800">
+                        <div className="relative h-24 sm:h-28 md:h-32 bg-linear-to-r from-red-900/30 to-red-800/10 border-b border-gray-800">
                             {/* Decorative Pattern */}
                             <div className="absolute inset-0 opacity-10">
                                 <div className="absolute top-0 left-0 w-16 sm:w-20 h-16 sm:h-20 border-t-2 border-l-2 border-white/30 rounded-tl-2xl sm:rounded-tl-3xl"></div>
@@ -128,11 +128,11 @@ const Userdetail = () => {
                             <div className="flex justify-center -mt-12 sm:-mt-14 md:-mt-16 mb-4 sm:mb-6">
                                 <div className="relative group">
                                     <div className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full 
-                                        bg-gradient-to-r from-red-600 to-red-700 p-1">
+                                        bg-linear-to-r from-red-600 to-red-700 p-1">
                                         <div className="w-full h-full rounded-full 
                                             bg-black flex items-center justify-center
                                             border-4 border-gray-800">
-                                            <span className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-red-500 to-red-700 bg-clip-text text-transparent">
+                                            <span className="text-3xl sm:text-4xl font-bold bg-linear-to-r from-red-500 to-red-700 bg-clip-text text-transparent">
                                                 {user?.Name?.charAt(0).toUpperCase()}
                                             </span>
                                         </div>
@@ -146,7 +146,7 @@ const Userdetail = () => {
 
                             {/* User Name and Role */}
                             <div className="text-center mb-6 sm:mb-8">
-                                <h2 className="text-2xl sm:text-3xl font-bold mb-2 bg-gradient-to-r from-red-500 to-red-700 bg-clip-text text-transparent">
+                                <h2 className="text-2xl sm:text-3xl font-bold mb-2 bg-linear-to-r from-red-500 to-red-700 bg-clip-text text-transparent">
                                     {user?.Name}
                                 </h2>
                                 <div className="flex items-center justify-center gap-2 flex-wrap">

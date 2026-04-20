@@ -119,11 +119,11 @@ const Mybookings = () => {
     return (
         <div className="min-h-screen bg-black text-white">
             {/* Header with Stats */}
-            <div className="relative bg-gradient-to-b from-gray-900 to-black border-b border-gray-800">
+            <div className="relative bg-linear-to-b from-gray-900 to-black border-b border-gray-800">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-24 sm:pt-28 md:pt-32">
                     <div className="text-center mb-8">
                         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4">
-                            <span className="bg-gradient-to-r from-red-500 to-red-700 bg-clip-text text-transparent">
+                            <span className="bg-linear-to-r from-red-500 to-red-700 bg-clip-text text-transparent">
                                 My Bookings
                             </span>
                         </h1>
@@ -271,7 +271,7 @@ const Mybookings = () => {
                                             <div key={booking._id} 
                                                 className="bg-gray-900/50 rounded-xl p-4 border border-gray-800 opacity-75 hover:opacity-100 transition-all duration-300">
                                                 <div className="flex gap-3">
-                                                    <div className="w-16 h-20 rounded-lg overflow-hidden bg-gray-800 flex-shrink-0">
+                                                    <div className="w-16 h-20 rounded-lg overflow-hidden bg-gray-800 shrink-0">
                                                         <img
                                                             src={movie.poster || fallbackImage}
                                                             alt={movie.title}

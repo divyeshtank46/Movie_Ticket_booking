@@ -73,7 +73,7 @@ const Shows = ({ movieId }) => {
     return (
         <div className="min-h-screen bg-black text-white relative overflow-hidden">
             {/* Decorative Film Strip */}
-            <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-red-600 via-red-500 to-red-600"></div>
+            <div className="absolute top-0 left-0 right-0 h-0.5 bg-linear-to-r from-red-600 via-red-500 to-red-600"></div>
 
             {/* Background Movie Icons */}
             <div className="absolute top-24 left-4 sm:left-10 text-4xl sm:text-6xl opacity-5">🎬</div>
@@ -84,7 +84,7 @@ const Shows = ({ movieId }) => {
                 {/* Header */}
                 <div className="text-center mb-8 sm:mb-10 md:mb-12 pt-16 sm:pt-20 md:pt-24">
                     <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4">
-                        <span className="bg-gradient-to-r from-red-500 via-red-600 to-red-700 bg-clip-text text-transparent">
+                        <span className="bg-linear-to-r from-red-500 via-red-600 to-red-700 bg-clip-text text-transparent">
                             SHOW TIMINGS
                         </span>
                     </h1>
@@ -92,9 +92,9 @@ const Shows = ({ movieId }) => {
                         Find show times for your favorite movies across all cinemas
                     </p>
                     <div className="flex justify-center items-center gap-2 sm:gap-3 mt-4 sm:mt-5">
-                        <div className="w-12 sm:w-16 h-0.5 bg-gradient-to-r from-transparent to-red-600"></div>
+                        <div className="w-12 sm:w-16 h-0.5 bg-linear-to-r from-transparent to-red-600"></div>
                         <div className="w-1.5 h-1.5 bg-red-600 rounded-full"></div>
-                        <div className="w-12 sm:w-16 h-0.5 bg-gradient-to-l from-transparent to-red-600"></div>
+                        <div className="w-12 sm:w-16 h-0.5 bg-linear-to-l from-transparent to-red-600"></div>
                     </div>
                 </div>
 
@@ -282,7 +282,7 @@ const ShowCard = ({ show, onClick }) => {
             {/* Booked Percentage Indicator */}
             <div className="h-1 bg-gray-800 rounded-full overflow-hidden">
                 <div
-                    className="h-full bg-gradient-to-r from-red-600 to-red-500 transition-all duration-300"
+                    className="h-full bg-linear-to-r from-red-600 to-red-500 transition-all duration-300"
                     style={{
                         width: `${occupancyPercentage}%`
                     }}
