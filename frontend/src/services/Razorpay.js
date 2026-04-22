@@ -1,22 +1,29 @@
 // services/Razorpay.js
 import { bookTicket } from "./Bookingservice";
 import { createOrder } from "./CreateOrder";
-
+import { loadRazorpay } from "../utils/loadRazorpay";
 export const handlePayment = async ({
     showId,
     seatType,
     seats,
+    seatDetails,
     totalPrice,
     navigate,
-    user // Pass full user object
+    user
 }) => {
+
+    const res = await loadRazorpay();
+    if (!res) {
+        alert("Razorpay SDK failed to load");
+        return;
+    }
     // Return a promise that resolves when payment is complete
     return new Promise(async (resolve, reject) => {
         try {
             const data = await createOrder({
                 amount: totalPrice
             });
-            
+
             const options = {
                 key: import.meta.env.VITE_RAZORPAY_KEY_ID,
                 amount: data.order.amount,
@@ -44,15 +51,16 @@ export const handlePayment = async ({
                             showId,
                             seatType,
                             seats,
+                            seatDetails,
                             totalPrice,
                             paymentId: res.razorpay_payment_id,
                             orderId: res.razorpay_order_id,
                             paymentStatus: "success"
                         });
-                        
+
                         // Navigate to bookings page
                         navigate("/bookings");
-                        
+
                         resolve({
                             success: true,
                             bookingId: bookingResult._id || bookingResult.id,
@@ -64,14 +72,16 @@ export const handlePayment = async ({
                     }
                 }
             };
-
             const razor = new window.Razorpay(options);
             razor.open();
+
+            console.log("FULL OPTIONS:", options)
         } catch (error) {
             reject(new Error(error.message || "Failed to initiate payment"));
         }
     });
 };
+
 
 // services/Razorpay.js
 // import { bookTicket } from "./Bookingservice";

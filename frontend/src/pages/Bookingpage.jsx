@@ -109,76 +109,101 @@ const Bookingpage = () => {
         },
         validationSchema: bookingSchema,
         onSubmit: async (values) => {
-            setLoading(true);
-            try {
-                // Calculate total price based on actual seat types selected
-                let totalPrice = 0;
-                const seatDetails = values.seats.map(seatId => {
-                    const row = seatId[0];
-                    const seatData = seatLayout[row]?.find(s => s.id === seatId);
-                    totalPrice += seatData?.price || 0;
-                    return {
-                        seatId,
-                        type: seatData?.type,
-                        price: seatData?.price
-                    };
-                });
+    setLoading(true);
 
-                // Wait for payment to complete first
-                const paymentResult = await handlePayment({
-                    showId: show._id,
-                    seatType: 'mixed',
-                    seats: values.seats,
-                    seatDetails,
-                    totalPrice,
-                    navigate,
-                    user
-                });
-
-                // Only show success toast if payment was successful
-                if (paymentResult?.success) {
-                    toast.success(
-                        <div>
-                            <div className="flex items-center gap-2">
-                                <span className="text-2xl">🎉</span>
-                                <span className="font-bold">Booking Successful!</span>
-                            </div>
-                            <div className="text-sm mt-1">
-                                Seats: {values.seats.sort().join(", ")} • Amount: ₹{totalPrice}
-                            </div>
-                            <div className="text-xs mt-1 text-green-200">
-                                Enjoy your movie! 🍿
-                            </div>
-                        </div>,
-                        {
-                            position: "top-center",
-                            autoClose: 5000,
-                            hideProgressBar: false,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            icon: "✅"
-                        }
-                    );
-                    
-                    formik.resetForm();
-                    
-                    setTimeout(async () => {
-                        try {
-                            const updatedShow = await getShowById(showId);
-                            setShow(updatedShow);
-                        } catch (error) {
-                            console.error("Failed to refresh seats", error);
-                        }
-                    }, 2000);
-                }
-                
-            } catch (error) {
-                toast.error(error.message || "Payment failed. Please try again.");
-            } finally {
-                setLoading(false);
-            }
+    try {
+        if (!values.seats.length) {
+            toast.error("Please select at least 1 seat");
+            return;
         }
+
+        // Calculate total price
+        let totalPrice = 0;
+
+        const seatDetails = values.seats.map((seatId) => {
+            const row = seatId[0];
+            const seatData = seatLayout[row]?.find((s) => s.id === seatId);
+
+            totalPrice += seatData?.price || 0;
+
+            return {
+                seatId,
+                type: seatData?.type,
+                price: seatData?.price
+            };
+        });
+
+        // Get selected seat categories
+        // const selectedTypes = [...new Set(seatDetails.map((seat) => seat.type))];
+
+        // // Allow only same category seats
+        // if (selectedTypes.length > 1) {
+        //     toast.error("Please select seats from same category only");
+        //     return;
+        // }
+
+        // const finalSeatType = selectedTypes[0];
+        const finalSeatType = "mixed";
+        // Razorpay Payment
+        const paymentResult = await handlePayment({
+            showId: show._id,
+            seatType: finalSeatType,   // silver / gold / platinum
+            seats: values.seats,
+            seatDetails,
+            totalPrice,
+            navigate,
+            user
+        });
+
+        if (paymentResult?.success) {
+            toast.success(
+                <div>
+                    <div className="flex items-center gap-2">
+                        <span className="text-2xl">🎉</span>
+                        <span className="font-bold">Booking Successful!</span>
+                    </div>
+
+                    <div className="text-sm mt-1">
+                        Seats: {[...values.seats].sort().join(", ")} • Amount: ₹{totalPrice}
+                    </div>
+
+                    <div className="text-xs mt-1 text-green-200">
+                        Enjoy your movie! 🍿
+                    </div>
+                </div>,
+                {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    icon: "✅"
+                }
+            );
+
+            formik.resetForm();
+
+            setTimeout(async () => {
+                try {
+                    const updatedShow = await getShowById(showId);
+                    setShow(updatedShow);
+                } catch (error) {
+                    console.error("Failed to refresh seats", error);
+                }
+            }, 2000);
+        }
+
+    } catch (error) {
+        toast.error(
+            error?.response?.data?.message ||
+            error.message ||
+            "Payment failed. Please try again."
+        );
+    } finally {
+        setLoading(false);
+    }
+}
     });
 
     const selectedSeatsSet = useMemo(() => {

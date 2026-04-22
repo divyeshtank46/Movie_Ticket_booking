@@ -6,58 +6,99 @@ const { default: mongoose } = require('mongoose');
 const Show = require('../Models/Show.model');
 
 const bookTicket = async (req, res) => {
+
     try {
-        let { showId, seatType, seats, paymentId, orderId, paymentStatus } = req.body;
+        let {
+            showId,
+            seatType,
+            seats,
+            seatDetails,
+            paymentId,
+            orderId,
+            paymentStatus
+        } = req.body;
+
         const userId = req.user._id;
 
-        // ✅ Normalize seatType
-        seatType = seatType?.toLowerCase();
+        // normalize
+        seatType = seatType?.toLowerCase()?.trim();
 
-        // ✅ Remove duplicate seats from request
-        seats = [...new Set(seats)];
+        // remove duplicate seats
+        seats = [...new Set(seats || [])];
 
-        if (!showId || !seatType || !seats?.length) {
+        // required fields
+        if (!showId || !seatType || seats.length === 0) {
             return res.status(400).json({
                 message: "All Fields Are Required"
             });
         }
 
+        // find show
         const show = await Show.findById(showId);
+
         if (!show) {
             return res.status(404).json({
                 message: "Show Not Found"
             });
         }
 
-        // ✅ Check already booked seats
-        const alreadyBooked = seats.filter(seat =>
+        // already booked check
+        const alreadyBooked = seats.filter((seat) =>
             show.bookedSeats.includes(seat)
         );
 
         if (alreadyBooked.length > 0) {
             return res.status(400).json({
-                message: "Some Seats Are Already Booked",
+                message: "Some Seats Already Booked",
                 bookedSeats: alreadyBooked
             });
         }
 
-        const pricePerSeat = show.price[seatType];
-        if (!pricePerSeat) {
-            return res.status(400).json({
-                message: "Invalid Seat Type"
-            });
+        // =========================
+        // TOTAL PRICE CALCULATION
+        // =========================
+        let totalPrice = 0;
+
+        if (seatType === "mixed") {
+            if (
+                !seatDetails ||
+                !Array.isArray(seatDetails) ||
+                seatDetails.length === 0
+            ) {
+                return res.status(400).json({
+                    message: "Seat Details Missing"
+                });
+            }
+
+            totalPrice = seatDetails.reduce((sum, item) => {
+                return sum + Number(item.price || 0);
+            }, 0);
+        } else {
+            const pricePerSeat = show.price[seatType];
+
+            if (!pricePerSeat) {
+                return res.status(400).json({
+                    message: "Invalid Seat Type"
+                });
+            }
+
+            totalPrice = pricePerSeat * seats.length;
         }
 
-        const totalPrice = pricePerSeat * seats.length;
-
-        // ✅ Prevent duplicates while pushing
+        // =========================
+        // UPDATE BOOKED SEATS
+        // =========================
         show.bookedSeats = [...new Set([...show.bookedSeats, ...seats])];
 
         await show.save();
 
+        // =========================
+        // CREATE BOOKING
+        // =========================
         const booking = await bookingModel.create({
             user: userId,
             movie: show.movieId,
+            cinema: show.cinemaId, // important
             show: showId,
             seatType,
             seats,
@@ -68,19 +109,19 @@ const bookTicket = async (req, res) => {
         });
 
         return res.status(201).json({
-            message: "Booking Successfull",
+            message: "Booking Successful",
             booking
         });
 
     } catch (error) {
-        console.error(error); // ✅ debug
+        console.log("BOOKING ERROR =>", error);
+
         return res.status(500).json({
             message: "Server Error",
             error: error.message
         });
     }
 };
-
 
 
 const getBookings = async (req, res) => {
