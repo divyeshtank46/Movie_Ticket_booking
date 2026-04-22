@@ -1,4 +1,4 @@
-// services/Razorpay.js
+
 import { bookTicket } from "./Bookingservice";
 import { createOrder } from "./CreateOrder";
 import { loadRazorpay } from "../utils/loadRazorpay";
