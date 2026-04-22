@@ -11,6 +11,14 @@ export const handlePayment = async ({
     navigate,
     user
 }) => {
+    console.log("LIVE HANDLE PAYMENT", {
+        showId,
+        seatType,
+        seats,
+        seatDetails,
+        totalPrice
+    });
+
 
     const res = await loadRazorpay();
     if (!res) {
