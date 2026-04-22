@@ -297,7 +297,7 @@ const Bookingpage = () => {
                 {/* Header with Selected Show Info */}
                 <div className="text-center mb-8">
                     <h1 className="text-4xl md:text-5xl font-bold mb-4 text-red-500">
-                        Book Your Seat
+                        Book Your Seats
                     </h1>
 
                     {/* Selected Show Details - Highlighted */}

@@ -46,10 +46,12 @@ import AddMovie from '../pages/admin/AddMovie';
 import EditMovie from '../pages/admin/EditMovie';
 import AddCinema from '../pages/admin/AddCinema';
 import EditCinema from '../pages/admin/EditCinema';
+import ScrollToTop from '../ScrollToTop';
 
 const Approutes = () => {
     return (
         <>
+            <ScrollToTop />
             <Routes>
                 {/* Admin Routes with AdminLayout */}
                 {/* <Adminroutes> */}
