@@ -8,7 +8,15 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const Register = async (req, res) => {
     try {
-        const { Name, Email, Password, Role = "User" } = req.body;
+        let { Name, Email, Password } = req.body;
+
+        if (!Name || !Email || !Password) {
+            return res.status(400).json({
+                message: "All fields are required"
+            });
+        }
+
+        Email = Email.toLowerCase();
 
         const existingUser = await UserModel.findOne({
             $or: [{ Email }, { Name }]
@@ -26,7 +34,7 @@ const Register = async (req, res) => {
             Name,
             Email,
             Password: hashedPassword,
-            Role
+            Role: "User"
         });
 
         const token = jwt.sign(
@@ -40,8 +48,8 @@ const Register = async (req, res) => {
 
         res.cookie("token", token, {
             httpOnly: true,
-            secure: false, // true in production (https)
-            sameSite: "lax",
+            secure: true,
+            sameSite: "none",
             maxAge: 24 * 60 * 60 * 1000
         });
 
@@ -63,10 +71,19 @@ const Register = async (req, res) => {
     }
 };
 
-
 const Login = async (req, res) => {
     try {
-        const { Email, Name, Password } = req.body;
+        let { Email, Name, Password } = req.body;
+
+        if ((!Email && !Name) || !Password) {
+            return res.status(400).json({
+                message: "All fields are required"
+            });
+        }
+
+        if (Email) {
+            Email = Email.toLowerCase();
+        }
 
         const user = await UserModel.findOne({
             $or: [{ Email }, { Name }]
@@ -74,15 +91,18 @@ const Login = async (req, res) => {
 
         if (!user) {
             return res.status(400).json({
-                message: "Invalid Username or Email"
+                message: "Invalid Credentials"
             });
         }
 
-        const isPasswordMatch = await bcrypt.compare(Password, user.Password);
+        const isPasswordMatch = await bcrypt.compare(
+            Password,
+            user.Password
+        );
 
         if (!isPasswordMatch) {
             return res.status(400).json({
-                message: "Invalid Password"
+                message: "Invalid Credentials"
             });
         }
 
@@ -97,8 +117,8 @@ const Login = async (req, res) => {
 
         res.cookie("token", token, {
             httpOnly: true,
-            secure: false, // true in production
-            sameSite: "lax",
+            secure: true,
+            sameSite: "none",
             maxAge: 24 * 60 * 60 * 1000
         });
 
@@ -120,11 +140,16 @@ const Login = async (req, res) => {
     }
 };
 const Logout = (req, res) => {
-    res.clearCookie("token");
+    res.clearCookie("token", {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none"
+    });
+
     return res.status(200).json({
         message: "User logged out successfully"
-    })
-}
+    });
+};
 
 const userDetail = async (req, res) => {
     try {

@@ -188,11 +188,7 @@ const searchMovies = async (req, res) => {
         })
     }
 }
-// const sortMovieByPrice = async (req, res) => {
-//     try{
-//         const {minPrice , Maxprice} = 
-//     }
-// }
+
 module.exports = {
     addMovie,
     getMovies,
