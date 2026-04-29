@@ -10,11 +10,11 @@ const paymentroutes = require('./Routes/payment.routes');
 const app = express();
 app.use(express.json());
 
+app.set("trust proxy", 1);
 app.use(cors({
     origin: "https://movie-ticket-booking-seven-brown.vercel.app",
     credentials: true
 }));
-
 
 app.use(cookieParser());
 app.use("/api/auth", authRoutes);
