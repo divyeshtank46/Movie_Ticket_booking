@@ -45,7 +45,7 @@ const Bookingpage = () => {
     const { showId } = useParams();
     const location = useLocation();
     const navigate = useNavigate();
-    const { user } = useAuth(); 
+    const { user } = useAuth();
     const [show, setShow] = useState(null);
     const [loading, setLoading] = useState(false);
     const [initialLoading, setInitialLoading] = useState(true);
@@ -109,91 +109,101 @@ const Bookingpage = () => {
         },
         validationSchema: bookingSchema,
         onSubmit: async (values) => {
-    setLoading(true);
+            setLoading(true);
 
-    try {
-        if (!values.seats.length) {
-            toast.error("Please select at least 1 seat");
-            return;
-        }
-
-     
-        let totalPrice = 0;
-
-        const seatDetails = values.seats.map((seatId) => {
-            const row = seatId[0];
-            const seatData = seatLayout[row]?.find((s) => s.id === seatId);
-
-            totalPrice += seatData?.price || 0;
-
-            return {
-                seatId,
-                type: seatData?.type,
-                price: seatData?.price
-            };
-        });
-
-        const finalSeatType = "mixed";
-        // Razorpay Payment
-        const paymentResult = await handlePayment({
-            showId: show._id,
-            seatType: finalSeatType,   
-            seats: values.seats,
-            seatDetails,
-            totalPrice,
-            navigate,
-            user
-        });
-
-        if (paymentResult?.success) {
-            toast.success(
-                <div>
-                    <div className="flex items-center gap-2">
-                        <span className="text-2xl">🎉</span>
-                        <span className="font-bold">Booking Successful!</span>
-                    </div>
-
-                    <div className="text-sm mt-1">
-                        Seats: {[...values.seats].sort().join(", ")} • Amount: ₹{totalPrice}
-                    </div>
-
-                    <div className="text-xs mt-1 text-green-200">
-                        Enjoy your movie! 🍿
-                    </div>
-                </div>,
-                {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    icon: "✅"
+            try {
+                if (!values.seats.length) {
+                    toast.error("Please select at least 1 seat");
+                    return;
                 }
-            );
 
-            formik.resetForm();
+                // Calculate total price
+                let totalPrice = 0;
 
-            setTimeout(async () => {
-                try {
-                    const updatedShow = await getShowById(showId);
-                    setShow(updatedShow);
-                } catch (error) {
-                    console.error("Failed to refresh seats", error);
+                const seatDetails = values.seats.map((seatId) => {
+                    const row = seatId[0];
+                    const seatData = seatLayout[row]?.find((s) => s.id === seatId);
+
+                    totalPrice += seatData?.price || 0;
+
+                    return {
+                        seatId,
+                        type: seatData?.type,
+                        price: seatData?.price
+                    };
+                });
+
+                // Get selected seat categories
+                // const selectedTypes = [...new Set(seatDetails.map((seat) => seat.type))];
+
+                // // Allow only same category seats
+                // if (selectedTypes.length > 1) {
+                //     toast.error("Please select seats from same category only");
+                //     return;
+                // }
+
+                // const finalSeatType = selectedTypes[0];
+                const finalSeatType = "mixed";
+                // Razorpay Payment
+                const paymentResult = await handlePayment({
+                    showId: show._id,
+                    seatType: finalSeatType,   // silver / gold / platinum
+                    seats: values.seats,
+                    seatDetails,
+                    totalPrice,
+                    navigate,
+                    user
+                });
+
+                if (paymentResult?.success) {
+                    toast.success(
+                        <div>
+                            <div className="flex items-center gap-2">
+                                <span className="text-2xl">🎉</span>
+                                <span className="font-bold">Booking Successful!</span>
+                            </div>
+
+                            <div className="text-sm mt-1">
+                                Seats: {[...values.seats].sort().join(", ")} • Amount: ₹{totalPrice}
+                            </div>
+
+                            <div className="text-xs mt-1 text-green-200">
+                                Enjoy your movie! 🍿
+                            </div>
+                        </div>,
+                        {
+                            position: "top-center",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            icon: "✅"
+                        }
+                    );
+
+                    formik.resetForm();
+
+                    setTimeout(async () => {
+                        try {
+                            const updatedShow = await getShowById(showId);
+                            setShow(updatedShow);
+                        } catch (error) {
+                            console.error("Failed to refresh seats", error);
+                        }
+                    }, 2000);
                 }
-            }, 2000);
-        }
 
-    } catch (error) {
-        toast.error(
-            error?.response?.data?.message ||
-            error.message ||
-            "Payment failed. Please try again."
-        );
-    } finally {
-        setLoading(false);
-    }
-}
+            } catch (error) {
+                toast.error(
+                    error?.response?.data?.message ||
+                    error.message ||
+                    "Payment failed. Please try again."
+                );
+            } finally {
+                setLoading(false);
+            }
+        }
     });
 
     const selectedSeatsSet = useMemo(() => {
@@ -354,17 +364,6 @@ const Bookingpage = () => {
                                     </div>
 
                                     {/* Screen Indicator */}
-                                    <div className="relative py-8">
-                                        <div className="absolute inset-0 flex items-center">
-                                            <div className="w-full border-t border-gray-800"></div>
-                                        </div>
-                                        <div className="relative flex justify-center">
-                                            <div className="px-4 py-2 bg-gray-800 
-                                                rounded-full border border-gray-700 text-sm text-gray-400">
-                                                <span className="mr-2">🎬</span> SCREEN <span className="ml-2">🎬</span>
-                                            </div>
-                                        </div>
-                                    </div>
 
                                     {/* Seat Grid */}
                                     <div className="space-y-3">
@@ -391,6 +390,41 @@ const Bookingpage = () => {
                                             ))}
                                         </div>
 
+                                        <div className="relative py-6 flex flex-col items-center gap-1">
+                                            {/* Curved screen */}
+                                            <div className="relative w-full max-w-lg" style={{ height: 64 }}>
+                                                <div
+                                                    className="absolute left-1/2 -translate-x-1/2"
+                                                    style={{
+                                                        width: '88%',
+                                                        height: 10,
+                                                        background: 'linear-gradient(to bottom, #e8f4ff, #a8d4f5)',
+                                                        borderRadius: '0 0 50% 50% / 0 0 18px 18px',
+                                                        boxShadow: '0 4px 18px 2px rgba(100,180,255,0.45), 0 2px 0 0 #c8e8ff',
+                                                        top: 8,
+                                                    }}
+                                                />
+                                                {/* Glow reflection */}
+                                                <div
+                                                    className="absolute left-1/2 -translate-x-1/2"
+                                                    style={{
+                                                        width: '80%',
+                                                        height: 5,
+                                                        background: 'rgba(200,230,255,0.35)',
+                                                        borderRadius: '0 0 50% 50%',
+                                                        top: 20,
+                                                        filter: 'blur(2px)',
+                                                    }}
+                                                />
+                                                <p
+                                                    className="absolute bottom-0 left-1/2 -translate-x-1/2 
+        text-[10px] font-semibold tracking-[4px] text-gray-400 whitespace-nowrap"
+                                                >
+                                                    SCREEN
+                                                </p>
+                                            </div>
+                                            {/* Fade-out floor */}
+                                        </div>
                                         {/* Seat Info */}
                                         <p className="text-center text-xs text-gray-500 mt-4">
                                             Select any seats • Max 8 seats • Click on seats to select/deselect
@@ -430,10 +464,9 @@ const Bookingpage = () => {
                                             <div className="space-y-2">
                                                 {Object.entries(selectedSeatTypes).map(([type, seats]) => (
                                                     <div key={type} className="flex justify-between items-center text-sm">
-                                                        <span className={`font-medium ${
-                                                            type === 'platinum' ? 'text-blue-400' :
+                                                        <span className={`font-medium ${type === 'platinum' ? 'text-blue-400' :
                                                             type === 'gold' ? 'text-yellow-400' : 'text-gray-300'
-                                                        }`}>
+                                                            }`}>
                                                             {type.charAt(0).toUpperCase() + type.slice(1)}
                                                         </span>
                                                         <span className="text-white">
