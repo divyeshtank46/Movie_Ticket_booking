@@ -13,7 +13,6 @@ const Publicroutes = ({ children }) => {
             const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
             
             if (isAuthPage) {
-                // Only show toast if this is NOT a fresh login/registration
                 if (!isJustLoggedIn.current) {
                     toast.info("Already logged in ✅", { 
                         toastId: "already-login",

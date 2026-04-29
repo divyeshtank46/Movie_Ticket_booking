@@ -169,7 +169,6 @@ const searchMovies = async (req, res) => {
             })
         }
         const movies = await MovieModel.find({
-            // Title: { $regex: name, $option: "i" }
             title: { $regex: name, $options: "i" }
         })
         if (movies.length === 0) {

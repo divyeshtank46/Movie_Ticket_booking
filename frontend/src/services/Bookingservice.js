@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const api = axios.create({
         baseURL:"https://movie-ticket-booking-7sx2.onrender.com/api",
-    // baseURL: "http://localhost:3000/api",
+    
     withCredentials: true
 });
 
@@ -12,7 +12,6 @@ export const api = axios.create({
 // Book tickets
 export const bookTicket = async (data) => {
     try {
-        // data should contain: { showId, seatType, seats, totalPrice }
         const res = await api.post("/ticket/book", data);
         return res.data;
     } catch (error) {
@@ -27,7 +26,7 @@ export const getUserBookings = async () => {
         const response = await axios.get(
             " https://movie-ticket-booking-7sx2.onrender.com/api/ticket/bookings",
             {
-                withCredentials: true, // 🔥 important if using cookies
+                withCredentials: true, 
             }
         );
         return response.data.data;
@@ -37,7 +36,6 @@ export const getUserBookings = async () => {
     }
 };
 
-// Get Monthly Revenue
 
 export const    getRevenue = async () => {
     try {
@@ -53,7 +51,6 @@ export const    getRevenue = async () => {
     }
 
 }
-// localhost:3000/api/ticket/69cca13cdca24681bc10e31c
 
 export const deletebooking = async (id) => {
     const res = await api.delete(`/ticket/${id}`);

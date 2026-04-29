@@ -3,7 +3,6 @@ const router = express.Router();
 const showController = require('../Controllers/show.Controller');
 const adminMiddleware = require('../Middleware/adminMiddleware');
 
-// router.post("/create-show", adminMiddleware, showController.createShow);
 router.get("/", showController.getShows)
 router.get("/:movieId", showController.getShowByMovieId);  
 router.get('/single/:showId',showController.getShowById);  

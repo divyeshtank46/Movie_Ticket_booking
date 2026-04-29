@@ -54,7 +54,6 @@ export const deleteCinemaById = async (id) => {
     return res.data;
 }
 
-// api => http://localhost:3000/api/cinema/cinema/69cd223c6f00179e6c8a2074
 
 export const getCinemaById = async (id) => {
     const res = await api.get(`/cinema/cinema/${id}`);

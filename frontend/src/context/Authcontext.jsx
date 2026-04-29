@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
 
     const [user, setuser] = useState(null);
     const [loading, setloading] = useState(true);
-    const isJustLoggedIn = useRef(false); // Add this ref
+    const isJustLoggedIn = useRef(false);
 
     // ✅ FETCH USER
     const fetchUser = async () => {
@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
 
         } catch (error) {
 
-            // 👇 401 silent handle
+            
             if (error.response?.status === 401) {
                 setuser(null);
             } else {
@@ -34,19 +34,15 @@ export const AuthProvider = ({ children }) => {
         fetchUser();
     }, []);
 
-    // ✅ Custom setuser function to track login state
     const setUserWithTracking = (userData) => {
         setuser(userData);
-        // Set flag when user is being set (login/register)
         isJustLoggedIn.current = true;
         
-        // Reset flag after 500ms (enough time for navigation)
         setTimeout(() => {
             isJustLoggedIn.current = false;
         }, 500);
     };
 
-    // ✅ LOGOUT
     const handleLogout = async () => {
         try {
             await api.post("/auth/logout");
@@ -64,11 +60,11 @@ export const AuthProvider = ({ children }) => {
         <Authcontext.Provider
             value={{ 
                 user, 
-                setuser: setUserWithTracking, // Use the tracked version
+                setuser: setUserWithTracking, 
                 loading, 
                 handleLogout, 
                 fetchUser,
-                isJustLoggedIn // Expose the ref if needed
+                isJustLoggedIn 
             }}
         >
             {children}

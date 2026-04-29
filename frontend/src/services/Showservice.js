@@ -1,6 +1,5 @@
 
 import axios from "axios"
-// https://movie-ticket-booking-7sx2.onrender.com
 const API_BASE = "https://movie-ticket-booking-7sx2.onrender.com/api"
 
 // Get shows by movie ID
@@ -14,11 +13,10 @@ export const getShowsByMovieId = async (movieId) => {
     }
 }
 
-// Get single show by ID - NEW function needed for booking page
 export const getShowById = async (showId) => {
     try {
         const res = await axios.get(`${API_BASE}/show/single/${showId}`);
-        return res.data.data; // Returns single show object
+        return res.data.data; 
     } catch (error) {
         console.error("Error fetching show:", error);
         throw error;

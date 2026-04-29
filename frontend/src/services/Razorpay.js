@@ -1,6 +1,5 @@
-
-import { bookTicket } from "./Bookingservice";
-import { createOrder } from "./CreateOrder";
+// services/Razorpay.js
+import { createOrder, verifyPayment } from "./CreateOrder";
 import { loadRazorpay } from "../utils/loadRazorpay";
 export const handlePayment = async ({
     showId,
@@ -11,14 +10,6 @@ export const handlePayment = async ({
     navigate,
     user
 }) => {
-    console.log("LIVE HANDLE PAYMENT", {
-        showId,
-        seatType,
-        seats,
-        seatDetails,
-        totalPrice
-    });
-
 
     const res = await loadRazorpay();
     if (!res) {
@@ -54,16 +45,16 @@ export const handlePayment = async ({
                 },
                 handler: async (res) => {
                     try {
-                        // Book the tickets
-                        const bookingResult = await bookTicket({
-                            showId,
-                            seatType,
-                            seats,
-                            seatDetails,
-                            totalPrice,
-                            paymentId: res.razorpay_payment_id,
-                            orderId: res.razorpay_order_id,
-                            paymentStatus: "success"
+                        const bookingResult = await verifyPayment({
+                            razorpay_order_id: res.razorpay_order_id,
+                            razorpay_payment_id: res.razorpay_payment_id,
+                            razorpay_signature: res.razorpay_signature,
+                            bookingData: {
+                                showId,
+                                seatType,
+                                seats,
+                                seatDetails
+                            }
                         });
 
                         // Navigate to bookings page
@@ -71,12 +62,12 @@ export const handlePayment = async ({
 
                         resolve({
                             success: true,
-                            bookingId: bookingResult._id || bookingResult.id,
+                            bookingId: bookingResult?.booking?._id || bookingResult?._id || bookingResult?.id,
                             seats: seats,
                             totalPrice: totalPrice
                         });
                     } catch (error) {
-                        reject(new Error(error.message || "Booking failed after payment"));
+                        reject(new Error(error?.response?.data?.message || error.message || "Booking failed after payment"));
                     }
                 }
             };

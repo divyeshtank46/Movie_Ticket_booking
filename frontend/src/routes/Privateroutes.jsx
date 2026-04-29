@@ -7,23 +7,20 @@ import Loader from "../components/Loader";
 const Privateroutes = ({ children }) => {
     const { user, loading } = useAuth();
 
-    // ⏳ Wait until auth check completes
     if (loading) {
         return <Loader />;
     }
 
-    // 🔐 If not logged in → redirect
     if (!user) {
         return (
             <Navigate
                 to="/login"
                 replace
-                state={{ message: "Login irst" }}
+                state={{ message: "Login First" }}
             />
         );
     }
 
-    // ✅ If logged in → allow access
     return children;
 };
 

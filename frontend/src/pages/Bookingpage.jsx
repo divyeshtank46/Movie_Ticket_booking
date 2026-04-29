@@ -117,7 +117,7 @@ const Bookingpage = () => {
             return;
         }
 
-        // Calculate total price
+     
         let totalPrice = 0;
 
         const seatDetails = values.seats.map((seatId) => {
@@ -133,21 +133,11 @@ const Bookingpage = () => {
             };
         });
 
-        // Get selected seat categories
-        // const selectedTypes = [...new Set(seatDetails.map((seat) => seat.type))];
-
-        // // Allow only same category seats
-        // if (selectedTypes.length > 1) {
-        //     toast.error("Please select seats from same category only");
-        //     return;
-        // }
-
-        // const finalSeatType = selectedTypes[0];
         const finalSeatType = "mixed";
         // Razorpay Payment
         const paymentResult = await handlePayment({
             showId: show._id,
-            seatType: finalSeatType,   // silver / gold / platinum
+            seatType: finalSeatType,   
             seats: values.seats,
             seatDetails,
             totalPrice,

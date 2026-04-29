@@ -9,15 +9,7 @@ const bookingroutes = require('./Routes/booking.routes');
 const paymentroutes = require('./Routes/payment.routes');
 const app = express();
 app.use(express.json());
-// app.use(cors({
-//     origin: [
-//         "https://movie-ticket-booking-seven-brown.vercel.app/",
-//         "http://localhost:5173",
-//         "http://localhost:5174",
-//         // "http://192.168.29.168:5173"
-//     ],
-//     credentials: true   
-// }));
+
 app.use(cors({
     origin: "https://movie-ticket-booking-seven-brown.vercel.app",
     credentials: true
