@@ -12,7 +12,7 @@ app.use(express.json());
 
 app.set("trust proxy", 1);
 app.use(cors({
-    origin: "https://movie-ticket-booking-seven-brown.vercel.app",
+    origin: "https://movie-ticket-booking-seven-brown.vercel.app","http://localhost:5173/"
     credentials: true
 }));
 
